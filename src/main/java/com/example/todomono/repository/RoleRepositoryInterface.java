@@ -1,4 +1,7 @@
 package com.example.todomono.repository;
 
-public interface RoleRepositoryInterface {
+import com.example.todomono.entity.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RoleRepositoryInterface extends JpaRepository<Role, Integer> {
 }
