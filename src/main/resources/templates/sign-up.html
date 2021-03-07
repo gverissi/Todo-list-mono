@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head"/>
+
+<body id="body">
+
+<header th:replace="fragments/header :: header"/>
+
+
+<main id="main">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sign-Up</li>
+        </ol>
+    </nav>
+
+    <header th:replace="fragments/alert :: alert"/>
+
+    <div th:if="${errorMessage}" class="d-flex justify-content-center alert-position">
+        <div class="text-center alert alert-danger" role="alert" th:text="${errorMessage}">
+        </div>
+    </div>
+
+    <div class="container">
+        <form th:action="@{/sign-up}" th:object="${customerForm}" method="POST">
+            <div class="form-group">
+                <label th:for="${#ids.next('name')}">Username</label>
+                <input class="form-control" th:type="text" th:field="*{name}"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
+            </div>
+            <div class="form-group">
+                <label th:for="${#ids.next('password')}">Password</label>
+                <input class="form-control" th:type="password" th:field="*{password}"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
+            </div>
+            <div class="form-group">
+                <label th:for="${#ids.next('matchingPassword')}">Confirm Password</label>
+                <input class="form-control" th:type="password" th:field="*{matchingPassword}"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}"/>
+            </div>
+            <button type="submit" class="btn button">Sign-Up</button>
+        </form>
+    </div>
+
+</main>
+
+
+<footer th:replace="fragments/footer :: footer"/>
+
+<div th:replace="fragments/script :: script"/>
+
+</body>
+</html>

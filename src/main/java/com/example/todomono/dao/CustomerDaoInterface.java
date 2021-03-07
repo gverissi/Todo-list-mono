@@ -4,7 +4,7 @@ import com.example.todomono.entity.Customer;
 
 public interface CustomerDaoInterface {
 
-    void save(Customer customer);
+    Customer save(Customer customer);
 
     Customer findByName(String name);
 

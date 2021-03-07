@@ -22,9 +22,12 @@ public class Customer {
     @NotNull
     private boolean enabled = true;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "customer_role", joinColumns = { @JoinColumn(name = "customer_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
     private final Set<Role> roleSet = new HashSet<>();
+
+    public Customer() {
+    }
 
     public Customer(String name, String password) {
         this.name = name;

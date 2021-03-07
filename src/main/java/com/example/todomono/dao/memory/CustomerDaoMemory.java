@@ -11,8 +11,9 @@ public class CustomerDaoMemory implements CustomerDaoInterface {
     private final Map<String, Customer> customerMap = new HashMap<>();
 
     @Override
-    public void save(Customer customer) {
+    public Customer save(Customer customer) {
         customerMap.put(customer.getName(), customer);
+        return customer;
     }
 
     @Override

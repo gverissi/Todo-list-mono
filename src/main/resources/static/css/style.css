@@ -1,0 +1,46 @@
+#main {
+  margin-bottom: 100px;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  text-align: center;
+}
+
+.button {
+  border: none;
+  background-color: #d74f08;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  transition: all 0.5s;
+  text-decoration: none !important;
+}
+
+.button:hover {
+  background-color: #343a40;
+  color: white;
+}
+
+.fs-085{
+	font-size: 0.85rem;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.th-btn {
+  width: 10px;
+}
+
+.alert-position {
+    position: absolute;
+    top: 120px;
+    width: 100%;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:replace="fragments/head :: head"/>
+
+<body id="body">
+
+<header th:replace="fragments/header :: header"/>
+
+
+<main id="main">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Home</li>
+        </ol>
+    </nav>
+
+    <header th:replace="fragments/alert :: alert"/>
+
+    <div th:if="${param.login}" class="d-flex justify-content-center alert-position">
+        <div class="text-center alert alert-success" role="alert">
+            You have been successfully logged in.
+        </div>
+    </div>
+
+    <div th:if="${param.logout}" class="d-flex justify-content-center alert-position">
+        <div class="text-center alert alert-success" role="alert">
+            You have been successfully logged out.
+        </div>
+    </div>
+
+    <div sec:authorize="isAnonymous()">
+        <h2 class="text-center my-5">Welcome. Please log-in or sign-up to use this awesome app!</h2>
+        <div class="d-flex justify-content-center">
+            <a th:href="@{log-in}" class="button mx-5">Log-In</a>
+            <a th:href="@{sign-up}" class="button mx-5">Sign-Up</a>
+        </div>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <h2 class="text-center my-5">Hello dear [[${#httpServletRequest.remoteUser}]]!</h2>
+        <div class="d-flex justify-content-center">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn button">Log-Out</button>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+
+<footer th:replace="fragments/footer :: footer"/>
+
+<div th:replace="fragments/script :: script"/>
+
+</body>
+</html>

@@ -22,6 +22,9 @@ public class Role implements GrantedAuthority {
     @ManyToMany(mappedBy = "roleSet")
     private final Set<Customer> customerSet = new HashSet<>();
 
+    public Role() {
+    }
+
     public Role(String roleName) {
         this.roleName = roleName;
     }
