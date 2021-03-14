@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        String userPassword = passwordEncoder().encode("greg");
+        String userPassword = passwordEncoder().encode("gg");
         String adminPassword = passwordEncoder().encode("admin");
 
         Role roleUser = new Role("USER");

@@ -19,6 +19,9 @@
   color: white;
   transition: all 0.5s;
   text-decoration: none !important;
+  display: block;
+  text-align: center;
+  width: 100%;
 }
 
 .button:hover {
@@ -36,11 +39,17 @@ p {
 }
 
 .th-btn {
-  width: 10px;
+  width: 100px;
+  text-align: center;
 }
 
 .alert-position {
     position: absolute;
     top: 120px;
+    width: 100%;
+}
+
+.input-table {
+    border: 0;
     width: 100%;
 }
