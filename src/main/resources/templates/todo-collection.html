@@ -13,7 +13,9 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Todo-Lists</li>
+            <li class="breadcrumb-item"><a th:href="@{/todo-lists}">Todo-Lists</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/todo-lists/{todoListNum}(todoListNum=${todoListForm.num})}" th:text="${todoListForm.title}">Todo-List</a></li>
+            <li class="breadcrumb-item active" aria-current="page" >Todos</li>
         </ol>
     </nav>
 
@@ -32,7 +34,7 @@
             <thead class="thead-dark">
             <tr>
                 <th>#</th>
-                <th>Name</th>
+                <th>To-do</th>
                 <th class="th-btn">C</th>
                 <th class="th-btn">R</th>
                 <th class="th-btn">U</th>
@@ -43,11 +45,11 @@
             <tbody>
 
             <tr>
-                <form th:action="@{/todo-lists}" th:object="${todoListForm}" method="POST">
+                <form th:action="@{/todo-lists/{todoListNum}/todos(todoListNum=${todoListForm.num})}" th:object="${todoForm}" method="POST">
                     <td class="align-middle"></td>
                     <td class="align-middle">
-                        <input class="input-table" th:type="text" th:field="*{title}">
-                        <small class="form-text text-muted" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
+                        <input class="input-table" th:type="text" th:field="*{label}">
+                        <small class="form-text text-muted" th:if="${#fields.hasErrors('label')}" th:errors="*{label}"/>
                     </td>
                     <td class="align-middle">
                         <button type="submit" class="align-middle button">Create</button>
@@ -58,23 +60,23 @@
                 </form>
             </tr>
 
-            <tr th:each="todoListDto : ${todoListFormCollection}">
-                <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListDto.num})}" th:object="${todoListForm}" th:method="PUT">
-                    <input type="hidden" name="num" th:value="${todoListDto.num}">
-                    <td class="align-middle" th:text="${todoListDto.num}"></td>
+            <tr th:each="todoDto : ${todoFormCollection}">
+                <form th:action="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListForm.num}, todoNum=${todoDto.num})}" th:object="${todoForm}" th:method="PUT">
+                    <input type="hidden" name="num" th:value="${todoDto.num}">
+                    <td class="align-middle" th:text="${todoDto.num}"></td>
                     <td class="align-middle">
-                        <input class="input-table" type="text" name="title" th:value="${todoListDto.title}">
+                        <input class="input-table" type="text" name="label" th:value="${todoDto.label}">
                     </td>
                     <td class="align-middle"></td>
                     <td class="align-middle">
-                        <a th:href="@{/todo-lists/{todoListId}(todoListId=${todoListDto.num})}" class="button">Read</a>
+                        <a th:href="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListForm.num}, todoNum=${todoDto.num})}" class="button">Read</a>
                     </td>
                     <td class="align-middle">
                         <button type="submit" class="button">Update</button>
                     </td>
                 </form>
                 <td class="align-middle">
-                    <form th:action="@{/todo-lists/{todoListId}(todoListId=${todoListDto.num})}" th:method="DELETE">
+                    <form th:action="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListForm.num}, todoNum=${todoDto.num})}" th:method="DELETE">
                         <button type="submit" class="button">Delete</button>
                     </form>
                 </td>

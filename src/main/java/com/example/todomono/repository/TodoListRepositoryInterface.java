@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface TodoListRepositoryInterface extends JpaRepository<TodoList, Integer> {
 
-//    Set<TodoList> findAllByCustomer(Customer customer);
     List<TodoList> findAllByCustomerOrderByNumAsc(Customer customer);
 
     TodoList findByCustomerAndTitle(Customer customer, String title);
