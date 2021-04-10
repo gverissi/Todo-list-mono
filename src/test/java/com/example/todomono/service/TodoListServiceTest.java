@@ -35,7 +35,7 @@ class TodoListServiceTest {
     AuthenticationFacadeInterface authenticationFacadeMock = mock(AuthenticationFacadeInterface.class);
     Authentication authenticationMock = mock(Authentication.class);
 
-    TodoListService todoListService = new TodoListService(todoListDaoMock, customerDaoMock, authenticationFacadeMock);
+    TodoListService todoListService = new TodoListService(todoListDaoMock);
 
     @BeforeEach
     void init() {
@@ -51,7 +51,7 @@ class TodoListServiceTest {
         when(todoListDaoMock.findByCustomerAndTitle(customer, todoListTitle)).thenReturn(null);
         TodoListForm todoListForm = new TodoListForm(todoListTitle);
         // When
-        TodoList todoList = todoListService.createOne(todoListForm);
+        TodoList todoList = todoListService.createOneForCustomer(customer, todoListForm);
         // Then
         assertEquals(todoListForm.getTitle(), todoList.getTitle());
         assertEquals(customer, todoList.getCustomer());
@@ -69,7 +69,7 @@ class TodoListServiceTest {
         todoList.setNum(todoListNum);
         when(todoListDaoMock.findByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
         // When
-        TodoList foundTodoList = todoListService.getOneByNum(todoListNum);
+        TodoList foundTodoList = todoListService.getOneByCustomerAndNum(customer, todoListNum);
         // Then
         assertEquals(foundTodoList.getTitle(), todoList.getTitle());
         assertEquals(foundTodoList.getNum(), todoList.getNum());
@@ -88,7 +88,7 @@ class TodoListServiceTest {
         when(todoListDaoMock.findByCustomerAndTitle(customer, newTitle)).thenReturn(null);
         when(todoListDaoMock.findByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
         // When
-        TodoList updatedTodoList = todoListService.updateOne(todoListForm);
+        TodoList updatedTodoList = todoListService.updateOneForCustomer(customer, todoListForm);
         // Then
         assertEquals(newTitle, updatedTodoList.getTitle());
         assertEquals(todoListNum, updatedTodoList.getNum());
@@ -113,7 +113,7 @@ class TodoListServiceTest {
             return null;
         }).when(todoListDaoMock).delete(todoList2);
         // When
-        todoListService.deleteOne(todoListNum);
+        todoListService.deleteOneForCustomer(customer, todoListNum);
         // Then
         assertThat(todoLists, hasSize(2));
         assertEquals(1, todoList1.getNum());

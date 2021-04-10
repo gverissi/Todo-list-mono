@@ -2,6 +2,7 @@ package com.example.todomono.service;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
+import com.example.todomono.security.AuthenticationFacadeInterface;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -23,7 +24,9 @@ class CustomerServiceTest {
         PasswordEncoder passwordEncoderMock = mock(PasswordEncoder.class);
         when(passwordEncoderMock.encode(password)).thenReturn(encodedPassword);
 
-        CustomerService customerService = new CustomerService(customerDaoMock, passwordEncoderMock);
+        AuthenticationFacadeInterface authenticationFacadeMock = mock(AuthenticationFacadeInterface.class);
+
+        CustomerService customerService = new CustomerService(customerDaoMock, passwordEncoderMock, authenticationFacadeMock);
         Customer createdCustomer = customerService.createCustomer(name, password);
 
         assertEquals(name, createdCustomer.getName());

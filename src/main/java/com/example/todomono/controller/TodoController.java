@@ -3,9 +3,9 @@ package com.example.todomono.controller;
 import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.TodoAlreadyExistException;
-import com.example.todomono.exception.TodoListAlreadyExistException;
 import com.example.todomono.form.TodoForm;
 import com.example.todomono.form.TodoListForm;
+import com.example.todomono.service.CustomerService;
 import com.example.todomono.service.TodoListService;
 import com.example.todomono.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,18 @@ public class TodoController {
     private static final String INITIAL_LABEL = "New todo";
 
     @Autowired
-    private final TodoService todoService;
+    private final CustomerService customerService;
 
     @Autowired
     private final TodoListService todoListService;
 
-    public TodoController(TodoService todoService, TodoListService todoListService) {
-        this.todoService = todoService;
+    @Autowired
+    private final TodoService todoService;
+
+    public TodoController(CustomerService customerService, TodoListService todoListService, TodoService todoService) {
+        this.customerService = customerService;
         this.todoListService = todoListService;
+        this.todoService = todoService;
     }
 
     @GetMapping("/todo-lists/{todoListNum}/todos")
@@ -48,7 +52,7 @@ public class TodoController {
     public String createATodo(@PathVariable long todoListNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
         try {
             if (!result.hasErrors()) {
-                TodoList todoList = todoListService.getOneByNum(todoListNum);
+                TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
                 todoService.createOne(todoForm, todoList);
                 todoForm.setLabel(INITIAL_LABEL);
             }
@@ -60,7 +64,7 @@ public class TodoController {
     }
 
     private void fillUpTheModel(long todoListNum, Model model) {
-        TodoList todoList = todoListService.getOneByNum(todoListNum);
+        TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
         List<TodoForm> todoFormCollection = todoService.findAllByTodoList(todoList).stream().map(Todo::convertToDto).collect(Collectors.toList());
         TodoListForm todoListForm = todoList.convertToDto();
         model.addAttribute("todoListForm", todoListForm);

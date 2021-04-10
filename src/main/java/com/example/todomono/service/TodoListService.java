@@ -19,25 +19,16 @@ public class TodoListService {
     @Autowired
     private final TodoListDaoInterface todoListDao;
 
-    @Autowired
-    private final CustomerDaoInterface customerDao;
 
-    @Autowired
-    private final AuthenticationFacadeInterface authenticationFacade;
-
-
-    public TodoListService(TodoListDaoInterface todoListDao, CustomerDaoInterface customerDao, AuthenticationFacadeInterface authenticationFacade) {
+    public TodoListService(TodoListDaoInterface todoListDao) {
         this.todoListDao = todoListDao;
-        this.customerDao = customerDao;
-        this.authenticationFacade = authenticationFacade;
     }
 
-    public List<TodoList> findAllByCustomer() {
-        return todoListDao.findAllByCustomer(getCustomer());
+    public List<TodoList> findAllByCustomer(Customer customer) {
+        return todoListDao.findAllByCustomer(customer);
     }
 
-    public TodoList createOne(TodoListForm todoListForm) throws TodoListAlreadyExistException {
-        Customer customer = getCustomer();
+    public TodoList createOneForCustomer(Customer customer, TodoListForm todoListForm) throws TodoListAlreadyExistException {
         String title = todoListForm.getTitle();
         if (todoListExists(customer, title)) throw new TodoListAlreadyExistException("There is already a todo-list with name: " + title + ".");
         TodoList todoList = new TodoList(title);
@@ -46,14 +37,13 @@ public class TodoListService {
         return todoListDao.save(todoList);
     }
 
-    public TodoList getOneByNum(long todoListNum) {
-        TodoList todoList = todoListDao.findByCustomerAndNum(getCustomer(), todoListNum);
+    public TodoList getOneByCustomerAndNum(Customer customer, long todoListNum) {
+        TodoList todoList = todoListDao.findByCustomerAndNum(customer, todoListNum);
         if (todoList == null) throw new EntityNotFoundException("There is no todo-list with num = " + todoListNum);
         return todoList;
     }
 
-    public TodoList updateOne(TodoListForm todoListForm) throws TodoListAlreadyExistException {
-        Customer customer = getCustomer();
+    public TodoList updateOneForCustomer(Customer customer, TodoListForm todoListForm) throws TodoListAlreadyExistException {
         String title = todoListForm.getTitle();
         long todoListNum = todoListForm.getNum();
         if (todoListExists(customer, title)) throw new TodoListAlreadyExistException("There is already a todo-list with name: " + title + ".");
@@ -63,25 +53,20 @@ public class TodoListService {
         return todoListDao.save(todoList);
     }
 
-    public void deleteOne(long todoListNum) {
-        TodoList todoList = todoListDao.findByCustomerAndNum(getCustomer(), todoListNum);
+    public void deleteOneForCustomer(Customer customer, long todoListNum) {
+        TodoList todoList = todoListDao.findByCustomerAndNum(customer, todoListNum);
         if (todoList == null) throw new EntityNotFoundException("There is no todo-list with num = " + todoListNum);
         todoListDao.delete(todoList);
-        computeTodoListNum();
-    }
-
-    private Customer getCustomer() {
-        String customerName = authenticationFacade.getAuthentication().getName();
-        return customerDao.findByName(customerName);
+        computeTodoListNum(customer);
     }
 
     private boolean todoListExists(Customer customer, String title) {
         return todoListDao.findByCustomerAndTitle(customer, title) != null;
     }
 
-    private void computeTodoListNum() {
+    private void computeTodoListNum(Customer customer) {
         long num = 0L;
-        List<TodoList> todoLists = todoListDao.findAllByCustomer(getCustomer());
+        List<TodoList> todoLists = todoListDao.findAllByCustomer(customer);
         for (TodoList todoList : todoLists) {
             todoList.setNum(++num);
             todoListDao.save(todoList);
