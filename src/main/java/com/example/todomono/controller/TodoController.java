@@ -53,7 +53,7 @@ public class TodoController {
         try {
             if (!result.hasErrors()) {
                 TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
-                todoService.createOne(todoForm, todoList);
+                todoService.createOne(todoList, todoForm);
                 todoForm.setLabel(INITIAL_LABEL);
             }
         } catch (TodoAlreadyExistException exception) {
