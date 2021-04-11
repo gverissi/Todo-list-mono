@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,13 +30,14 @@ public class CustomerController {
     }
 
     @RequestMapping("/log-in")
-    public String log_in(Model model) {
+    public String showLogInPage(Model model) {
         model.addAttribute("title", "Log-In");
         return "log-in";
     }
 
     @GetMapping("/sign-up")
-    public String showRegistrationForm(@ModelAttribute CustomerForm customerForm, Model model) {
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("customerForm", new CustomerForm());
         model.addAttribute("title", "Sign-Up");
         return "sign-up";
     }

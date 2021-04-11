@@ -2,12 +2,14 @@ package com.example.todomono.controller;
 
 import com.example.todomono.form.CustomerForm;
 import com.example.todomono.service.CustomerService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
@@ -22,12 +24,46 @@ class CustomerControllerUnitTest {
     @MockBean
     private Model model;
 
+    private CustomerController customerController;
+
+    @BeforeEach
+    void init() {
+        customerController = new CustomerController(customerService);
+    }
+
+    @Test
+    void showHomePage() {
+        // When
+        String viewName = customerController.showHomePage(model);
+        // Then
+        assertEquals("home", viewName);
+    }
+
+    @Test
+    void showLogInPage() {
+        // When
+        String viewName = customerController.showLogInPage(model);
+        // Then
+        assertEquals("log-in", viewName);
+    }
+
+    @Test
+    void showRegistrationForm() {
+        // When
+        String viewName = customerController.showRegistrationForm(model);
+        // Then
+        assertEquals("sign-up", viewName);
+    }
+
     @Test
     void registerNewCustomer() {
+        // Given
         CustomerForm customerForm = new CustomerForm("toto", "1234", "1234");
-        CustomerController customerController = new CustomerController(customerService);
-        customerController.registerNewCustomer(customerForm, result, model);
+        // When
+        String viewName = customerController.registerNewCustomer(customerForm, result, model);
+        // Then
         verify(customerService).createCustomer(customerForm.getName(), customerForm.getPassword());
+        assertEquals("redirect:log-in?registered", viewName);
     }
 
 }
