@@ -4,7 +4,7 @@ import com.example.todomono.form.CustomerForm;
 import com.example.todomono.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest
+@WebMvcTest(controllers = CustomerController.class, useDefaultFilters = false)
 class CustomerControllerUnitTest {
 
     @MockBean

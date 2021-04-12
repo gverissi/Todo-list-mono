@@ -1,16 +1,17 @@
 package com.example.todomono.controller;
 
-import com.example.todomono.dao.CustomerDaoInterface;
-import com.example.todomono.dao.RoleDaoInterface;
-import com.example.todomono.security.MyUserDetailsService;
+import com.example.todomono.entity.Customer;
 import com.example.todomono.service.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -18,7 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriUtils.encode;
 
-@WebMvcTest(CustomerController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class CustomerControllerIntegrationTest {
 
     @Autowired
@@ -26,15 +28,6 @@ class CustomerControllerIntegrationTest {
 
     @MockBean
     private CustomerService customerService;
-
-    @MockBean
-    private MyUserDetailsService myUserDetailsService;
-
-    @MockBean
-    private CustomerDaoInterface customerDao;
-
-    @MockBean
-    private RoleDaoInterface roleDao;
 
     @Test
     void showHomePage() throws Exception {
@@ -45,7 +38,7 @@ class CustomerControllerIntegrationTest {
     }
 
     @Test
-    void log_in() throws Exception {
+    void showLogInPage() throws Exception {
         mockMvc.perform(get("/log-in"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("log-in"))
@@ -74,12 +67,16 @@ class CustomerControllerIntegrationTest {
 //                        .with(csrf()))
 //                .andExpect(status().isFound());
 
+        String customerName = "toto";
+        String customerPassword = "123";
+        when(customerService.createCustomer(customerName, customerPassword)).thenReturn(mock(Customer.class));
+
         mockMvc.perform(
                 post("/sign-up")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .content(encode("name", "UTF-8") + "=" + encode("toto", "UTF-8")
-                                + "&" + encode("password", "UTF-8") + "=" + encode("123", "UTF-8")
-                                + "&" + encode("matchingPassword", "UTF-8") + "=" + encode("123", "UTF-8"))
+                        .content(encode("name", "UTF-8") + "=" + encode(customerName, "UTF-8")
+                                + "&" + encode("password", "UTF-8") + "=" + encode(customerPassword, "UTF-8")
+                                + "&" + encode("matchingPassword", "UTF-8") + "=" + encode(customerPassword, "UTF-8"))
                         .with(csrf()))
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:log-in?registered"));
