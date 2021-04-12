@@ -1,16 +1,14 @@
 package com.example.todomono.controller;
 
-import com.example.todomono.dao.CustomerDaoInterface;
-import com.example.todomono.dao.RoleDaoInterface;
 import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.TodoList;
-import com.example.todomono.security.MyUserDetailsService;
 import com.example.todomono.service.CustomerService;
 import com.example.todomono.service.TodoListService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -24,7 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.web.util.UriUtils.encode;
 
-@WebMvcTest(TodoListController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class TodoListControllerIntegrationTest {
 
     @Autowired
@@ -35,15 +34,6 @@ class TodoListControllerIntegrationTest {
 
     @MockBean
     private TodoListService todoListService;
-
-    @MockBean
-    private MyUserDetailsService myUserDetailsService;
-
-    @MockBean
-    private CustomerDaoInterface customerDao;
-
-    @MockBean
-    private RoleDaoInterface roleDao;
 
     private Customer customer;
 
