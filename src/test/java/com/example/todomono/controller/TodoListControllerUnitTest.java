@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -45,9 +46,18 @@ class TodoListControllerUnitTest {
         // Given
         TodoListForm todoListForm = new TodoListForm("my todo-list");
         // When
-        todoListController.createATodoList(todoListForm, result, model);
+        String viewName = todoListController.createATodoList(todoListForm, result, model);
         // Then
         verify(todoListService).createOneForCustomer(customer, todoListForm);
+        assertEquals("todo-list-collection", viewName);
+    }
+
+    @Test
+    void showAllTodoListsOfACustomer() {
+        // When
+        String viewName = todoListController.showAllTodoListsOfACustomer(model);
+        // Then
+        assertEquals("todo-list-collection", viewName);
     }
 
     @Test
@@ -57,9 +67,10 @@ class TodoListControllerUnitTest {
         TodoList todoList = new TodoList("my todo-list");
         when(todoListService.getOneByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
         // When
-        todoListController.showOneTodoListOfACustomer(todoListNum, model);
+        String viewName = todoListController.showOneTodoListOfACustomer(todoListNum, model);
         // Then
         verify(todoListService).getOneByCustomerAndNum(customer, todoListNum);
+        assertEquals("todo-list", viewName);
     }
 
     @Test
@@ -68,9 +79,10 @@ class TodoListControllerUnitTest {
         long todoListNum = 1;
         TodoListForm todoListForm = new TodoListForm("my todo-list");
         // When
-        todoListController.updateATodoList(todoListNum, todoListForm, result, model);
+        String viewName = todoListController.updateATodoList(todoListNum, todoListForm, result, model);
         // Then
         verify(todoListService).updateOneForCustomer(customer, todoListForm);
+        assertEquals("redirect:/todo-lists", viewName);
     }
 
     @Test
@@ -78,8 +90,9 @@ class TodoListControllerUnitTest {
         // Given
         long todoListNum = 1;
         // When
-        todoListController.deleteATodoList(todoListNum);
+        String viewName = todoListController.deleteATodoList(todoListNum);
         // Then
         verify(todoListService).deleteOneForCustomer(customer, todoListNum);
+        assertEquals("redirect:/todo-lists", viewName);
     }
 }

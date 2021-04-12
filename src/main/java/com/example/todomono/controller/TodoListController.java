@@ -31,14 +31,6 @@ public class TodoListController {
         this.todoListService = todoListService;
     }
 
-    @GetMapping("/todo-lists")
-    public String showAllTodoListOfACustomer(Model model) {
-        TodoListForm todoListForm = new TodoListForm(INITIAL_TITLE);
-        model.addAttribute("todoListForm", todoListForm);
-        fillUpTheModel(model);
-        return "todo-list-collection";
-    }
-
     @PostMapping("/todo-lists")
     public String createATodoList(@Valid TodoListForm todoListForm, BindingResult result, Model model) {
         try {
@@ -49,6 +41,14 @@ public class TodoListController {
         } catch (TodoListAlreadyExistException exception) {
             model.addAttribute("errorMessage", exception.getMessage());
         }
+        fillUpTheModel(model);
+        return "todo-list-collection";
+    }
+
+    @GetMapping("/todo-lists")
+    public String showAllTodoListsOfACustomer(Model model) {
+        TodoListForm todoListForm = new TodoListForm(INITIAL_TITLE);
+        model.addAttribute("todoListForm", todoListForm);
         fillUpTheModel(model);
         return "todo-list-collection";
     }
