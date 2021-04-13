@@ -22,10 +22,6 @@ public class TodoService {
         this.todoDao = todoDao;
     }
 
-    public List<Todo> findAllByTodoList(TodoList todoList) {
-        return todoDao.findAllByTodoList(todoList);
-    }
-
     public Todo createOne(TodoList todoList, TodoForm todoForm) throws TodoAlreadyExistException {
         String label = todoForm.getLabel();
         if (todoExists(todoList, label)) throw new TodoAlreadyExistException("There is already a todo with label: " + label + ".");
@@ -33,6 +29,10 @@ public class TodoService {
         todo.setTodoList(todoList);
         todo.setNum(todoDao.countByTodoList(todoList) + 1);
         return todoDao.save(todo);
+    }
+
+    public List<Todo> findAllByTodoList(TodoList todoList) {
+        return todoDao.findAllByTodoList(todoList);
     }
 
     public Todo getOneByTodoListAndNum(TodoList todoList, long todoNum) {
