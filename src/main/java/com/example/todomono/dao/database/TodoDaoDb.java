@@ -25,6 +25,11 @@ public class TodoDaoDb implements TodoDaoInterface {
     }
 
     @Override
+    public void delete(Todo todo) {
+        todoRepository.delete(todo);
+    }
+
+    @Override
     public List<Todo> findAllByTodoList(TodoList todoList) {
         return todoRepository.findAllByTodoListOrderByNumAsc(todoList);
     }

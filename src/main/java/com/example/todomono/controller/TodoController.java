@@ -4,6 +4,7 @@ import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.TodoAlreadyExistException;
 import com.example.todomono.exception.TodoListAlreadyExistException;
+import com.example.todomono.exception.TodoNotFoundException;
 import com.example.todomono.form.TodoForm;
 import com.example.todomono.form.TodoListForm;
 import com.example.todomono.service.CustomerService;
@@ -13,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -78,11 +76,12 @@ public class TodoController {
     @PutMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
     public String updateATodo(@PathVariable long todoListNum, @PathVariable long todoNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
+        todoForm.setNum(todoNum);
         if (!result.hasErrors()) {
             try {
                 todoService.updateOneForTodoList(todoList, todoForm);
                 return "redirect:/todo-lists/{todoListNum}/todos";
-            } catch (TodoAlreadyExistException e) {
+            } catch (TodoAlreadyExistException | TodoNotFoundException e) {
                 model.addAttribute("errorMessage", e.getMessage());
             }
         }
@@ -90,9 +89,22 @@ public class TodoController {
             model.addAttribute("errorMessage", "ERROR");
         }
         model.addAttribute("todoListDto", todoList.convertToDto());
-        model.addAttribute("todoForm", todoForm);
         model.addAttribute("title", "Todo");
         return "todo";
+    }
+
+    @DeleteMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
+    public String deleteATodoList(@PathVariable long todoListNum, @PathVariable long todoNum, Model model) {
+        TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
+        try {
+            todoService.deleteOneForTodoList(todoList, todoNum);
+            return "redirect:/todo-lists/{todoListNum}/todos";
+        } catch (TodoNotFoundException e) {
+            model.addAttribute("errorMessage", "ERROR");
+            model.addAttribute("todoListDto", todoList.convertToDto());
+            model.addAttribute("title", "Todo");
+            return "todo";
+        }
     }
 
     private void fillUpTheModel(long todoListNum, Model model) {

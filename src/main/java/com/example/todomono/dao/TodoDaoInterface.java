@@ -9,6 +9,8 @@ public interface TodoDaoInterface {
 
     Todo save(Todo todo);
 
+    void delete(Todo todo);
+
     List<Todo> findAllByTodoList(TodoList todoList);
 
     Todo findByTodoListAndLabel(TodoList todoList, String label);
@@ -16,5 +18,4 @@ public interface TodoDaoInterface {
     Todo findByTodoListAndNum(TodoList todoList, long num);
 
     long countByTodoList(TodoList todoList);
-
 }

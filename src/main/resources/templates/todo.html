@@ -32,8 +32,7 @@
     <div class="container">
         <form th:action="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListDto.num}, todoNum=${todoForm.num})}" th:object="${todoForm}" th:method="PUT">
             <div class="form-group">
-                <input type="hidden" name="num" th:value="${todoForm.num}">
-                <label th:for="${#ids.next('title')}">Title</label>
+                <label th:for="${#ids.next('label')}">Label</label>
                 <input class="form-control" th:type="text" th:field="*{label}"/>
                 <small class="form-text text-muted" th:if="${#fields.hasErrors('label')}" th:errors="*{label}"/>
             </div>

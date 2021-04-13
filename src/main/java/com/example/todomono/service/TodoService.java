@@ -5,6 +5,7 @@ import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityNotFoundException;
 import com.example.todomono.exception.TodoAlreadyExistException;
+import com.example.todomono.exception.TodoNotFoundException;
 import com.example.todomono.form.TodoForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,16 +41,33 @@ public class TodoService {
         return todo;
     }
 
-    public Todo updateOneForTodoList(TodoList todoList, TodoForm todoForm) throws TodoAlreadyExistException {
+    public Todo updateOneForTodoList(TodoList todoList, TodoForm todoForm) throws TodoAlreadyExistException, TodoNotFoundException {
         String label = todoForm.getLabel();
         if (todoExists(todoList, label)) throw new TodoAlreadyExistException("There is already a todo with label: " + label + ".");
         Todo todo = todoDao.findByTodoListAndNum(todoList, todoForm.getNum());
-        if (todo == null) throw new EntityNotFoundException("There is no todo with num = " + todoForm.getNum());
+        if (todo == null) throw new TodoNotFoundException("There is no todo with num = " + todoForm.getNum());
         todo.setLabel(label);
         return todoDao.save(todo);
+    }
+
+    public void deleteOneForTodoList(TodoList todoList, long todoNum) throws TodoNotFoundException {
+        Todo todo = todoDao.findByTodoListAndNum(todoList, todoNum);
+        if (todo == null) throw new TodoNotFoundException("There is no todo with num = " + todoNum);
+        todoDao.delete(todo);
+        computeTodoNum(todoList);
     }
 
     private boolean todoExists(TodoList todoList, String label) {
         return todoDao.findByTodoListAndLabel(todoList, label) != null;
     }
+
+    private void computeTodoNum(TodoList todoList) {
+        long num = 0L;
+        List<Todo> todos = todoDao.findAllByTodoList(todoList);
+        for (Todo todo : todos) {
+            todo.setNum(++num);
+            todoDao.save(todo);
+        }
+    }
+
 }
