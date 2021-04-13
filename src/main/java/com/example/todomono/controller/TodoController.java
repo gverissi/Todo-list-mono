@@ -3,7 +3,6 @@ package com.example.todomono.controller;
 import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.TodoAlreadyExistException;
-import com.example.todomono.exception.TodoListAlreadyExistException;
 import com.example.todomono.exception.TodoNotFoundException;
 import com.example.todomono.form.TodoForm;
 import com.example.todomono.form.TodoListForm;
@@ -94,13 +93,13 @@ public class TodoController {
     }
 
     @DeleteMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
-    public String deleteATodoList(@PathVariable long todoListNum, @PathVariable long todoNum, Model model) {
+    public String deleteATodo(@PathVariable long todoListNum, @PathVariable long todoNum, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
         try {
             todoService.deleteOneForTodoList(todoList, todoNum);
             return "redirect:/todo-lists/{todoListNum}/todos";
         } catch (TodoNotFoundException e) {
-            model.addAttribute("errorMessage", "ERROR");
+            model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("todoListDto", todoList.convertToDto());
             model.addAttribute("title", "Todo");
             return "todo";
