@@ -1,7 +1,6 @@
 package com.example.todomono.service;
 
 import com.example.todomono.dao.TodoDaoInterface;
-import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityNotFoundException;
@@ -41,8 +40,16 @@ public class TodoService {
         return todo;
     }
 
+    public Todo updateOneForTodoList(TodoList todoList, TodoForm todoForm) throws TodoAlreadyExistException {
+        String label = todoForm.getLabel();
+        if (todoExists(todoList, label)) throw new TodoAlreadyExistException("There is already a todo with label: " + label + ".");
+        Todo todo = todoDao.findByTodoListAndNum(todoList, todoForm.getNum());
+        if (todo == null) throw new EntityNotFoundException("There is no todo with num = " + todoForm.getNum());
+        todo.setLabel(label);
+        return todoDao.save(todo);
+    }
+
     private boolean todoExists(TodoList todoList, String label) {
         return todoDao.findByTodoListAndLabel(todoList, label) != null;
     }
-
 }

@@ -14,8 +14,8 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
             <li class="breadcrumb-item"><a th:href="@{/todo-lists}">Todo-Lists</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/todo-lists/${todoListDto.num}}" th:text="${todoListDto.title}">Todo-List</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/todo-lists/${todoListDto.num}/todos}">Todos</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/todo-lists/{todoListNum}(todoListNum=${todoListDto.num})}" th:text="${todoListDto.title}">Todo-List</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/todo-lists/{todoListNum}/todos(todoListNum=${todoListDto.num})}">Todos</a></li>
             <li class="breadcrumb-item active" aria-current="page" th:text="${todoForm.label}">Todo</li>
         </ol>
     </nav>
@@ -30,7 +30,7 @@
     <h2 class="text-center my-5"><span th:text="${todoListDto.title}"></span> todo list:</h2>
 
     <div class="container">
-        <form th:action="@{/todo-lists/${todoListDto.num}/todos/${todoForm.num}}" th:object="${todoForm}" th:method="PUT">
+        <form th:action="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListDto.num}, todoNum=${todoForm.num})}" th:object="${todoForm}" th:method="PUT">
             <div class="form-group">
                 <input type="hidden" name="num" th:value="${todoForm.num}">
                 <label th:for="${#ids.next('title')}">Title</label>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="container">
-        <form th:action="@{/todo-lists/${todoListDto.num}/todos/${todoForm.num}}" th:method="DELETE">
+        <form th:action="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListDto.num}, todoNum=${todoForm.num})}" th:method="DELETE">
             <button type="submit" class="btn button">Delete</button>
         </form>
     </div>
