@@ -13,6 +13,8 @@ public interface TodoDaoInterface {
 
     Todo findByTodoListAndLabel(TodoList todoList, String label);
 
+    Todo findByTodoListAndNum(TodoList todoList, long num);
+
     long countByTodoList(TodoList todoList);
 
 }

@@ -35,6 +35,11 @@ public class TodoDaoDb implements TodoDaoInterface {
     }
 
     @Override
+    public Todo findByTodoListAndNum(TodoList todoList, long num) {
+        return todoRepository.findByTodoListAndNum(todoList, num);
+    }
+
+    @Override
     public long countByTodoList(TodoList todoList) {
         return todoRepository.countByTodoList(todoList);
     }

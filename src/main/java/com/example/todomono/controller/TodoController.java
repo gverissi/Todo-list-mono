@@ -40,14 +40,6 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @GetMapping("/todo-lists/{todoListNum}/todos")
-    public String showAllTodoOfATodoList(@PathVariable long todoListNum, Model model) {
-        TodoForm todoForm = new TodoForm(INITIAL_LABEL);
-        model.addAttribute("todoForm", todoForm);
-        fillUpTheModel(todoListNum, model);
-        return "todo-collection";
-    }
-
     @PostMapping("/todo-lists/{todoListNum}/todos")
     public String createATodo(@PathVariable long todoListNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
         try {
@@ -61,6 +53,25 @@ public class TodoController {
         }
         fillUpTheModel(todoListNum, model);
         return "todo-collection";
+    }
+
+    @GetMapping("/todo-lists/{todoListNum}/todos")
+    public String showAllTodosOfATodoList(@PathVariable long todoListNum, Model model) {
+        TodoForm todoForm = new TodoForm(INITIAL_LABEL);
+        model.addAttribute("todoForm", todoForm);
+        fillUpTheModel(todoListNum, model);
+        return "todo-collection";
+    }
+
+    @GetMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
+    public String showOneTodoOfATodoList(@PathVariable long todoListNum, @PathVariable long todoNum, Model model) {
+        TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
+        TodoListForm todoListDto = todoList.convertToDto();
+        TodoForm todoForm = todoService.getOneByTodoListAndNum(todoList, todoNum).convertToDto();
+        model.addAttribute("todoListDto", todoListDto);
+        model.addAttribute("todoForm", todoForm);
+        model.addAttribute("title", "Todo");
+        return "todo";
     }
 
     private void fillUpTheModel(long todoListNum, Model model) {

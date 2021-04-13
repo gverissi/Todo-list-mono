@@ -1,8 +1,10 @@
 package com.example.todomono.service;
 
 import com.example.todomono.dao.TodoDaoInterface;
+import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
+import com.example.todomono.exception.EntityNotFoundException;
 import com.example.todomono.exception.TodoAlreadyExistException;
 import com.example.todomono.form.TodoForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,12 @@ public class TodoService {
         todo.setTodoList(todoList);
         todo.setNum(todoDao.countByTodoList(todoList) + 1);
         return todoDao.save(todo);
+    }
+
+    public Todo getOneByTodoListAndNum(TodoList todoList, long todoNum) {
+        Todo todo = todoDao.findByTodoListAndNum(todoList, todoNum);
+        if (todo == null) throw new EntityNotFoundException("There is no todo with num = " + todoNum);
+        return todo;
     }
 
     private boolean todoExists(TodoList todoList, String label) {
