@@ -57,7 +57,6 @@ public class TodoListController {
     public String showOneTodoListOfACustomer(@PathVariable long todoListNum, Model model) {
         TodoListForm todoListForm = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum).convertToDto();
         model.addAttribute("todoListForm", todoListForm);
-        model.addAttribute("todoListNum", todoListNum);
         model.addAttribute("title", "Todo-List");
         return "todo-list";
     }
@@ -76,7 +75,6 @@ public class TodoListController {
         else {
             model.addAttribute("errorMessage", "ERROR");
         }
-        model.addAttribute("todoListNum", todoListNum);
         model.addAttribute("title", "Todo-List");
         return "todo-list";
     }
@@ -88,8 +86,8 @@ public class TodoListController {
     }
 
     private void fillUpTheModel(Model model) {
-        List<TodoListForm> todoListFormCollection = todoListService.findAllByCustomer(customerService.getCustomer()).stream().map(TodoList::convertToDto).collect(Collectors.toList());
-        model.addAttribute("todoListFormCollection", todoListFormCollection);
+        List<TodoListForm> todoListDtoCollection = todoListService.findAllByCustomer(customerService.getCustomer()).stream().map(TodoList::convertToDto).collect(Collectors.toList());
+        model.addAttribute("todoListDtoCollection", todoListDtoCollection);
         model.addAttribute("title", "Todo-Lists");
     }
 

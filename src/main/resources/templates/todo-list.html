@@ -25,27 +25,23 @@
         </div>
     </div>
 
-    <h2 class="text-center my-5"><span th:text="${todoListForm.title}"></span> todo list:</h2>
+    <h2 class="text-center my-5"><span th:text="${todoListForm.title}"></span></h2>
 
     <div class="container">
-        <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListNum})}" th:object="${todoListForm}" th:method="PUT">
+        <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListForm.num})}" th:object="${todoListForm}" th:method="PUT">
             <div class="form-group">
                 <label th:for="${#ids.next('title')}">Title</label>
                 <input class="form-control" th:type="text" th:field="*{title}"/>
                 <small class="form-text text-muted" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
             </div>
-            <button type="submit" class="btn button">Update</button>
+            <button type="submit" class="button">Update</button>
         </form>
-    </div>
 
-    <div class="container">
-        <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListNum})}" th:method="DELETE">
-            <button type="submit" class="btn button">Delete</button>
+        <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListForm.num})}" th:method="DELETE">
+            <button type="submit" class="button my-3">Delete</button>
         </form>
-    </div>
 
-    <div class="container">
-        <a th:href="@{/todo-lists/{todoListNum}/todos(todoListNum=${todoListNum})}" class="button">Show todos</a>
+        <a th:href="@{/todo-lists/{todoListNum}/todos(todoListNum=${todoListForm.num})}" class="button">Show todos</a>
     </div>
 
 </main>

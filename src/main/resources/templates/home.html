@@ -38,14 +38,14 @@
         </div>
     </div>
 
-    <div sec:authorize="isAuthenticated()">
+    <div sec:authorize="isAuthenticated()" class="container">
         <h2 class="text-center my-5">Hello dear [[${#httpServletRequest.remoteUser}]]!</h2>
         <div class="d-flex justify-content-center">
             <a th:href="@{todo-lists}" class="button my-5">My list of todos</a>
         </div>
         <div class="d-flex justify-content-center">
             <form th:action="@{/logout}" method="post">
-                <button type="submit" class="btn button">Log-Out</button>
+                <button type="submit" class="button">Log-Out</button>
             </form>
         </div>
     </div>

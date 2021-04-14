@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <h2 class="text-center my-5"><span sec:authentication="name"></span>'s todo lists:</h2>
+    <h2 class="text-center my-5"><span sec:authentication="name"></span>'s todo-lists:</h2>
 
     <div class="container">
         <table class="table table-hover table-bordered">
@@ -58,7 +58,7 @@
                 </form>
             </tr>
 
-            <tr th:each="todoListDto : ${todoListFormCollection}">
+            <tr th:each="todoListDto : ${todoListDtoCollection}">
                 <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListDto.num})}" th:object="${todoListForm}" th:method="PUT">
                     <input type="hidden" name="num" th:value="${todoListDto.num}">
                     <td class="align-middle" th:text="${todoListDto.num}"></td>

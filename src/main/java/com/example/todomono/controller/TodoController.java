@@ -4,7 +4,6 @@ import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoForm;
-import com.example.todomono.form.TodoListForm;
 import com.example.todomono.service.CustomerService;
 import com.example.todomono.service.TodoListService;
 import com.example.todomono.service.TodoService;
@@ -100,10 +99,9 @@ public class TodoController {
 
     private void fillUpTheModel(long todoListNum, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
-        List<TodoForm> todoFormCollection = todoService.findAllByTodoList(todoList).stream().map(Todo::convertToDto).collect(Collectors.toList());
-        TodoListForm todoListForm = todoList.convertToDto();
-        model.addAttribute("todoListForm", todoListForm);
-        model.addAttribute("todoFormCollection", todoFormCollection);
+        List<TodoForm> todoDtoCollection = todoService.findAllByTodoList(todoList).stream().map(Todo::convertToDto).collect(Collectors.toList());
+        model.addAttribute("todoListDto", todoList.convertToDto());
+        model.addAttribute("todoDtoCollection", todoDtoCollection);
         model.addAttribute("title", "Todos");
     }
 
