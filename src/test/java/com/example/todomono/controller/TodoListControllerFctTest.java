@@ -80,8 +80,7 @@ class TodoListControllerFctTest {
         mockMvc.perform(
                 put("/todo-lists/" + todoListNum)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .content(encode("title", "UTF-8") + "=" + encode(newTitle, "UTF-8")
-                                + "&" + encode("num", "UTF-8") + "=" + encode(String.valueOf(todoListNum), "UTF-8"))
+                        .content(encode("title", "UTF-8") + "=" + encode(newTitle, "UTF-8"))
                         .with(csrf()))
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/todo-lists"));

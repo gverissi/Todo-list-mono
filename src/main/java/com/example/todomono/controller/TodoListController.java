@@ -64,6 +64,7 @@ public class TodoListController {
 
     @PutMapping("/todo-lists/{todoListNum}")
     public String updateATodoList(@PathVariable long todoListNum, @Valid TodoListForm todoListForm, BindingResult result, Model model) {
+        todoListForm.setNum(todoListNum);
         if (!result.hasErrors()) {
             try {
                 todoListService.updateOneForCustomer(customerService.getCustomer(), todoListForm);

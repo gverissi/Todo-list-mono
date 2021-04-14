@@ -30,7 +30,6 @@
     <div class="container">
         <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListNum})}" th:object="${todoListForm}" th:method="PUT">
             <div class="form-group">
-                <input type="hidden" name="num" th:value="${todoListForm.num}">
                 <label th:for="${#ids.next('title')}">Title</label>
                 <input class="form-control" th:type="text" th:field="*{title}"/>
                 <small class="form-text text-muted" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
