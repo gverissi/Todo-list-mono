@@ -2,6 +2,7 @@ package com.example.todomono.service;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.security.AuthenticationFacadeInterface;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +13,7 @@ import static org.mockito.Mockito.*;
 class CustomerServiceTest {
 
     @Test
-    void createCustomer() {
+    void createCustomer() throws EntityAlreadyExistException {
         String name = "toto";
         String password = "1234";
         String encodedPassword = "AbCd";

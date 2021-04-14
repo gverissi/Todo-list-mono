@@ -3,8 +3,7 @@ package com.example.todomono.controller;
 import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
-import com.example.todomono.exception.TodoAlreadyExistException;
-import com.example.todomono.exception.TodoNotFoundException;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoForm;
 import com.example.todomono.service.CustomerService;
 import com.example.todomono.service.TodoListService;
@@ -53,7 +52,7 @@ class TodoControllerUnitTest {
     }
 
     @Test
-    void createATodo() throws TodoAlreadyExistException {
+    void createATodo() throws EntityAlreadyExistException {
         // Given
         TodoForm todoForm = new TodoForm("my todo");
         // When
@@ -85,7 +84,7 @@ class TodoControllerUnitTest {
     }
 
     @Test
-    void updateATodo() throws TodoAlreadyExistException, TodoNotFoundException {
+    void updateATodo() throws EntityAlreadyExistException {
         // Given
         long todoNum = 1;
         TodoForm todoForm = new TodoForm("my todo");
@@ -97,11 +96,11 @@ class TodoControllerUnitTest {
     }
 
     @Test
-    void deleteATodo() throws TodoNotFoundException {
+    void deleteATodo() {
         // Given
         long todoNum = 1;
         // When
-        String viewName = todoController.deleteATodo(TODO_LIST_NUM, todoNum, model);
+        String viewName = todoController.deleteATodo(TODO_LIST_NUM, todoNum);
         // Then
         verify(todoService).deleteOneForTodoList(todoList, todoNum);
         assertEquals("redirect:/todo-lists/{todoListNum}/todos", viewName);

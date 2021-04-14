@@ -4,7 +4,7 @@ import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.dao.TodoListDaoInterface;
 import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.TodoList;
-import com.example.todomono.exception.TodoListAlreadyExistException;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoListForm;
 import com.example.todomono.security.AuthenticationFacadeInterface;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +46,7 @@ class TodoListServiceTest {
     }
 
     @Test
-    void createOne() throws TodoListAlreadyExistException {
+    void createOne() throws EntityAlreadyExistException {
         // Given
         when(todoListDaoMock.findByCustomerAndTitle(customer, todoListTitle)).thenReturn(null);
         TodoListForm todoListForm = new TodoListForm(todoListTitle);
@@ -77,7 +77,7 @@ class TodoListServiceTest {
     }
 
     @Test
-    void updateOne() throws TodoListAlreadyExistException {
+    void updateOne() throws EntityAlreadyExistException {
         // Given
         long todoListNum = 1;
         TodoList todoList = new TodoList(todoListTitle);

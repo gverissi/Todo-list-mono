@@ -3,8 +3,7 @@ package com.example.todomono.service;
 import com.example.todomono.dao.TodoDaoInterface;
 import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
-import com.example.todomono.exception.TodoAlreadyExistException;
-import com.example.todomono.exception.TodoNotFoundException;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void createOne() throws TodoAlreadyExistException {
+    void createOne() throws EntityAlreadyExistException {
         // Given
         when(todoDaoMock.findByTodoListAndLabel(todoListMock, todoLabel)).thenReturn(null);
         TodoForm todoForm = new TodoForm(todoLabel);
@@ -72,7 +71,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void updateOneForTodoList() throws TodoAlreadyExistException, TodoNotFoundException {
+    void updateOneForTodoList() throws EntityAlreadyExistException {
         // Given
         long todoNum = 1;
         Todo todo = new Todo(todoLabel);
@@ -92,7 +91,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void deleteOneForTodoList() throws TodoNotFoundException {
+    void deleteOneForTodoList() {
         // Given
         Todo todo1 = new Todo("todo-1");
         todo1.setNum(1);

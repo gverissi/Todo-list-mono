@@ -2,7 +2,7 @@ package com.example.todomono.service;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
-import com.example.todomono.exception.CustomerAlreadyExistException;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.security.AuthenticationFacadeInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,8 +26,8 @@ public class CustomerService {
         this.authenticationFacade = authenticationFacade;
     }
 
-    public Customer createCustomer(String name, String password) {
-        if (nameExists(name)) throw new CustomerAlreadyExistException("There is already an account with name: " + name + ".");
+    public Customer createCustomer(String name, String password) throws EntityAlreadyExistException {
+        if (nameExists(name)) throw new EntityAlreadyExistException("There is already an account with name: " + name + ".");
         String encodedPassword = passwordEncoder.encode(password);
         return customerDao.save(new Customer(name, encodedPassword));
     }

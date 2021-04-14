@@ -1,6 +1,6 @@
 package com.example.todomono.controller;
 
-import com.example.todomono.exception.CustomerAlreadyExistException;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.CustomerForm;
 import com.example.todomono.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class CustomerController {
             } else {
                 return "sign-up";
             }
-        } catch (CustomerAlreadyExistException exception) {
+        } catch (EntityAlreadyExistException exception) {
             model.addAttribute("errorMessage", "There is already an account with name: " + customerForm.getName());
             return "sign-up";
         }

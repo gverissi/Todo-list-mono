@@ -2,8 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
-import com.example.todomono.exception.TodoAlreadyExistException;
-import com.example.todomono.exception.TodoNotFoundException;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoForm;
 import com.example.todomono.form.TodoListForm;
 import com.example.todomono.service.CustomerService;
@@ -47,7 +46,7 @@ public class TodoController {
                 todoService.createOne(todoList, todoForm);
                 todoForm.setLabel(INITIAL_LABEL);
             }
-        } catch (TodoAlreadyExistException exception) {
+        } catch (EntityAlreadyExistException exception) {
             model.addAttribute("errorMessage", exception.getMessage());
         }
         fillUpTheModel(todoListNum, model);
@@ -80,7 +79,7 @@ public class TodoController {
             try {
                 todoService.updateOneForTodoList(todoList, todoForm);
                 return "redirect:/todo-lists/{todoListNum}/todos";
-            } catch (TodoAlreadyExistException | TodoNotFoundException e) {
+            } catch (EntityAlreadyExistException e) {
                 model.addAttribute("errorMessage", e.getMessage());
             }
         }
@@ -93,17 +92,10 @@ public class TodoController {
     }
 
     @DeleteMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
-    public String deleteATodo(@PathVariable long todoListNum, @PathVariable long todoNum, Model model) {
+    public String deleteATodo(@PathVariable long todoListNum, @PathVariable long todoNum) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
-        try {
-            todoService.deleteOneForTodoList(todoList, todoNum);
-            return "redirect:/todo-lists/{todoListNum}/todos";
-        } catch (TodoNotFoundException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            model.addAttribute("todoListDto", todoList.convertToDto());
-            model.addAttribute("title", "Todo");
-            return "todo";
-        }
+        todoService.deleteOneForTodoList(todoList, todoNum);
+        return "redirect:/todo-lists/{todoListNum}/todos";
     }
 
     private void fillUpTheModel(long todoListNum, Model model) {

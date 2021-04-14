@@ -1,5 +1,6 @@
 package com.example.todomono.controller;
 
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.CustomerForm;
 import com.example.todomono.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,7 +57,7 @@ class CustomerControllerUnitTest {
     }
 
     @Test
-    void registerNewCustomer() {
+    void registerNewCustomer() throws EntityAlreadyExistException {
         // Given
         CustomerForm customerForm = new CustomerForm("toto", "1234", "1234");
         // When

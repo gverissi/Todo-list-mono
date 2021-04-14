@@ -2,7 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.TodoList;
-import com.example.todomono.exception.TodoListAlreadyExistException;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoListForm;
 import com.example.todomono.service.CustomerService;
 import com.example.todomono.service.TodoListService;
@@ -42,7 +42,7 @@ class TodoListControllerUnitTest {
     }
 
     @Test
-    void createATodoList() throws TodoListAlreadyExistException {
+    void createATodoList() throws EntityAlreadyExistException {
         // Given
         TodoListForm todoListForm = new TodoListForm("my todo-list");
         // When
@@ -74,7 +74,7 @@ class TodoListControllerUnitTest {
     }
 
     @Test
-    void updateATodoList() throws TodoListAlreadyExistException {
+    void updateATodoList() throws EntityAlreadyExistException {
         // Given
         long todoListNum = 1;
         TodoListForm todoListForm = new TodoListForm("my todo-list");

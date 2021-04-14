@@ -1,7 +1,7 @@
 package com.example.todomono.controller;
 
 import com.example.todomono.entity.TodoList;
-import com.example.todomono.exception.TodoListAlreadyExistException;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoListForm;
 import com.example.todomono.service.CustomerService;
 import com.example.todomono.service.TodoListService;
@@ -38,7 +38,7 @@ public class TodoListController {
                 todoListService.createOneForCustomer(customerService.getCustomer(), todoListForm);
                 todoListForm.setTitle(INITIAL_TITLE);
             }
-        } catch (TodoListAlreadyExistException exception) {
+        } catch (EntityAlreadyExistException exception) {
             model.addAttribute("errorMessage", exception.getMessage());
         }
         fillUpTheModel(model);
@@ -68,7 +68,7 @@ public class TodoListController {
             try {
                 todoListService.updateOneForCustomer(customerService.getCustomer(), todoListForm);
                 return "redirect:/todo-lists";
-            } catch (TodoListAlreadyExistException e) {
+            } catch (EntityAlreadyExistException e) {
                 model.addAttribute("errorMessage", e.getMessage());
             }
         }

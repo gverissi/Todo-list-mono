@@ -3,9 +3,8 @@ package com.example.todomono.service;
 import com.example.todomono.dao.TodoDaoInterface;
 import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
+import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.exception.EntityNotFoundException;
-import com.example.todomono.exception.TodoAlreadyExistException;
-import com.example.todomono.exception.TodoNotFoundException;
 import com.example.todomono.form.TodoForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +21,9 @@ public class TodoService {
         this.todoDao = todoDao;
     }
 
-    public Todo createOne(TodoList todoList, TodoForm todoForm) throws TodoAlreadyExistException {
+    public Todo createOne(TodoList todoList, TodoForm todoForm) throws EntityAlreadyExistException {
         String label = todoForm.getLabel();
-        if (todoExists(todoList, label)) throw new TodoAlreadyExistException("There is already a todo with label: " + label + ".");
+        if (todoExists(todoList, label)) throw new EntityAlreadyExistException("There is already a todo with label: " + label + ".");
         Todo todo = new Todo(label);
         todo.setTodoList(todoList);
         todo.setNum(todoDao.countByTodoList(todoList) + 1);
@@ -41,18 +40,18 @@ public class TodoService {
         return todo;
     }
 
-    public Todo updateOneForTodoList(TodoList todoList, TodoForm todoForm) throws TodoAlreadyExistException, TodoNotFoundException {
+    public Todo updateOneForTodoList(TodoList todoList, TodoForm todoForm) throws EntityAlreadyExistException {
         String label = todoForm.getLabel();
-        if (todoExists(todoList, label)) throw new TodoAlreadyExistException("There is already a todo with label: " + label + ".");
+        if (todoExists(todoList, label)) throw new EntityAlreadyExistException("There is already a todo with label: " + label + ".");
         Todo todo = todoDao.findByTodoListAndNum(todoList, todoForm.getNum());
-        if (todo == null) throw new TodoNotFoundException("There is no todo with num = " + todoForm.getNum());
+        if (todo == null) throw new EntityNotFoundException("There is no todo with num = " + todoForm.getNum());
         todo.setLabel(label);
         return todoDao.save(todo);
     }
 
-    public void deleteOneForTodoList(TodoList todoList, long todoNum) throws TodoNotFoundException {
+    public void deleteOneForTodoList(TodoList todoList, long todoNum) {
         Todo todo = todoDao.findByTodoListAndNum(todoList, todoNum);
-        if (todo == null) throw new TodoNotFoundException("There is no todo with num = " + todoNum);
+        if (todo == null) throw new EntityNotFoundException("There is no todo with num = " + todoNum);
         todoDao.delete(todo);
         computeTodoNum(todoList);
     }
