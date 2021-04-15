@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,19 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a id="home" class="nav-item nav-link navbar_item {{ homeActive }}" href="/home">Home</a>
+                <a id="home" class="nav-item nav-link navbar_item active" href="/home">Home</a>
+                <div sec:authorize="isAuthenticated()" class="dropdown show">
+                    <a class="nav-item nav-link navbar_item active dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span sec:authentication="name"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" th:href="@{/account}">Account</a>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="dropdown-item">Log-Out</button>
+                        </form>
+                    </div>
+                </div>
                 <!--                {% if "bridge" in roles %}-->
                 <!--                <a id="bank" class="nav-item nav-link navbar_item {{ bankActive }}" href="/banks">Mes Banques</a>-->
                 <!--                {% endif %}-->

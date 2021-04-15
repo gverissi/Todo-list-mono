@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:replace="fragments/head :: head"><title></title></head>
+
+<body id="body">
+
+<header th:replace="fragments/header :: header">header</header>
+
+
+<main id="main">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page" >Account</li>
+        </ol>
+    </nav>
+
+    <div th:replace="fragments/alert :: alert">alert</div>
+
+    <div th:if="${errorMessage}" class="d-flex justify-content-center alert-position">
+        <div class="text-center alert alert-danger" role="alert" th:text="${errorMessage}">
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="text-center my-5">Name: <span sec:authentication="name"></span></h2>
+        <a th:href="@{/update-name}" class="button">Change name</a>
+
+        <a th:href="@{/update-password}" class="button">Change password</a>
+    </div>
+
+</main>
+
+
+<footer th:replace="fragments/footer :: footer">footer</footer>
+
+<div th:replace="fragments/script :: script">script</div>
+
+</body>
+</html>

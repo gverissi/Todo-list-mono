@@ -20,7 +20,7 @@ public class Todo {
     private long num;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "todoList_id", nullable = false)
+    @JoinColumn(name = "todo_list_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private TodoList todoList;
 
