@@ -4,7 +4,7 @@ import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoForm;
-import com.example.todomono.service.CustomerService;
+import com.example.todomono.service.HomeService;
 import com.example.todomono.service.TodoListService;
 import com.example.todomono.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class TodoController {
     private static final String INITIAL_LABEL = "New todo";
 
     @Autowired
-    private final CustomerService customerService;
+    private final HomeService homeService;
 
     @Autowired
     private final TodoListService todoListService;
@@ -31,8 +31,8 @@ public class TodoController {
     @Autowired
     private final TodoService todoService;
 
-    public TodoController(CustomerService customerService, TodoListService todoListService, TodoService todoService) {
-        this.customerService = customerService;
+    public TodoController(HomeService homeService, TodoListService todoListService, TodoService todoService) {
+        this.homeService = homeService;
         this.todoListService = todoListService;
         this.todoService = todoService;
     }
@@ -41,7 +41,7 @@ public class TodoController {
     public String createATodo(@PathVariable long todoListNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
         try {
             if (!result.hasErrors()) {
-                TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
+                TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
                 todoService.createOne(todoList, todoForm);
                 todoForm.setLabel(INITIAL_LABEL);
             }
@@ -62,7 +62,7 @@ public class TodoController {
 
     @GetMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
     public String showOneTodoOfATodoList(@PathVariable long todoListNum, @PathVariable long todoNum, Model model) {
-        TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
+        TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         TodoForm todoForm = todoService.getOneByTodoListAndNum(todoList, todoNum).convertToDto();
         model.addAttribute("todoListDto", todoList.convertToDto());
         model.addAttribute("todoForm", todoForm);
@@ -72,7 +72,7 @@ public class TodoController {
 
     @PutMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
     public String updateATodo(@PathVariable long todoListNum, @PathVariable long todoNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
-        TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
+        TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         todoForm.setNum(todoNum);
         if (!result.hasErrors()) {
             try {
@@ -92,13 +92,13 @@ public class TodoController {
 
     @DeleteMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
     public String deleteATodo(@PathVariable long todoListNum, @PathVariable long todoNum) {
-        TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
+        TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         todoService.deleteOneForTodoList(todoList, todoNum);
         return "redirect:/todo-lists/{todoListNum}/todos";
     }
 
     private void fillUpTheModel(long todoListNum, Model model) {
-        TodoList todoList = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum);
+        TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         List<TodoForm> todoDtoCollection = todoService.findAllByTodoList(todoList).stream().map(Todo::convertToDto).collect(Collectors.toList());
         model.addAttribute("todoListDto", todoList.convertToDto());
         model.addAttribute("todoDtoCollection", todoDtoCollection);

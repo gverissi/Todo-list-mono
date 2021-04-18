@@ -2,7 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.TodoList;
-import com.example.todomono.service.CustomerService;
+import com.example.todomono.service.HomeService;
 import com.example.todomono.service.TodoListService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class TodoListControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CustomerService customerService;
+    private HomeService homeService;
 
     @MockBean
     private TodoListService todoListService;
@@ -40,7 +40,7 @@ class TodoListControllerIntegrationTest {
     @BeforeEach
     void init() {
         customer = mock(Customer.class);
-        when(customerService.getCustomer()).thenReturn(customer);
+        when(homeService.getCustomer()).thenReturn(customer);
     }
 
     @Test

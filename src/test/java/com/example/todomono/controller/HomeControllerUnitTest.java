@@ -2,7 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.CustomerForm;
-import com.example.todomono.service.CustomerService;
+import com.example.todomono.service.HomeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,11 +13,11 @@ import org.springframework.validation.BindingResult;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
-@WebMvcTest(controllers = CustomerController.class, useDefaultFilters = false)
-class CustomerControllerUnitTest {
+@WebMvcTest(controllers = HomeController.class, useDefaultFilters = false)
+class HomeControllerUnitTest {
 
     @MockBean
-    private CustomerService customerService;
+    private HomeService homeService;
 
     @MockBean
     private BindingResult result;
@@ -25,17 +25,17 @@ class CustomerControllerUnitTest {
     @MockBean
     private Model model;
 
-    private CustomerController customerController;
+    private HomeController homeController;
 
     @BeforeEach
     void init() {
-        customerController = new CustomerController(customerService);
+        homeController = new HomeController(homeService);
     }
 
     @Test
     void showHomePage() {
         // When
-        String viewName = customerController.showHomePage(model);
+        String viewName = homeController.showHomePage(model);
         // Then
         assertEquals("home", viewName);
     }
@@ -43,7 +43,7 @@ class CustomerControllerUnitTest {
     @Test
     void showLogInPage() {
         // When
-        String viewName = customerController.showLogInPage(model);
+        String viewName = homeController.showLogInPage(model);
         // Then
         assertEquals("log-in", viewName);
     }
@@ -51,7 +51,7 @@ class CustomerControllerUnitTest {
     @Test
     void showRegistrationForm() {
         // When
-        String viewName = customerController.showRegistrationForm(model);
+        String viewName = homeController.showRegistrationForm(model);
         // Then
         assertEquals("sign-up", viewName);
     }
@@ -61,9 +61,9 @@ class CustomerControllerUnitTest {
         // Given
         CustomerForm customerForm = new CustomerForm("toto", "1234", "1234");
         // When
-        String viewName = customerController.registerNewCustomer(customerForm, result, model);
+        String viewName = homeController.registerNewCustomer(customerForm, result, model);
         // Then
-        verify(customerService).createCustomer(customerForm.getName(), customerForm.getPassword());
+        verify(homeService).createCustomer(customerForm.getName(), customerForm.getPassword());
         assertEquals("redirect:log-in?registered", viewName);
     }
 

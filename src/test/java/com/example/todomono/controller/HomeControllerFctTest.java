@@ -20,7 +20,7 @@ import static org.springframework.web.util.UriUtils.encode;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class CustomerControllerFctTest {
+class HomeControllerFctTest {
 
     @Autowired
     private MockMvc mockMvc;

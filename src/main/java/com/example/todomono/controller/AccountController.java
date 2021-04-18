@@ -4,7 +4,7 @@ import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.exception.WrongPasswordException;
 import com.example.todomono.form.ChangeCustomerNameForm;
 import com.example.todomono.service.AccountService;
-import com.example.todomono.service.CustomerService;
+import com.example.todomono.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +17,12 @@ import javax.validation.Valid;
 @Controller
 public class AccountController {
 
-    private final CustomerService customerService;
+    private final HomeService homeService;
     private final AccountService accountService;
 
     @Autowired
-    public AccountController(CustomerService customerService, AccountService accountService) {
-        this.customerService = customerService;
+    public AccountController(HomeService homeService, AccountService accountService) {
+        this.homeService = homeService;
         this.accountService = accountService;
     }
 
@@ -44,7 +44,7 @@ public class AccountController {
         model.addAttribute("title", "Change Name");
         try {
             if (!result.hasErrors()) {
-                accountService.updateNameOfACustomer(customerService.getCustomer(), changeCustomerNameForm);
+                accountService.updateNameOfACustomer(homeService.getCustomer(), changeCustomerNameForm);
                 return "redirect:account";
             } else {
                 return "account/change-name";

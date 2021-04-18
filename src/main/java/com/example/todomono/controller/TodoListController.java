@@ -3,7 +3,7 @@ package com.example.todomono.controller;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoListForm;
-import com.example.todomono.service.CustomerService;
+import com.example.todomono.service.HomeService;
 import com.example.todomono.service.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,13 +21,13 @@ public class TodoListController {
     private static final String INITIAL_TITLE = "New todo-list";
 
     @Autowired
-    private final CustomerService customerService;
+    private final HomeService homeService;
 
     @Autowired
     private final TodoListService todoListService;
 
-    public TodoListController(CustomerService customerService, TodoListService todoListService) {
-        this.customerService = customerService;
+    public TodoListController(HomeService homeService, TodoListService todoListService) {
+        this.homeService = homeService;
         this.todoListService = todoListService;
     }
 
@@ -35,7 +35,7 @@ public class TodoListController {
     public String createATodoList(@Valid TodoListForm todoListForm, BindingResult result, Model model) {
         try {
             if (!result.hasErrors()) {
-                todoListService.createOneForCustomer(customerService.getCustomer(), todoListForm);
+                todoListService.createOneForCustomer(homeService.getCustomer(), todoListForm);
                 todoListForm.setTitle(INITIAL_TITLE);
             }
         } catch (EntityAlreadyExistException exception) {
@@ -55,7 +55,7 @@ public class TodoListController {
 
     @GetMapping("/todo-lists/{todoListNum}")
     public String showOneTodoListOfACustomer(@PathVariable long todoListNum, Model model) {
-        TodoListForm todoListForm = todoListService.getOneByCustomerAndNum(customerService.getCustomer(), todoListNum).convertToDto();
+        TodoListForm todoListForm = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum).convertToDto();
         model.addAttribute("todoListForm", todoListForm);
         model.addAttribute("title", "Todo-List");
         return "todo-list";
@@ -66,7 +66,7 @@ public class TodoListController {
         todoListForm.setNum(todoListNum);
         if (!result.hasErrors()) {
             try {
-                todoListService.updateOneForCustomer(customerService.getCustomer(), todoListForm);
+                todoListService.updateOneForCustomer(homeService.getCustomer(), todoListForm);
                 return "redirect:/todo-lists";
             } catch (EntityAlreadyExistException e) {
                 model.addAttribute("errorMessage", e.getMessage());
@@ -81,12 +81,12 @@ public class TodoListController {
 
     @DeleteMapping("/todo-lists/{todoListNum}")
     public String deleteATodoList(@PathVariable long todoListNum) {
-        todoListService.deleteOneForCustomer(customerService.getCustomer(), todoListNum);
+        todoListService.deleteOneForCustomer(homeService.getCustomer(), todoListNum);
         return "redirect:/todo-lists";
     }
 
     private void fillUpTheModel(Model model) {
-        List<TodoListForm> todoListDtoCollection = todoListService.findAllByCustomer(customerService.getCustomer()).stream().map(TodoList::convertToDto).collect(Collectors.toList());
+        List<TodoListForm> todoListDtoCollection = todoListService.findAllByCustomer(homeService.getCustomer()).stream().map(TodoList::convertToDto).collect(Collectors.toList());
         model.addAttribute("todoListDtoCollection", todoListDtoCollection);
         model.addAttribute("title", "Todo-Lists");
     }

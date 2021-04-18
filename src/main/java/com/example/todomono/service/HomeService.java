@@ -9,21 +9,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomerService {
+public class HomeService extends AbstractCustomerService {
 
     @Autowired
-    private final CustomerDaoInterface customerDao;
-
-    @Autowired
-    private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private final AuthenticationFacadeInterface authenticationFacade;
-
-    public CustomerService(CustomerDaoInterface customerDao, PasswordEncoder passwordEncoder, AuthenticationFacadeInterface authenticationFacade) {
-        this.customerDao = customerDao;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationFacade = authenticationFacade;
+    public HomeService(CustomerDaoInterface customerDao, PasswordEncoder passwordEncoder, AuthenticationFacadeInterface authenticationFacade) {
+        super(customerDao, passwordEncoder, authenticationFacade);
     }
 
     public Customer createCustomer(String name, String password) throws EntityAlreadyExistException {
@@ -35,10 +25,6 @@ public class CustomerService {
     public Customer getCustomer() {
         String customerName = authenticationFacade.getAuthentication().getName();
         return customerDao.findByName(customerName);
-    }
-
-    private boolean nameExists(String name) {
-        return customerDao.findByName(name) != null;
     }
 
 }

@@ -4,7 +4,7 @@ import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoListForm;
-import com.example.todomono.service.CustomerService;
+import com.example.todomono.service.HomeService;
 import com.example.todomono.service.TodoListService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 class TodoListControllerUnitTest {
 
     @MockBean
-    private CustomerService customerService;
+    private HomeService homeService;
 
     @MockBean
     private TodoListService todoListService;
@@ -36,9 +36,9 @@ class TodoListControllerUnitTest {
 
     @BeforeEach
     void init() {
-        todoListController = new TodoListController(customerService, todoListService);
+        todoListController = new TodoListController(homeService, todoListService);
         customer = mock(Customer.class);
-        when(customerService.getCustomer()).thenReturn(customer);
+        when(homeService.getCustomer()).thenReturn(customer);
     }
 
     @Test

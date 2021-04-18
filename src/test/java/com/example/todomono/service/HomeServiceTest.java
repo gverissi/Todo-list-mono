@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class CustomerServiceTest {
+class HomeServiceTest {
 
     @Test
     void createCustomer() throws EntityAlreadyExistException {
@@ -27,8 +27,8 @@ class CustomerServiceTest {
 
         AuthenticationFacadeInterface authenticationFacadeMock = mock(AuthenticationFacadeInterface.class);
 
-        CustomerService customerService = new CustomerService(customerDaoMock, passwordEncoderMock, authenticationFacadeMock);
-        Customer createdCustomer = customerService.createCustomer(name, password);
+        HomeService homeService = new HomeService(customerDaoMock, passwordEncoderMock, authenticationFacadeMock);
+        Customer createdCustomer = homeService.createCustomer(name, password);
 
         assertEquals(name, createdCustomer.getName());
         assertEquals(encodedPassword, createdCustomer.getEncodedPassword());

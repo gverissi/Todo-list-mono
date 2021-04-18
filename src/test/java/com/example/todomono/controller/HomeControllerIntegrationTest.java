@@ -1,7 +1,7 @@
 package com.example.todomono.controller;
 
 import com.example.todomono.entity.Customer;
-import com.example.todomono.service.CustomerService;
+import com.example.todomono.service.HomeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,13 +21,13 @@ import static org.springframework.web.util.UriUtils.encode;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class CustomerControllerIntegrationTest {
+class HomeControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private CustomerService customerService;
+    private HomeService homeService;
 
     @Test
     void showHomePage() throws Exception {
@@ -69,7 +69,7 @@ class CustomerControllerIntegrationTest {
 
         String customerName = "toto";
         String customerPassword = "123";
-        when(customerService.createCustomer(customerName, customerPassword)).thenReturn(mock(Customer.class));
+        when(homeService.createCustomer(customerName, customerPassword)).thenReturn(mock(Customer.class));
 
         mockMvc.perform(
                 post("/sign-up")
