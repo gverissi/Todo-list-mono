@@ -49,4 +49,8 @@ public class MyUserDetails implements UserDetails {
         return customer.isEnabled();
     }
 
+    public void setUsername(String userName) {
+        customer.setName(userName);
+    }
+
 }
