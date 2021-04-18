@@ -49,7 +49,7 @@ class CustomerControllerFctTest {
 
         Customer customer = customerDao.findByName(name);
         assertEquals(name, customer.getName());
-        assertTrue(passwordEncoder.matches(password, customer.getPassword()));
+        assertTrue(passwordEncoder.matches(password, customer.getEncodedPassword()));
     }
 
 }

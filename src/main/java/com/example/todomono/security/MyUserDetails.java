@@ -21,7 +21,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return customer.getPassword();
+        return customer.getEncodedPassword();
     }
 
     @Override

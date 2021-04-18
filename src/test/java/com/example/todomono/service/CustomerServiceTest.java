@@ -31,7 +31,7 @@ class CustomerServiceTest {
         Customer createdCustomer = customerService.createCustomer(name, password);
 
         assertEquals(name, createdCustomer.getName());
-        assertEquals(encodedPassword, createdCustomer.getPassword());
+        assertEquals(encodedPassword, createdCustomer.getEncodedPassword());
 
         verify(customerDaoMock).save(createdCustomer);
         verify(passwordEncoderMock).encode(password);

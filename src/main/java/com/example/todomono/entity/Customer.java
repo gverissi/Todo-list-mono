@@ -18,7 +18,7 @@ public class Customer {
     private String name;
 
     @NotNull
-    private String password;
+    private String encodedPassword;
 
     @NotNull
     private boolean enabled = true;
@@ -30,9 +30,9 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String name, String password) {
+    public Customer(String name, String encodedPassword) {
         this.name = name;
-        this.password = password;
+        this.encodedPassword = encodedPassword;
     }
 
     public int getId() {
@@ -51,12 +51,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEncodedPassword() {
+        return encodedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEncodedPassword(String password) {
+        this.encodedPassword = password;
     }
 
     public boolean isEnabled() {
@@ -81,12 +81,12 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return (id == customer.id) && (name.equals(customer.name)) && (password.equals(customer.password)) && Objects.equals(roleSet, customer.roleSet);
+        return (id == customer.id) && (name.equals(customer.name)) && (encodedPassword.equals(customer.encodedPassword)) && Objects.equals(roleSet, customer.roleSet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password);
+        return Objects.hash(id, name, encodedPassword);
     }
 
 }

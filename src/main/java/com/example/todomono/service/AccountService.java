@@ -21,7 +21,7 @@ public class AccountService extends AbstractCustomerService {
     }
 
     public void updateNameOfACustomer(Customer customer, ChangeCustomerNameForm changeCustomerNameForm) throws WrongPasswordException, EntityAlreadyExistException {
-        if (!passwordEncoder.matches(changeCustomerNameForm.getPassword(), customer.getPassword())) throw new WrongPasswordException("Wrong password.");
+        if (!passwordEncoder.matches(changeCustomerNameForm.getPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
         if (nameExists(changeCustomerNameForm.getName())) throw new EntityAlreadyExistException("There is already an account with name: " + changeCustomerNameForm.getName() + ".");
         customer.setName(changeCustomerNameForm.getName());
         Authentication authentication = authenticationFacade.getAuthentication();
