@@ -3,6 +3,7 @@ package com.example.todomono.controller;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.exception.WrongPasswordException;
 import com.example.todomono.form.ChangeCustomerNameForm;
+import com.example.todomono.form.ChangeCustomerPasswordForm;
 import com.example.todomono.service.AccountService;
 import com.example.todomono.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,29 @@ public class AccountController {
         } catch (EntityAlreadyExistException | WrongPasswordException exception) {
             model.addAttribute("errorMessage", exception.getMessage());
             return "account/change-name";
+        }
+    }
+
+    @GetMapping("/change-password")
+    public String showChangePasswordForm(Model model) {
+        model.addAttribute("changeCustomerPasswordForm", new ChangeCustomerPasswordForm());
+        model.addAttribute("title", "Change Password");
+        return "account/change-password";
+    }
+
+    @PostMapping("/change-password")
+    public String updatePassword(@Valid ChangeCustomerPasswordForm changeCustomerPasswordForm, BindingResult result, Model model) {
+        model.addAttribute("title", "Change Password");
+        try {
+            if (!result.hasErrors()) {
+                accountService.updatePasswordOfACustomer(homeService.getCustomer(), changeCustomerPasswordForm);
+                return "redirect:account";
+            } else {
+                return "account/change-password";
+            }
+        } catch (WrongPasswordException exception) {
+            model.addAttribute("errorMessage", exception.getMessage());
+            return "account/change-password";
         }
     }
 

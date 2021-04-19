@@ -5,6 +5,7 @@ import com.example.todomono.entity.Customer;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.exception.WrongPasswordException;
 import com.example.todomono.form.ChangeCustomerNameForm;
+import com.example.todomono.form.ChangeCustomerPasswordForm;
 import com.example.todomono.security.AuthenticationFacadeInterface;
 import com.example.todomono.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,16 @@ public class AccountService extends AbstractCustomerService {
         Authentication authentication = authenticationFacade.getAuthentication();
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
         userDetails.setUsername(customer.getName());
+        customerDao.save(customer);
+    }
+
+    public void updatePasswordOfACustomer(Customer customer, ChangeCustomerPasswordForm changeCustomerPasswordForm) throws WrongPasswordException {
+        if (!passwordEncoder.matches(changeCustomerPasswordForm.getOldPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
+        String encodedPassword = passwordEncoder.encode(changeCustomerPasswordForm.getPassword());
+        customer.setEncodedPassword(encodedPassword);
+        Authentication authentication = authenticationFacade.getAuthentication();
+        MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
+        userDetails.setPassword(customer.getEncodedPassword());
         customerDao.save(customer);
     }
 

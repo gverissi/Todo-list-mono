@@ -1,5 +1,6 @@
 package com.example.todomono.validation;
 
+import com.example.todomono.form.ChangeCustomerPasswordForm;
 import com.example.todomono.form.CustomerForm;
 
 import javax.validation.ConstraintValidator;
@@ -13,8 +14,14 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
     @Override
     public boolean isValid(Object o, ConstraintValidatorContext context) {
-        CustomerForm customerForm = (CustomerForm) o;
-        boolean validity = customerForm.getPassword().equals(customerForm.getMatchingPassword());
+        boolean validity = false;
+        if (o instanceof CustomerForm) {
+            CustomerForm customerForm = (CustomerForm) o;
+            validity = customerForm.getPassword().equals(customerForm.getMatchingPassword());
+        } else if (o instanceof ChangeCustomerPasswordForm) {
+            ChangeCustomerPasswordForm changeCustomerPasswordForm = (ChangeCustomerPasswordForm) o;
+            validity = changeCustomerPasswordForm.getPassword().equals(changeCustomerPasswordForm.getMatchingPassword());
+        }
         if(!validity){
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())

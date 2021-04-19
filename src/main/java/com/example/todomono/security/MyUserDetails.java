@@ -53,4 +53,8 @@ public class MyUserDetails implements UserDetails {
         customer.setName(userName);
     }
 
+    public void setPassword(String password) {
+        customer.setEncodedPassword(password);
+    }
+
 }
