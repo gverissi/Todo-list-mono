@@ -1,7 +1,7 @@
 package com.example.todomono.controller;
 
 import com.example.todomono.entity.Customer;
-import com.example.todomono.service.HomeService;
+import com.example.todomono.service.customer.HomeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

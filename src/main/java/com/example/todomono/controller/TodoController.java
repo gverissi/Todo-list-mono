@@ -4,7 +4,7 @@ import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoForm;
-import com.example.todomono.service.HomeService;
+import com.example.todomono.service.customer.HomeService;
 import com.example.todomono.service.TodoListService;
 import com.example.todomono.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;

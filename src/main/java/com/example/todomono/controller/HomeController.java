@@ -2,7 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.CustomerForm;
-import com.example.todomono.service.HomeService;
+import com.example.todomono.service.customer.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-<head th:replace="fragments/head :: head"/>
+<head th:replace="fragments/head :: head"><title></title></head>
 
 <body id="body">
 
-<header th:replace="fragments/header :: header"/>
+<header th:replace="fragments/header :: header">header</header>
 
 
 <main id="main">
@@ -16,7 +16,7 @@
         </ol>
     </nav>
 
-    <header th:replace="fragments/alert :: alert"/>
+    <div th:replace="fragments/alert :: alert">alert</div>
 
     <div th:if="${param.login}" class="d-flex justify-content-center alert-position">
         <div class="text-center alert alert-success" role="alert">
@@ -27,6 +27,12 @@
     <div th:if="${param.logout}" class="d-flex justify-content-center alert-position">
         <div class="text-center alert alert-success" role="alert">
             You have been successfully logged out.
+        </div>
+    </div>
+
+    <div th:if="${param.delete}" class="d-flex justify-content-center alert-position">
+        <div class="text-center alert alert-success" role="alert">
+            Your account have been successfully deleted.
         </div>
     </div>
 
@@ -53,9 +59,9 @@
 </main>
 
 
-<footer th:replace="fragments/footer :: footer"/>
+<footer th:replace="fragments/footer :: footer">footer</footer>
 
-<div th:replace="fragments/script :: script"/>
+<div th:replace="fragments/script :: script">script</div>
 
 </body>
 </html>

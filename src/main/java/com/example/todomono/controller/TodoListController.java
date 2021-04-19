@@ -3,7 +3,7 @@ package com.example.todomono.controller;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoListForm;
-import com.example.todomono.service.HomeService;
+import com.example.todomono.service.customer.HomeService;
 import com.example.todomono.service.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

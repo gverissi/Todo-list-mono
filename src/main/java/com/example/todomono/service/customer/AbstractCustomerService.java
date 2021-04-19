@@ -1,19 +1,11 @@
-package com.example.todomono.service;
+package com.example.todomono.service.customer;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
-import com.example.todomono.exception.EntityAlreadyExistException;
-import com.example.todomono.exception.WrongPasswordException;
-import com.example.todomono.form.ChangeCustomerNameForm;
 import com.example.todomono.security.AuthenticationFacadeInterface;
-import com.example.todomono.security.MyUserDetails;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service
-public class AbstractCustomerService {
+public abstract class AbstractCustomerService {
 
     protected final CustomerDaoInterface customerDao;
 
@@ -25,6 +17,11 @@ public class AbstractCustomerService {
         this.customerDao = customerDao;
         this.passwordEncoder = passwordEncoder;
         this.authenticationFacade = authenticationFacade;
+    }
+
+    public Customer getCustomer() {
+        String customerName = authenticationFacade.getAuthentication().getName();
+        return customerDao.findByName(customerName);
     }
 
     protected boolean nameExists(String name) {

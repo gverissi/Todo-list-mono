@@ -1,4 +1,4 @@
-package com.example.todomono.service;
+package com.example.todomono.service.customer;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
@@ -20,11 +20,6 @@ public class HomeService extends AbstractCustomerService {
         if (nameExists(name)) throw new EntityAlreadyExistException("There is already an account with name: " + name + ".");
         String encodedPassword = passwordEncoder.encode(password);
         return customerDao.save(new Customer(name, encodedPassword));
-    }
-
-    public Customer getCustomer() {
-        String customerName = authenticationFacade.getAuthentication().getName();
-        return customerDao.findByName(customerName);
     }
 
 }

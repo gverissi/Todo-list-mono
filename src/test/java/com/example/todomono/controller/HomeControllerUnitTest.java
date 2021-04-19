@@ -2,7 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.CustomerForm;
-import com.example.todomono.service.HomeService;
+import com.example.todomono.service.customer.HomeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

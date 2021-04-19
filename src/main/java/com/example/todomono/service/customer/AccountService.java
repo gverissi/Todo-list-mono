@@ -1,4 +1,4 @@
-package com.example.todomono.service;
+package com.example.todomono.service.customer;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;

@@ -2,7 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.TodoList;
-import com.example.todomono.service.HomeService;
+import com.example.todomono.service.customer.HomeService;
 import com.example.todomono.service.TodoListService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

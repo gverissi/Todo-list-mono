@@ -4,6 +4,7 @@ import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CustomerDaoMemory implements CustomerDaoInterface {
@@ -21,6 +22,16 @@ public class CustomerDaoMemory implements CustomerDaoInterface {
         Customer customer = customerMap.get(name);
         if (customer == null) throw new RuntimeException(name);
         return customer;
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return null;
+    }
+
+    @Override
+    public void deleteById(int customerId) {
+
     }
 
 }
