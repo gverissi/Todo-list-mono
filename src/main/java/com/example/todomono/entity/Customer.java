@@ -76,6 +76,11 @@ public class Customer {
         role.getCustomerSet().add(this);
     }
 
+    public void clearRoles() {
+        roleSet.forEach(role -> role.getCustomerSet().remove(this));
+        roleSet.clear();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

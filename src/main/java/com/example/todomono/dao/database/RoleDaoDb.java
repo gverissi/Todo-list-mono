@@ -6,14 +6,14 @@ import com.example.todomono.repository.RoleRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Set;
+import java.util.List;
 
 @Repository
 public class RoleDaoDb implements RoleDaoInterface {
 
-    @Autowired
     private final RoleRepositoryInterface roleRepository;
 
+    @Autowired
     public RoleDaoDb(RoleRepositoryInterface roleRepository) {
         this.roleRepository = roleRepository;
     }
@@ -25,12 +25,12 @@ public class RoleDaoDb implements RoleDaoInterface {
 
     @Override
     public Role findById(int id) {
-        return null;
+        return roleRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Set<Role> findAll() {
-        return null;
+    public List<Role> findAll() {
+        return roleRepository.findAll();
     }
 
 }

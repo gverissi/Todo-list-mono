@@ -1,5 +1,6 @@
 package com.example.todomono.entity;
 
+import com.example.todomono.form.RoleUpdateForm;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Role implements GrantedAuthority {
     @Column(unique = true)
     private String roleName;
 
-    @ManyToMany(mappedBy = "roleSet")
+    @ManyToMany(mappedBy = "roleSet", fetch = FetchType.LAZY)
     private final Set<Customer> customerSet = new HashSet<>();
 
     public Role() {
@@ -67,4 +68,13 @@ public class Role implements GrantedAuthority {
         return Objects.hash(id, roleName);
     }
 
+    @Override
+    public String toString() {
+        return roleName;
+    }
+
+    public RoleUpdateForm convertToRoleUpdateForm() {
+        return new RoleUpdateForm(id, roleName);
+    }
+    
 }

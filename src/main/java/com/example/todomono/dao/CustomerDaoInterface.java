@@ -14,4 +14,6 @@ public interface CustomerDaoInterface {
 
     void deleteById(int customerId);
 
+    Customer getOne(int customerId);
+
 }

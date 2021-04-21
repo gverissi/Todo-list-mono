@@ -33,8 +33,8 @@ public class RoleDaoMemory implements RoleDaoInterface {
     }
 
     @Override
-    public Set<Role> findAll() {
-        return new HashSet<>(entityMap.values());
+    public List<Role> findAll() {
+        return new ArrayList<>(entityMap.values());
     }
 
     private int getNewId() {

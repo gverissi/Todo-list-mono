@@ -4,7 +4,7 @@ import com.example.todomono.dao.RoleDaoInterface;
 import com.example.todomono.entity.Role;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -61,7 +61,7 @@ class RoleDaoMemoryTest {
     }
 
     private int getLastId() {
-        Set<Role> roleSet = roleDao.findAll();
+        List<Role> roleSet = roleDao.findAll();
         int lastId = 0;
         for (Role role : roleSet) {
             lastId = Math.max(lastId, role.getId());

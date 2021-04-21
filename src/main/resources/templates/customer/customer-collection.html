@@ -34,6 +34,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Enabled</th>
+                <th>Roles</th>
                 <th class="th-btn"></th>
                 <th class="th-btn"></th>
             </tr>
@@ -45,6 +46,7 @@
                 <td class="align-middle" th:text="${customer.id}"></td>
                 <td class="align-middle" th:text="${customer.name}"></td>
                 <td class="align-middle" th:text="${customer.enabled}"></td>
+                <td class="align-middle" th:text="${customer.roleSet}"></td>
                 <td class="align-middle">
                     <a th:href="@{/customers/{customerId}(customerId=${customer.id})}" class="button">Read</a>
                 </td>

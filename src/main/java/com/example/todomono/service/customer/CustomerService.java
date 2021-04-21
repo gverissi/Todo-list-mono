@@ -2,6 +2,8 @@ package com.example.todomono.service.customer;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
+import com.example.todomono.entity.Role;
+import com.example.todomono.form.CustomerUpdateForm;
 import com.example.todomono.security.AuthenticationFacadeInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +25,11 @@ public class CustomerService extends AbstractCustomerService {
         return customerDao.findAll();
     }
 
-    public boolean deleteACustomer(int customerId, HttpSession session) {
+    public Customer getOneById(int customerId) {
+        return customerDao.getOne(customerId);
+    }
+
+    public boolean deleteOneCustomer(int customerId, HttpSession session) {
         Customer loggedCustomer = getCustomer();
         if (loggedCustomer.getId() == customerId) {
             session.invalidate();
@@ -34,6 +40,14 @@ public class CustomerService extends AbstractCustomerService {
             customerDao.deleteById(customerId);
             return false;
         }
+    }
+
+    public void updateOneCustomer(CustomerUpdateForm customerUpdateForm, List<Role> newRoles) {
+        Customer customer = customerDao.getOne(customerUpdateForm.getId());
+        customer.clearRoles();
+        newRoles.forEach(customer::addRole);
+        customer.setEnabled(customerUpdateForm.isEnabled());
+        customerDao.save(customer);
     }
 
 }

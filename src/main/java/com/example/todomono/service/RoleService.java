@@ -3,12 +3,16 @@ package com.example.todomono.service;
 import com.example.todomono.dao.RoleDaoInterface;
 import com.example.todomono.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class RoleService {
 
-    @Autowired
     private final RoleDaoInterface roleDao;
 
+    @Autowired
     public RoleService(RoleDaoInterface roleDao) {
         this.roleDao = roleDao;
     }
@@ -16,6 +20,14 @@ public class RoleService {
     public Role createRole(String roleName) {
         Role role = new Role(roleName);
         return roleDao.save(role);
+    }
+
+    public List<Role> findAll() {
+        return roleDao.findAll();
+    }
+
+    public Role findById(int id) {
+        return roleDao.findById(id);
     }
 
 }

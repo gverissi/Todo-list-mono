@@ -38,4 +38,9 @@ public class CustomerDaoDb implements CustomerDaoInterface {
         customerRepository.deleteById(customerId);
     }
 
+    @Override
+    public Customer getOne(int customerId) {
+        return customerRepository.getOne(customerId);
+    }
+
 }

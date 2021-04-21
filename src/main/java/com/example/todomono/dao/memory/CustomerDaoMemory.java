@@ -34,4 +34,9 @@ public class CustomerDaoMemory implements CustomerDaoInterface {
 
     }
 
+    @Override
+    public Customer getOne(int customerId) {
+        return null;
+    }
+
 }

@@ -2,7 +2,7 @@ package com.example.todomono.dao;
 
 import com.example.todomono.entity.Role;
 
-import java.util.Set;
+import java.util.List;
 
 public interface RoleDaoInterface {
 
@@ -10,6 +10,6 @@ public interface RoleDaoInterface {
 
     Role findById(int id);
 
-    Set<Role> findAll();
+    List<Role> findAll();
 
 }
