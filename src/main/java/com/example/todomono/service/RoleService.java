@@ -30,4 +30,7 @@ public class RoleService {
         return roleDao.findById(id);
     }
 
+    public Role findByRoleName(String roleName) {
+        return roleDao.findByRoleName(roleName);
+    }
 }

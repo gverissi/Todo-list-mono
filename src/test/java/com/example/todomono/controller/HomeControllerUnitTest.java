@@ -1,7 +1,9 @@
 package com.example.todomono.controller;
 
+import com.example.todomono.entity.Role;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.CustomerForm;
+import com.example.todomono.service.RoleService;
 import com.example.todomono.service.customer.HomeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,13 +13,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @WebMvcTest(controllers = HomeController.class, useDefaultFilters = false)
 class HomeControllerUnitTest {
 
     @MockBean
     private HomeService homeService;
+
+    @MockBean
+    private RoleService roleService;
 
     @MockBean
     private BindingResult result;
@@ -29,7 +34,7 @@ class HomeControllerUnitTest {
 
     @BeforeEach
     void init() {
-        homeController = new HomeController(homeService);
+        homeController = new HomeController(homeService, roleService);
     }
 
     @Test
@@ -60,10 +65,12 @@ class HomeControllerUnitTest {
     void registerNewCustomer() throws EntityAlreadyExistException {
         // Given
         CustomerForm customerForm = new CustomerForm("toto", "1234", "1234");
+        Role roleMock = mock(Role.class);
+        when(roleService.findByRoleName("USER")).thenReturn(roleMock);
         // When
         String viewName = homeController.registerNewCustomer(customerForm, result, model);
         // Then
-        verify(homeService).createCustomer(customerForm.getName(), customerForm.getPassword());
+        verify(homeService).createCustomer(customerForm, roleMock);
         assertEquals("redirect:log-in?registered", viewName);
     }
 

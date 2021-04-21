@@ -2,7 +2,9 @@ package com.example.todomono.service;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
+import com.example.todomono.entity.Role;
 import com.example.todomono.exception.EntityAlreadyExistException;
+import com.example.todomono.form.CustomerForm;
 import com.example.todomono.security.AuthenticationFacadeInterface;
 import com.example.todomono.service.customer.HomeService;
 import org.junit.jupiter.api.Test;
@@ -18,7 +20,9 @@ class HomeServiceTest {
         String name = "toto";
         String password = "1234";
         String encodedPassword = "AbCd";
+        CustomerForm customerForm = new CustomerForm(name, password, password);
 
+        Role roleMock = mock(Role.class);
         CustomerDaoInterface customerDaoMock = mock(CustomerDaoInterface.class);
         when(customerDaoMock.findByName(name)).thenReturn(null);
         when(customerDaoMock.save(any(Customer.class))).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
@@ -29,10 +33,12 @@ class HomeServiceTest {
         AuthenticationFacadeInterface authenticationFacadeMock = mock(AuthenticationFacadeInterface.class);
 
         HomeService homeService = new HomeService(customerDaoMock, passwordEncoderMock, authenticationFacadeMock);
-        Customer createdCustomer = homeService.createCustomer(name, password);
+        Customer createdCustomer = homeService.createCustomer(customerForm, roleMock);
 
         assertEquals(name, createdCustomer.getName());
         assertEquals(encodedPassword, createdCustomer.getEncodedPassword());
+        assertEquals(1, createdCustomer.getRoleSet().size());
+        assertTrue(createdCustomer.getRoleSet().contains(roleMock));
 
         verify(customerDaoMock).save(createdCustomer);
         verify(passwordEncoderMock).encode(password);

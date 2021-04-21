@@ -1,6 +1,8 @@
 package com.example.todomono.controller;
 
 import com.example.todomono.entity.Customer;
+import com.example.todomono.entity.Role;
+import com.example.todomono.form.CustomerForm;
 import com.example.todomono.service.customer.HomeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,9 +69,12 @@ class HomeControllerIntegrationTest {
 //                        .with(csrf()))
 //                .andExpect(status().isFound());
 
+        Role roleMock = mock(Role.class);
+
         String customerName = "toto";
         String customerPassword = "123";
-        when(homeService.createCustomer(customerName, customerPassword)).thenReturn(mock(Customer.class));
+        CustomerForm customerForm = new CustomerForm(customerName, customerPassword, customerPassword);
+        when(homeService.createCustomer(customerForm, roleMock)).thenReturn(mock(Customer.class));
 
         mockMvc.perform(
                 post("/sign-up")

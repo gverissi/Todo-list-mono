@@ -33,4 +33,9 @@ public class RoleDaoDb implements RoleDaoInterface {
         return roleRepository.findAll();
     }
 
+    @Override
+    public Role findByRoleName(String roleName) {
+        return roleRepository.findByRoleName(roleName);
+    }
+
 }

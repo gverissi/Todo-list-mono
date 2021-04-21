@@ -37,6 +37,11 @@ public class RoleDaoMemory implements RoleDaoInterface {
         return new ArrayList<>(entityMap.values());
     }
 
+    @Override
+    public Role findByRoleName(String roleName) {
+        return null;
+    }
+
     private int getNewId() {
         return ++LAST_ID;
     }

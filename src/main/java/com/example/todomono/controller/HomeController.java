@@ -2,6 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.CustomerForm;
+import com.example.todomono.service.RoleService;
 import com.example.todomono.service.customer.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +17,13 @@ import javax.validation.Valid;
 @Controller
 public class HomeController {
 
-    @Autowired
     private final HomeService homeService;
+    private final RoleService roleService;
 
-    public HomeController(HomeService homeService) {
+    @Autowired
+    public HomeController(HomeService homeService, RoleService roleService) {
         this.homeService = homeService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/home")
@@ -47,7 +50,7 @@ public class HomeController {
         model.addAttribute("title", "Sign-Up");
         try {
             if (!result.hasErrors()) {
-                homeService.createCustomer(customerForm.getName(), customerForm.getPassword());
+                homeService.createCustomer(customerForm, roleService.findByRoleName("USER"));
                 return "redirect:log-in?registered";
             } else {
                 return "sign-up";
