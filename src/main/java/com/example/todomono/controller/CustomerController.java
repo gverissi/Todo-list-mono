@@ -60,7 +60,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/customers/{customerId}")
-    public String deleteACustomer(@PathVariable int customerId, HttpServletRequest request) {
+    public String deleteOneCustomer(@PathVariable int customerId, HttpServletRequest request) {
         boolean isDeletedCustomerLoggedIn = customerService.deleteOneCustomer(customerId, request.getSession());
         if (isDeletedCustomerLoggedIn) return "redirect:/home?delete";
         return "redirect:/customers";

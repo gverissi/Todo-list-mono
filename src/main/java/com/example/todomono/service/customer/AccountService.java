@@ -6,12 +6,16 @@ import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.exception.WrongPasswordException;
 import com.example.todomono.form.ChangeCustomerNameForm;
 import com.example.todomono.form.ChangeCustomerPasswordForm;
+import com.example.todomono.form.CustomerDeleteAccountForm;
 import com.example.todomono.security.AuthenticationFacadeInterface;
 import com.example.todomono.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class AccountService extends AbstractCustomerService {
@@ -39,6 +43,13 @@ public class AccountService extends AbstractCustomerService {
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
         userDetails.setPassword(customer.getEncodedPassword());
         customerDao.save(customer);
+    }
+
+    public void deleteAccount(Customer customer, CustomerDeleteAccountForm customerDeleteAccountForm, HttpSession session) throws WrongPasswordException {
+        if (!passwordEncoder.matches(customerDeleteAccountForm.getPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
+        session.invalidate();
+        SecurityContextHolder.clearContext();
+        customerDao.deleteById(customer.getId());
     }
 
 }

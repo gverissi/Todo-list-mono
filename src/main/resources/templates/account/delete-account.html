@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head"><title></title></head>
+
+<body id="body">
+
+<header th:replace="fragments/header :: header">header</header>
+
+
+<main id="main">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/account}">Account</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Change-name</li>
+        </ol>
+    </nav>
+
+    <div th:replace="fragments/alert :: alert">alert</div>
+
+    <div th:if="${errorMessage}" class="d-flex justify-content-center alert-position">
+        <div class="text-center alert alert-danger" role="alert" th:text="${errorMessage}">
+        </div>
+    </div>
+
+    <div class="container">
+        <form th:action="@{/delete-account}" th:object="${customerDeleteAccountForm}" th:method="DELETE">
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control" th:type="password" th:field="*{password}" id="password"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">error</small>
+            </div>
+            <button type="submit" class="button">Delete account</button>
+        </form>
+    </div>
+
+</main>
+
+
+<footer th:replace="fragments/footer :: footer">footer</footer>
+
+<div th:replace="fragments/script :: script">script</div>
+
+</body>
+</html>
