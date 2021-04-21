@@ -14,10 +14,10 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
-public class CustomerService extends AbstractCustomerService {
+public class AdminService extends AbstractCustomerService {
 
     @Autowired
-    public CustomerService(CustomerDaoInterface customerDao, PasswordEncoder passwordEncoder, AuthenticationFacadeInterface authenticationFacade) {
+    public AdminService(CustomerDaoInterface customerDao, PasswordEncoder passwordEncoder, AuthenticationFacadeInterface authenticationFacade) {
         super(customerDao, passwordEncoder, authenticationFacade);
     }
 

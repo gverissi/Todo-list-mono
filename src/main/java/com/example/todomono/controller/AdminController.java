@@ -5,7 +5,7 @@ import com.example.todomono.entity.Role;
 import com.example.todomono.form.CustomerUpdateForm;
 import com.example.todomono.form.RoleUpdateForm;
 import com.example.todomono.service.RoleService;
-import com.example.todomono.service.customer.CustomerService;
+import com.example.todomono.service.customer.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,26 +17,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class CustomerController {
+public class AdminController {
 
-    private final CustomerService customerService;
+    private final AdminService adminService;
     private final RoleService roleService;
 
     @Autowired
-    public CustomerController(CustomerService customerService, RoleService roleService) {
-        this.customerService = customerService;
+    public AdminController(AdminService adminService, RoleService roleService) {
+        this.adminService = adminService;
         this.roleService = roleService;
     }
 
     @GetMapping("/customers")
     public String showAllCustomers(Model model) {
         fillUpTheModel(model);
-        return "customer/customer-collection";
+        return "admin/customer-collection";
     }
 
     @GetMapping("/customers/{customerId}")
     public String showOneCustomer(@PathVariable int customerId, Model model) {
-        Customer customer = customerService.getOneById(customerId);
+        Customer customer = adminService.getOneById(customerId);
         CustomerUpdateForm customerUpdateForm = new CustomerUpdateForm(customer.getId(), customer.getName(), customer.isEnabled());
         List<Role> roles = roleService.findAll();
         List<String> customerRoleNames = customer.getRoleSet().stream().map(Role::getRoleName).collect(Collectors.toList());
@@ -48,26 +48,26 @@ public class CustomerController {
         });
         model.addAttribute("customerUpdateForm", customerUpdateForm);
         model.addAttribute("title", "Customer");
-        return "customer/customer";
+        return "admin/customer";
     }
 
     @PutMapping("/customers/{customerId}")
     public String updateOneCustomer(@PathVariable int customerId, @Valid CustomerUpdateForm customerUpdateForm) {
         customerUpdateForm.setId(customerId);
         List<Role> newRoles = customerUpdateForm.getRoles().stream().filter(RoleUpdateForm::isEnabled).map(roleUpdateForm -> roleService.findById(roleUpdateForm.getId())).collect(Collectors.toList());
-        customerService.updateOneCustomer(customerUpdateForm, newRoles);
+        adminService.updateOneCustomer(customerUpdateForm, newRoles);
         return "redirect:/customers";
     }
 
     @DeleteMapping("/customers/{customerId}")
     public String deleteOneCustomer(@PathVariable int customerId, HttpServletRequest request) {
-        boolean isDeletedCustomerLoggedIn = customerService.deleteOneCustomer(customerId, request.getSession());
+        boolean isDeletedCustomerLoggedIn = adminService.deleteOneCustomer(customerId, request.getSession());
         if (isDeletedCustomerLoggedIn) return "redirect:/home?delete";
         return "redirect:/customers";
     }
 
     private void fillUpTheModel(Model model) {
-        List<Customer> customerCollection = customerService.findAll();
+        List<Customer> customerCollection = adminService.findAll();
         model.addAttribute("customerCollection", customerCollection);
         model.addAttribute("title", "Customers");
     }
