@@ -3,7 +3,7 @@ package com.example.todomono.form;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class ChangeCustomerNameForm {
+public class CustomerChangeNameForm {
 
     @NotNull
     @NotEmpty(message = "Field required")
@@ -13,7 +13,7 @@ public class ChangeCustomerNameForm {
     @NotEmpty(message = "Field required")
     private String password;
 
-    public ChangeCustomerNameForm() {
+    public CustomerChangeNameForm() {
     }
 
     public String getName() {

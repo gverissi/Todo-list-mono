@@ -2,8 +2,8 @@ package com.example.todomono.controller;
 
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.exception.WrongPasswordException;
-import com.example.todomono.form.ChangeCustomerNameForm;
-import com.example.todomono.form.ChangeCustomerPasswordForm;
+import com.example.todomono.form.CustomerChangeNameForm;
+import com.example.todomono.form.CustomerChangePasswordForm;
 import com.example.todomono.form.CustomerDeleteAccountForm;
 import com.example.todomono.service.customer.AccountService;
 import com.example.todomono.service.customer.HomeService;
@@ -38,17 +38,17 @@ public class AccountController {
 
     @GetMapping("/change-name")
     public String showChangeNameForm(Model model) {
-        model.addAttribute("changeCustomerNameForm", new ChangeCustomerNameForm());
+        model.addAttribute("customerChangeNameForm", new CustomerChangeNameForm());
         model.addAttribute("title", "Change Name");
         return "account/change-name";
     }
 
     @PostMapping("/change-name")
-    public String updateName(@Valid ChangeCustomerNameForm changeCustomerNameForm, BindingResult result, Model model) {
+    public String updateName(@Valid CustomerChangeNameForm customerChangeNameForm, BindingResult result, Model model) {
         model.addAttribute("title", "Change Name");
         try {
             if (!result.hasErrors()) {
-                accountService.updateNameOfACustomer(homeService.getCustomer(), changeCustomerNameForm);
+                accountService.updateNameOfACustomer(homeService.getCustomer(), customerChangeNameForm);
                 return "redirect:account";
             } else {
                 return "account/change-name";
@@ -61,17 +61,17 @@ public class AccountController {
 
     @GetMapping("/change-password")
     public String showChangePasswordForm(Model model) {
-        model.addAttribute("changeCustomerPasswordForm", new ChangeCustomerPasswordForm());
+        model.addAttribute("customerChangePasswordForm", new CustomerChangePasswordForm());
         model.addAttribute("title", "Change Password");
         return "account/change-password";
     }
 
     @PostMapping("/change-password")
-    public String updatePassword(@Valid ChangeCustomerPasswordForm changeCustomerPasswordForm, BindingResult result, Model model) {
+    public String updatePassword(@Valid CustomerChangePasswordForm customerChangePasswordForm, BindingResult result, Model model) {
         model.addAttribute("title", "Change Password");
         try {
             if (!result.hasErrors()) {
-                accountService.updatePasswordOfACustomer(homeService.getCustomer(), changeCustomerPasswordForm);
+                accountService.updatePasswordOfACustomer(homeService.getCustomer(), customerChangePasswordForm);
                 return "redirect:account";
             } else {
                 return "account/change-password";

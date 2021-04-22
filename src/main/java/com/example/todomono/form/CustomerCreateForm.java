@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @PasswordMatches
-public class CustomerForm {
+public class CustomerCreateForm {
 
     @NotNull
     @NotEmpty(message = "Field required")
@@ -20,10 +20,10 @@ public class CustomerForm {
     @NotEmpty(message = "Field required")
     private String matchingPassword;
 
-    public CustomerForm() {
+    public CustomerCreateForm() {
     }
 
-    public CustomerForm(@NotNull @NotEmpty(message = "Field required") String name, @NotNull @NotEmpty(message = "Field required") String password, @NotNull @NotEmpty(message = "Field required") String matchingPassword) {
+    public CustomerCreateForm(@NotNull @NotEmpty(message = "Field required") String name, @NotNull @NotEmpty(message = "Field required") String password, @NotNull @NotEmpty(message = "Field required") String matchingPassword) {
         this.name = name;
         this.password = password;
         this.matchingPassword = matchingPassword;

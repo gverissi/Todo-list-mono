@@ -2,7 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.Role;
-import com.example.todomono.form.CustomerForm;
+import com.example.todomono.form.CustomerCreateForm;
 import com.example.todomono.service.customer.HomeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ class HomeControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("home/sign-up"))
                 .andExpect(model().attribute("title", "Sign-Up"))
-                .andExpect(model().attributeExists("customerForm"))
+                .andExpect(model().attributeExists("customerCreateForm"))
                 .andDo(print());
     }
 
@@ -73,8 +73,8 @@ class HomeControllerIntegrationTest {
 
         String customerName = "toto";
         String customerPassword = "123";
-        CustomerForm customerForm = new CustomerForm(customerName, customerPassword, customerPassword);
-        when(homeService.createCustomer(customerForm, roleMock)).thenReturn(mock(Customer.class));
+        CustomerCreateForm customerCreateForm = new CustomerCreateForm(customerName, customerPassword, customerPassword);
+        when(homeService.createCustomer(customerCreateForm, roleMock)).thenReturn(mock(Customer.class));
 
         mockMvc.perform(
                 post("/sign-up")

@@ -4,8 +4,8 @@ import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.exception.WrongPasswordException;
-import com.example.todomono.form.ChangeCustomerNameForm;
-import com.example.todomono.form.ChangeCustomerPasswordForm;
+import com.example.todomono.form.CustomerChangeNameForm;
+import com.example.todomono.form.CustomerChangePasswordForm;
 import com.example.todomono.form.CustomerDeleteAccountForm;
 import com.example.todomono.security.AuthenticationFacadeInterface;
 import com.example.todomono.security.MyUserDetails;
@@ -25,19 +25,19 @@ public class AccountService extends AbstractCustomerService {
         super(customerDao, passwordEncoder, authenticationFacade);
     }
 
-    public void updateNameOfACustomer(Customer customer, ChangeCustomerNameForm changeCustomerNameForm) throws WrongPasswordException, EntityAlreadyExistException {
-        if (!passwordEncoder.matches(changeCustomerNameForm.getPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
-        if (nameExists(changeCustomerNameForm.getName())) throw new EntityAlreadyExistException("There is already an account with name: " + changeCustomerNameForm.getName() + ".");
-        customer.setName(changeCustomerNameForm.getName());
+    public void updateNameOfACustomer(Customer customer, CustomerChangeNameForm customerChangeNameForm) throws WrongPasswordException, EntityAlreadyExistException {
+        if (!passwordEncoder.matches(customerChangeNameForm.getPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
+        if (nameExists(customerChangeNameForm.getName())) throw new EntityAlreadyExistException("There is already an account with name: " + customerChangeNameForm.getName() + ".");
+        customer.setName(customerChangeNameForm.getName());
         Authentication authentication = authenticationFacade.getAuthentication();
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
         userDetails.setUsername(customer.getName());
         customerDao.save(customer);
     }
 
-    public void updatePasswordOfACustomer(Customer customer, ChangeCustomerPasswordForm changeCustomerPasswordForm) throws WrongPasswordException {
-        if (!passwordEncoder.matches(changeCustomerPasswordForm.getOldPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
-        String encodedPassword = passwordEncoder.encode(changeCustomerPasswordForm.getPassword());
+    public void updatePasswordOfACustomer(Customer customer, CustomerChangePasswordForm customerChangePasswordForm) throws WrongPasswordException {
+        if (!passwordEncoder.matches(customerChangePasswordForm.getOldPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
+        String encodedPassword = passwordEncoder.encode(customerChangePasswordForm.getPassword());
         customer.setEncodedPassword(encodedPassword);
         Authentication authentication = authenticationFacade.getAuthentication();
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();

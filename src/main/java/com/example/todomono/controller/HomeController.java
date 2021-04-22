@@ -1,7 +1,7 @@
 package com.example.todomono.controller;
 
 import com.example.todomono.exception.EntityAlreadyExistException;
-import com.example.todomono.form.CustomerForm;
+import com.example.todomono.form.CustomerCreateForm;
 import com.example.todomono.service.RoleService;
 import com.example.todomono.service.customer.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,23 +40,23 @@ public class HomeController {
 
     @GetMapping("/sign-up")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("customerForm", new CustomerForm());
+        model.addAttribute("customerCreateForm", new CustomerCreateForm());
         model.addAttribute("title", "Sign-Up");
         return "home/sign-up";
     }
 
     @PostMapping("/sign-up")
-    public String registerNewCustomer(@Valid CustomerForm customerForm, BindingResult result, Model model) {
+    public String registerNewCustomer(@Valid CustomerCreateForm customerCreateForm, BindingResult result, Model model) {
         model.addAttribute("title", "Sign-Up");
         try {
             if (!result.hasErrors()) {
-                homeService.createCustomer(customerForm, roleService.findByRoleName("USER"));
+                homeService.createCustomer(customerCreateForm, roleService.findByRoleName("USER"));
                 return "redirect:log-in?registered";
             } else {
                 return "home/sign-up";
             }
         } catch (EntityAlreadyExistException exception) {
-            model.addAttribute("errorMessage", "There is already an account with name: " + customerForm.getName());
+            model.addAttribute("errorMessage", "There is already an account with name: " + customerCreateForm.getName());
             return "home/sign-up";
         }
     }

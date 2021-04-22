@@ -2,7 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.entity.Role;
 import com.example.todomono.exception.EntityAlreadyExistException;
-import com.example.todomono.form.CustomerForm;
+import com.example.todomono.form.CustomerCreateForm;
 import com.example.todomono.service.RoleService;
 import com.example.todomono.service.customer.HomeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,13 +64,13 @@ class HomeControllerUnitTest {
     @Test
     void registerNewCustomer() throws EntityAlreadyExistException {
         // Given
-        CustomerForm customerForm = new CustomerForm("toto", "1234", "1234");
+        CustomerCreateForm customerCreateForm = new CustomerCreateForm("toto", "1234", "1234");
         Role roleMock = mock(Role.class);
         when(roleService.findByRoleName("USER")).thenReturn(roleMock);
         // When
-        String viewName = homeController.registerNewCustomer(customerForm, result, model);
+        String viewName = homeController.registerNewCustomer(customerCreateForm, result, model);
         // Then
-        verify(homeService).createCustomer(customerForm, roleMock);
+        verify(homeService).createCustomer(customerCreateForm, roleMock);
         assertEquals("redirect:log-in?registered", viewName);
     }
 

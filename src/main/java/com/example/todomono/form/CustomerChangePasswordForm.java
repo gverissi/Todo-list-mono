@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @PasswordMatches
-public class ChangeCustomerPasswordForm {
+public class CustomerChangePasswordForm {
 
     @NotNull
     @NotEmpty(message = "Field required")
@@ -20,7 +20,7 @@ public class ChangeCustomerPasswordForm {
     @NotEmpty(message = "Field required")
     private String matchingPassword;
 
-    public ChangeCustomerPasswordForm() {
+    public CustomerChangePasswordForm() {
     }
 
     public String getOldPassword() {
