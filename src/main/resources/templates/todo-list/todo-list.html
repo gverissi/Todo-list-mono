@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/head :: head"/>
+<head th:replace="fragments/head :: head"><title></title></head>
 
 <body id="body">
 
-<header th:replace="fragments/header :: header"/>
+<header th:replace="fragments/header :: header">header</header>
 
 
 <main id="main">
@@ -18,7 +18,7 @@
         </ol>
     </nav>
 
-    <header th:replace="fragments/alert :: alert"/>
+    <div th:replace="fragments/alert :: alert">alert</div>
 
     <div th:if="${errorMessage}" class="d-flex justify-content-center alert-position">
         <div class="text-center alert alert-danger" role="alert" th:text="${errorMessage}">
@@ -30,9 +30,9 @@
     <div class="container">
         <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListForm.num})}" th:object="${todoListForm}" th:method="PUT">
             <div class="form-group">
-                <label th:for="${#ids.next('title')}">Title</label>
-                <input class="form-control" th:type="text" th:field="*{title}"/>
-                <small class="form-text text-muted" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
+                <label for="title">Title</label>
+                <input id="title" class="form-control" th:type="text" th:field="*{title}"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">errors</small>
             </div>
             <button type="submit" class="button">Update</button>
         </form>
@@ -47,9 +47,9 @@
 </main>
 
 
-<footer th:replace="fragments/footer :: footer"/>
+<footer th:replace="fragments/footer :: footer">footer</footer>
 
-<div th:replace="fragments/script :: script"/>
+<div th:replace="fragments/script :: script">script</div>
 
 </body>
 </html>

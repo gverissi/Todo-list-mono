@@ -42,7 +42,7 @@ class HomeControllerUnitTest {
         // When
         String viewName = homeController.showHomePage(model);
         // Then
-        assertEquals("home", viewName);
+        assertEquals("home/home", viewName);
     }
 
     @Test
@@ -50,7 +50,7 @@ class HomeControllerUnitTest {
         // When
         String viewName = homeController.showLogInPage(model);
         // Then
-        assertEquals("log-in", viewName);
+        assertEquals("home/log-in", viewName);
     }
 
     @Test
@@ -58,7 +58,7 @@ class HomeControllerUnitTest {
         // When
         String viewName = homeController.showRegistrationForm(model);
         // Then
-        assertEquals("sign-up", viewName);
+        assertEquals("home/sign-up", viewName);
     }
 
     @Test

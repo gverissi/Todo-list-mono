@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head"><title></title></head>
+
+<body id="body">
+
+<header th:replace="fragments/header :: header">header</header>
+
+
+<main id="main">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/templates/home}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sign-Up</li>
+        </ol>
+    </nav>
+
+    <div th:replace="fragments/alert :: alert">alert</div>
+
+    <div th:if="${errorMessage}" class="d-flex justify-content-center alert-position">
+        <div class="text-center alert alert-danger" role="alert" th:text="${errorMessage}">
+        </div>
+    </div>
+
+    <div class="container">
+        <form th:action="@{/sign-up}" th:object="${customerForm}" method="POST">
+            <div class="form-group">
+                <label for="user-name">Username</label>
+                <input id="user-name" class="form-control" th:type="text" th:field="*{name}"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">errors</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" class="form-control" th:type="password" th:field="*{password}"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">errors</small>
+            </div>
+            <div class="form-group">
+                <label for="matching-password">Confirm Password</label>
+                <input id="matching-password" class="form-control" th:type="password" th:field="*{matchingPassword}"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}">errors</small>
+            </div>
+            <button type="submit" class="button">Sign-Up</button>
+        </form>
+    </div>
+
+</main>
+
+
+<footer th:replace="fragments/footer :: footer">footer</footer>
+
+<div th:replace="fragments/script :: script">script</div>
+
+</body>
+</html>

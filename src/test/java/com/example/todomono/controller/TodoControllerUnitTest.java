@@ -59,7 +59,7 @@ class TodoControllerUnitTest {
         String viewName = todoController.createATodo(TODO_LIST_NUM, todoForm, result, model);
         // Then
         verify(todoService).createOne(todoList, todoForm);
-        assertEquals("todo-collection", viewName);
+        assertEquals("todo/todo-collection", viewName);
     }
 
     @Test
@@ -67,7 +67,7 @@ class TodoControllerUnitTest {
         // When
         String viewName = todoController.showAllTodosOfATodoList(TODO_LIST_NUM, model);
         // Then
-        assertEquals("todo-collection", viewName);
+        assertEquals("todo/todo-collection", viewName);
     }
 
     @Test
@@ -80,7 +80,7 @@ class TodoControllerUnitTest {
         String viewName = todoController.showOneTodoOfATodoList(TODO_LIST_NUM, todoNum, model);
         // Then
         verify(todoService).getOneByTodoListAndNum(todoList, todoNum);
-        assertEquals("todo", viewName);
+        assertEquals("todo/todo", viewName);
     }
 
     @Test
@@ -92,7 +92,7 @@ class TodoControllerUnitTest {
         String viewName = todoController.updateATodo(TODO_LIST_NUM, todoNum, todoForm, result, model);
         // Then
         verify(todoService).updateOneForTodoList(todoList, todoForm);
-        assertEquals("redirect:/todo-lists/{todoListNum}/todos", viewName);
+        assertEquals("todo/todo-collection", viewName);
     }
 
     @Test
@@ -100,10 +100,10 @@ class TodoControllerUnitTest {
         // Given
         long todoNum = 1;
         // When
-        String viewName = todoController.deleteATodo(TODO_LIST_NUM, todoNum);
+        String viewName = todoController.deleteATodo(TODO_LIST_NUM, todoNum, model);
         // Then
         verify(todoService).deleteOneForTodoList(todoList, todoNum);
-        assertEquals("redirect:/todo-lists/{todoListNum}/todos", viewName);
+        assertEquals("todo/todo-collection", viewName);
     }
 
 }

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/head :: head"/>
+<head th:replace="fragments/head :: head"><title></title></head>
 
 <body id="body">
 
-<header th:replace="fragments/header :: header"/>
+<header th:replace="fragments/header :: header">header</header>
 
 
 <main id="main">
@@ -20,7 +20,7 @@
         </ol>
     </nav>
 
-    <header th:replace="fragments/alert :: alert"/>
+    <div th:replace="fragments/alert :: alert">alert</div>
 
     <div th:if="${errorMessage}" class="d-flex justify-content-center alert-position">
         <div class="text-center alert alert-danger" role="alert" th:text="${errorMessage}">
@@ -32,9 +32,9 @@
     <div class="container">
         <form th:action="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListDto.num}, todoNum=${todoForm.num})}" th:object="${todoForm}" th:method="PUT">
             <div class="form-group">
-                <label th:for="${#ids.next('label')}">Label</label>
-                <input class="form-control" th:type="text" th:field="*{label}"/>
-                <small class="form-text text-muted" th:if="${#fields.hasErrors('label')}" th:errors="*{label}"/>
+                <label for="label" >Label</label>
+                <input class="form-control" th:type="text" th:field="*{label}" id="label"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('label')}" th:errors="*{label}">errors</small>
             </div>
             <button type="submit" class="button">Update</button>
         </form>
@@ -47,9 +47,9 @@
 </main>
 
 
-<footer th:replace="fragments/footer :: footer"/>
+<footer th:replace="fragments/footer :: footer">footer</footer>
 
-<div th:replace="fragments/script :: script"/>
+<div th:replace="fragments/script :: script">script</div>
 
 </body>
 </html>

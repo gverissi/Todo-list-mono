@@ -22,15 +22,11 @@ public class TodoController {
 
     private static final String INITIAL_LABEL = "New todo";
 
-    @Autowired
     private final HomeService homeService;
-
-    @Autowired
     private final TodoListService todoListService;
-
-    @Autowired
     private final TodoService todoService;
 
+    @Autowired
     public TodoController(HomeService homeService, TodoListService todoListService, TodoService todoService) {
         this.homeService = homeService;
         this.todoListService = todoListService;
@@ -49,7 +45,7 @@ public class TodoController {
             model.addAttribute("errorMessage", exception.getMessage());
         }
         fillUpTheModel(todoListNum, model);
-        return "todo-collection";
+        return "todo/todo-collection";
     }
 
     @GetMapping("/todo-lists/{todoListNum}/todos")
@@ -57,7 +53,7 @@ public class TodoController {
         TodoForm todoForm = new TodoForm(INITIAL_LABEL);
         model.addAttribute("todoForm", todoForm);
         fillUpTheModel(todoListNum, model);
-        return "todo-collection";
+        return "todo/todo-collection";
     }
 
     @GetMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
@@ -67,7 +63,7 @@ public class TodoController {
         model.addAttribute("todoListDto", todoList.convertToDto());
         model.addAttribute("todoForm", todoForm);
         model.addAttribute("title", "Todo");
-        return "todo";
+        return "todo/todo";
     }
 
     @PutMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
@@ -77,7 +73,7 @@ public class TodoController {
         if (!result.hasErrors()) {
             try {
                 todoService.updateOneForTodoList(todoList, todoForm);
-                return "redirect:/todo-lists/{todoListNum}/todos";
+                return showAllTodosOfATodoList(todoListNum, model);
             } catch (EntityAlreadyExistException e) {
                 model.addAttribute("errorMessage", e.getMessage());
             }
@@ -87,14 +83,14 @@ public class TodoController {
         }
         model.addAttribute("todoListDto", todoList.convertToDto());
         model.addAttribute("title", "Todo");
-        return "todo";
+        return "todo/todo";
     }
 
     @DeleteMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
-    public String deleteATodo(@PathVariable long todoListNum, @PathVariable long todoNum) {
+    public String deleteATodo(@PathVariable long todoListNum, @PathVariable long todoNum, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         todoService.deleteOneForTodoList(todoList, todoNum);
-        return "redirect:/todo-lists/{todoListNum}/todos";
+        return showAllTodosOfATodoList(todoListNum, model);
     }
 
     private void fillUpTheModel(long todoListNum, Model model) {

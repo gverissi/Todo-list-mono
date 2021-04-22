@@ -20,12 +20,10 @@ public class TodoListController {
 
     private static final String INITIAL_TITLE = "New todo-list";
 
-    @Autowired
     private final HomeService homeService;
-
-    @Autowired
     private final TodoListService todoListService;
 
+    @Autowired
     public TodoListController(HomeService homeService, TodoListService todoListService) {
         this.homeService = homeService;
         this.todoListService = todoListService;
@@ -42,7 +40,7 @@ public class TodoListController {
             model.addAttribute("errorMessage", exception.getMessage());
         }
         fillUpTheModel(model);
-        return "todo-list-collection";
+        return "todo-list/todo-list-collection";
     }
 
     @GetMapping("/todo-lists")
@@ -50,7 +48,7 @@ public class TodoListController {
         TodoListForm todoListForm = new TodoListForm(INITIAL_TITLE);
         model.addAttribute("todoListForm", todoListForm);
         fillUpTheModel(model);
-        return "todo-list-collection";
+        return "todo-list/todo-list-collection";
     }
 
     @GetMapping("/todo-lists/{todoListNum}")
@@ -58,7 +56,7 @@ public class TodoListController {
         TodoListForm todoListForm = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum).convertToDto();
         model.addAttribute("todoListForm", todoListForm);
         model.addAttribute("title", "Todo-List");
-        return "todo-list";
+        return "todo-list/todo-list";
     }
 
     @PutMapping("/todo-lists/{todoListNum}")
@@ -67,22 +65,22 @@ public class TodoListController {
         if (!result.hasErrors()) {
             try {
                 todoListService.updateOneForCustomer(homeService.getCustomer(), todoListForm);
-                return "redirect:/todo-lists";
+                return showAllTodoListsOfACustomer(model);
             } catch (EntityAlreadyExistException e) {
                 model.addAttribute("errorMessage", e.getMessage());
             }
         }
         else {
-            model.addAttribute("errorMessage", "ERROR");
+            model.addAttribute("errorMessage", "Fields contains errors!");
         }
         model.addAttribute("title", "Todo-List");
-        return "todo-list";
+        return "todo-list/todo-list";
     }
 
     @DeleteMapping("/todo-lists/{todoListNum}")
-    public String deleteATodoList(@PathVariable long todoListNum) {
+    public String deleteATodoList(@PathVariable long todoListNum, Model model) {
         todoListService.deleteOneForCustomer(homeService.getCustomer(), todoListNum);
-        return "redirect:/todo-lists";
+        return showAllTodoListsOfACustomer(model);
     }
 
     private void fillUpTheModel(Model model) {

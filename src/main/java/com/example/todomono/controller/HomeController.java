@@ -29,20 +29,20 @@ public class HomeController {
     @GetMapping("/home")
     public String showHomePage(Model model) {
         model.addAttribute("title", "Home");
-        return "home";
+        return "home/home";
     }
 
     @RequestMapping("/log-in")
     public String showLogInPage(Model model) {
         model.addAttribute("title", "Log-In");
-        return "log-in";
+        return "home/log-in";
     }
 
     @GetMapping("/sign-up")
     public String showRegistrationForm(Model model) {
         model.addAttribute("customerForm", new CustomerForm());
         model.addAttribute("title", "Sign-Up");
-        return "sign-up";
+        return "home/sign-up";
     }
 
     @PostMapping("/sign-up")
@@ -53,11 +53,11 @@ public class HomeController {
                 homeService.createCustomer(customerForm, roleService.findByRoleName("USER"));
                 return "redirect:log-in?registered";
             } else {
-                return "sign-up";
+                return "home/sign-up";
             }
         } catch (EntityAlreadyExistException exception) {
             model.addAttribute("errorMessage", "There is already an account with name: " + customerForm.getName());
-            return "sign-up";
+            return "home/sign-up";
         }
     }
 

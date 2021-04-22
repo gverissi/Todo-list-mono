@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/head :: head"/>
+<head th:replace="fragments/head :: head"><title></title></head>
 
 <body id="body">
 
-<header th:replace="fragments/header :: header"/>
+<header th:replace="fragments/header :: header">header</header>
 
 
 <main id="main">
@@ -19,7 +19,7 @@
         </ol>
     </nav>
 
-    <header th:replace="fragments/alert :: alert"/>
+    <div th:replace="fragments/alert :: alert">alert</div>
 
     <div th:if="${errorMessage}" class="d-flex justify-content-center alert-position">
         <div class="text-center alert alert-danger" role="alert" th:text="${errorMessage}">
@@ -44,37 +44,37 @@
 
             <tbody>
 
-            <tr>
-                <form th:action="@{/todo-lists/{todoListNum}/todos(todoListNum=${todoListDto.num})}" th:object="${todoForm}" method="POST">
-                    <td class="align-middle"></td>
-                    <td class="align-middle">
-                        <input class="input-table" th:type="text" th:field="*{label}">
-                        <small class="form-text text-muted" th:if="${#fields.hasErrors('label')}" th:errors="*{label}"/>
-                    </td>
-                    <td class="align-middle">
+            <tr th:object="${todoForm}">
+                <td class="align-middle"></td>
+                <td class="align-middle">
+                    <input form="create-form" class="input-table" th:type="text" th:field="*{label}" title="label">
+                    <small class="form-text text-muted" th:if="${#fields.hasErrors('label')}" th:errors="*{label}">errors</small>
+                </td>
+                <td class="align-middle">
+                    <form id="create-form" th:action="@{/todo-lists/{todoListNum}/todos(todoListNum=${todoListDto.num})}" th:object="${todoForm}" method="POST">
                         <button type="submit" class="align-middle button">Create</button>
-                    </td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                </form>
+                    </form>
+                </td>
+                <td class="align-middle"></td>
+                <td class="align-middle"></td>
+                <td class="align-middle"></td>
             </tr>
 
-            <tr th:each="todoDto : ${todoDtoCollection}">
-                <form th:action="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListDto.num}, todoNum=${todoDto.num})}" th:object="${todoForm}" th:method="PUT">
-                    <input type="hidden" name="num" th:value="${todoDto.num}">
+            <tr th:each="todoDto, stat : ${todoDtoCollection}">
                     <td class="align-middle" th:text="${todoDto.num}"></td>
                     <td class="align-middle">
-                        <input class="input-table" type="text" name="label" th:value="${todoDto.label}">
+                        <form th:id="${stat.index}" th:action="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListDto.num}, todoNum=${todoDto.num})}" th:object="${todoForm}" th:method="PUT">
+                            <input type="hidden" name="num" th:value="${todoDto.num}">
+                            <input class="input-table" type="text" name="label" th:value="${todoDto.label}" title="label">
+                        </form>
                     </td>
                     <td class="align-middle"></td>
                     <td class="align-middle">
                         <a th:href="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListDto.num}, todoNum=${todoDto.num})}" class="button">Read</a>
                     </td>
                     <td class="align-middle">
-                        <button type="submit" class="button">Update</button>
+                        <button th:form="${stat.index}" type="submit" class="button">Update</button>
                     </td>
-                </form>
                 <td class="align-middle">
                     <form th:action="@{/todo-lists/{todoListNum}/todos/{todoNum}(todoListNum=${todoListDto.num}, todoNum=${todoDto.num})}" th:method="DELETE">
                         <button type="submit" class="button">Delete</button>
@@ -90,9 +90,9 @@
 </main>
 
 
-<footer th:replace="fragments/footer :: footer"/>
+<footer th:replace="fragments/footer :: footer">footer</footer>
 
-<div th:replace="fragments/script :: script"/>
+<div th:replace="fragments/script :: script">script</div>
 
 </body>
 </html>

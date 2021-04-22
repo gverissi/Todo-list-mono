@@ -35,7 +35,7 @@ class HomeControllerIntegrationTest {
     void showHomePage() throws Exception {
         mockMvc.perform(get("/home"))
                 .andExpect(status().is2xxSuccessful())
-                .andExpect(view().name("home"))
+                .andExpect(view().name("home/home"))
                 .andExpect(model().attribute("title", "Home"));
     }
 
@@ -43,7 +43,7 @@ class HomeControllerIntegrationTest {
     void showLogInPage() throws Exception {
         mockMvc.perform(get("/log-in"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("log-in"))
+                .andExpect(view().name("home/log-in"))
                 .andExpect(model().attribute("title", "Log-In"))
                 .andDo(print());
     }
@@ -52,7 +52,7 @@ class HomeControllerIntegrationTest {
     void showRegistrationForm() throws Exception {
         mockMvc.perform(get("/sign-up"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("sign-up"))
+                .andExpect(view().name("home/sign-up"))
                 .andExpect(model().attribute("title", "Sign-Up"))
                 .andExpect(model().attributeExists("customerForm"))
                 .andDo(print());

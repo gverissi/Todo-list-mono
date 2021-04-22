@@ -52,7 +52,7 @@ class TodoListControllerIntegrationTest {
                         .content(encode("title", "UTF-8") + "=" + encode("My todo-list", "UTF-8"))
                         .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("todo-list-collection"));
+                .andExpect(view().name("todo-list/todo-list-collection"));
     }
 
     @Test
@@ -64,7 +64,7 @@ class TodoListControllerIntegrationTest {
         mockMvc.perform(
                 get("/todo-lists/" + todoListNum))
                 .andExpect(status().isOk())
-                .andExpect(view().name("todo-list"));
+                .andExpect(view().name("todo-list/todo-list"));
     }
 
     @Test
@@ -75,8 +75,8 @@ class TodoListControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .content(encode("title", "UTF-8") + "=" + encode("My todo-list", "UTF-8"))
                         .with(csrf()))
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/todo-lists"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("todo-list/todo-list-collection"));
     }
 
     @Test
@@ -86,8 +86,8 @@ class TodoListControllerIntegrationTest {
                 delete("/todo-lists/1")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .with(csrf()))
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/todo-lists"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("todo-list/todo-list-collection"));
     }
 
 }
