@@ -25,8 +25,8 @@ public class AdminService extends AbstractCustomerService {
         return customerDao.findAll();
     }
 
-    public Customer getOneById(int customerId) {
-        return customerDao.getOne(customerId);
+    public Customer findOneCustomer(int customerId) {
+        return customerDao.findById(customerId);
     }
 
     public boolean deleteOneCustomer(int customerId, HttpSession session) {

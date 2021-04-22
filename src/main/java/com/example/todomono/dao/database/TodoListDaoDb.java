@@ -10,28 +10,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TodoListDaoDb implements TodoListDaoInterface {
+public class TodoListDaoDb extends EntityDaoDb<TodoList, TodoListRepositoryInterface> implements TodoListDaoInterface {
 
-    @Autowired
     private final TodoListRepositoryInterface todoListRepository;
 
+    @Autowired
     public TodoListDaoDb(TodoListRepositoryInterface todoListRepository) {
+        super(todoListRepository);
         this.todoListRepository = todoListRepository;
-    }
-
-    @Override
-    public TodoList save(TodoList todoList) {
-        return todoListRepository.save(todoList);
-    }
-
-    @Override
-    public void delete(TodoList todoList) {
-        todoListRepository.delete(todoList);
-    }
-
-    @Override
-    public TodoList findById(int todoListId) {
-        return todoListRepository.findById(todoListId).orElse(null);
     }
 
     @Override

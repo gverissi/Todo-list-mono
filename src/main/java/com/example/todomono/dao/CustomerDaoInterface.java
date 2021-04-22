@@ -2,18 +2,8 @@ package com.example.todomono.dao;
 
 import com.example.todomono.entity.Customer;
 
-import java.util.List;
-
-public interface CustomerDaoInterface {
-
-    Customer save(Customer customer);
+public interface CustomerDaoInterface extends EntityDaoInterface<Customer> {
 
     Customer findByName(String name);
-
-    List<Customer> findAll();
-
-    void deleteById(int customerId);
-
-    Customer getOne(int customerId);
 
 }

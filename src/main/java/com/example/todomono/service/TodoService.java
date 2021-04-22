@@ -14,9 +14,9 @@ import java.util.List;
 @Service
 public class TodoService {
 
-    @Autowired
     private final TodoDaoInterface todoDao;
 
+    @Autowired
     public TodoService(TodoDaoInterface todoDao) {
         this.todoDao = todoDao;
     }
@@ -52,7 +52,7 @@ public class TodoService {
     public void deleteOneForTodoList(TodoList todoList, long todoNum) {
         Todo todo = todoDao.findByTodoListAndNum(todoList, todoNum);
         if (todo == null) throw new EntityNotFoundException("There is no todo with num = " + todoNum);
-        todoDao.delete(todo);
+        todoDao.deleteById(todo.getId());
         computeTodoNum(todoList);
     }
 

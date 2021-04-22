@@ -6,31 +6,15 @@ import com.example.todomono.repository.RoleRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public class RoleDaoDb implements RoleDaoInterface {
+public class RoleDaoDb extends EntityDaoDb<Role, RoleRepositoryInterface> implements RoleDaoInterface {
 
     private final RoleRepositoryInterface roleRepository;
 
     @Autowired
     public RoleDaoDb(RoleRepositoryInterface roleRepository) {
+        super(roleRepository);
         this.roleRepository = roleRepository;
-    }
-
-    @Override
-    public Role save(Role role) {
-        return roleRepository.save(role);
-    }
-
-    @Override
-    public Role findById(int id) {
-        return roleRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Role> findAll() {
-        return roleRepository.findAll();
     }
 
     @Override

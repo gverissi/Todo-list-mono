@@ -6,21 +6,15 @@ import com.example.todomono.repository.CustomerRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public class CustomerDaoDb implements CustomerDaoInterface {
+public class CustomerDaoDb extends EntityDaoDb<Customer, CustomerRepositoryInterface> implements CustomerDaoInterface {
 
     private final CustomerRepositoryInterface customerRepository;
 
     @Autowired
     public CustomerDaoDb(CustomerRepositoryInterface customerRepository) {
+        super(customerRepository);
         this.customerRepository = customerRepository;
-    }
-
-    @Override
-    public Customer save(Customer customer) {
-        return customerRepository.save(customer);
     }
 
     @Override
@@ -28,19 +22,5 @@ public class CustomerDaoDb implements CustomerDaoInterface {
         return customerRepository.findByName(name);
     }
 
-    @Override
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
-    }
-
-    @Override
-    public void deleteById(int customerId) {
-        customerRepository.deleteById(customerId);
-    }
-
-    @Override
-    public Customer getOne(int customerId) {
-        return customerRepository.getOne(customerId);
-    }
-
 }
+

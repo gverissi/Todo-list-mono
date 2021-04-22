@@ -94,28 +94,30 @@ class TodoServiceTest {
     void deleteOneForTodoList() {
         // Given
         Todo todo1 = new Todo("todo-1");
+        todo1.setId(1);
         todo1.setNum(1);
         Todo todo2 = new Todo("todo-2");
+        todo2.setId(2);
         todo2.setNum(2);
         Todo todo3 = new Todo("todo-3");
+        todo3.setId(3);
         todo3.setNum(2);
-        long todoNumToDelete = todo2.getNum();
         List<Todo> todos = new ArrayList<>(Arrays.asList(todo1, todo2, todo3));
         when(todoDaoMock.findByTodoListAndNum(todoListMock, todo2.getNum())).thenReturn(todo2);
         when(todoDaoMock.findAllByTodoList(todoListMock)).thenReturn(todos);
         doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
-            assertEquals(todo2, arg0);
+            assertEquals(todo2.getId(), arg0);
             todos.remove(todo2);
             return null;
-        }).when(todoDaoMock).delete(todo2);
+        }).when(todoDaoMock).deleteById(todo2.getId());
         // When
-        todoService.deleteOneForTodoList(todoListMock, todoNumToDelete);
+        todoService.deleteOneForTodoList(todoListMock, todo2.getNum());
         // Then
         assertThat(todos, hasSize(2));
         assertEquals(1, todo1.getNum());
         assertEquals(2, todo3.getNum());
-        verify(todoDaoMock).findByTodoListAndNum(todoListMock, todoNumToDelete);
+        verify(todoDaoMock).findByTodoListAndNum(todoListMock, todo2.getNum());
         verify(todoDaoMock).save(todo1);
         verify(todoDaoMock).save(todo3);
     }

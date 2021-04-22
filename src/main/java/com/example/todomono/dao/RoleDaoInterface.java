@@ -2,15 +2,8 @@ package com.example.todomono.dao;
 
 import com.example.todomono.entity.Role;
 
-import java.util.List;
-
-public interface RoleDaoInterface {
-
-    Role save(Role role);
-
-    Role findById(int id);
-
-    List<Role> findAll();
+public interface RoleDaoInterface extends EntityDaoInterface<Role> {
 
     Role findByRoleName(String roleName);
+
 }

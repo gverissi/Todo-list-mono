@@ -36,7 +36,7 @@ public class AdminController {
 
     @GetMapping("/customers/{customerId}")
     public String showOneCustomer(@PathVariable int customerId, Model model) {
-        Customer customer = adminService.getOneById(customerId);
+        Customer customer = adminService.findOneCustomer(customerId);
         CustomerUpdateForm customerUpdateForm = new CustomerUpdateForm(customer.getId(), customer.getName(), customer.isEnabled());
         List<Role> roles = roleService.findAll();
         List<String> customerRoleNames = customer.getRoleSet().stream().map(Role::getRoleName).collect(Collectors.toList());
@@ -54,7 +54,7 @@ public class AdminController {
     @PutMapping("/customers/{customerId}")
     public String updateOneCustomer(@PathVariable int customerId, @Valid CustomerUpdateForm customerUpdateForm) {
         customerUpdateForm.setId(customerId);
-        List<Role> newRoles = customerUpdateForm.getRoles().stream().filter(RoleUpdateForm::isEnabled).map(roleUpdateForm -> roleService.findById(roleUpdateForm.getId())).collect(Collectors.toList());
+        List<Role> newRoles = customerUpdateForm.getRoles().stream().filter(RoleUpdateForm::isEnabled).map(roleUpdateForm -> roleService.getOne(roleUpdateForm.getId())).collect(Collectors.toList());
         adminService.updateOneCustomer(customerUpdateForm, newRoles);
         return "redirect:/customers";
     }

@@ -35,7 +35,12 @@ public class CustomerDaoMemory implements CustomerDaoInterface {
     }
 
     @Override
-    public Customer getOne(int customerId) {
+    public Customer getOne(int id) {
+        return null;
+    }
+
+    @Override
+    public Customer findById(int customerId) {
         return null;
     }
 

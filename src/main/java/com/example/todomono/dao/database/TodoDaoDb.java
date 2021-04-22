@@ -10,23 +10,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TodoDaoDb implements TodoDaoInterface {
+public class TodoDaoDb extends EntityDaoDb<Todo, TodoRepositoryInterface> implements TodoDaoInterface {
 
-    @Autowired
     private final TodoRepositoryInterface todoRepository;
 
+    @Autowired
     public TodoDaoDb(TodoRepositoryInterface todoRepository) {
+        super(todoRepository);
         this.todoRepository = todoRepository;
-    }
-
-    @Override
-    public Todo save(Todo todo) {
-        return todoRepository.save(todo);
-    }
-
-    @Override
-    public void delete(Todo todo) {
-        todoRepository.delete(todo);
     }
 
     @Override

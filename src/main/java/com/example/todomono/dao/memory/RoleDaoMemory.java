@@ -33,6 +33,16 @@ public class RoleDaoMemory implements RoleDaoInterface {
     }
 
     @Override
+    public void deleteById(int id) {
+
+    }
+
+    @Override
+    public Role getOne(int id) {
+        return null;
+    }
+
+    @Override
     public List<Role> findAll() {
         return new ArrayList<>(entityMap.values());
     }

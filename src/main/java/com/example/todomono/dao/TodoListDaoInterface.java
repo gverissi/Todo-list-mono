@@ -5,13 +5,7 @@ import com.example.todomono.entity.TodoList;
 
 import java.util.List;
 
-public interface TodoListDaoInterface {
-
-    TodoList save(TodoList todoList);
-
-    void delete(TodoList todoList);
-
-    TodoList findById(int todoListId);
+public interface TodoListDaoInterface extends EntityDaoInterface<TodoList> {
 
     List<TodoList> findAllByCustomer(Customer customer);
 
