@@ -8,10 +8,10 @@ public interface EntityDaoInterface<Entity> {
 
     List<Entity> findAll();
 
-    Entity findById(int id);
+    Entity findById(long id);
 
-    void deleteById(int id);
+    void deleteById(long id);
 
-    Entity getOne(int id);
+    Entity getOne(long id);
 
 }

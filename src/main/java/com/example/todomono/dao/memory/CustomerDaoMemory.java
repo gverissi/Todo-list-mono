@@ -30,17 +30,17 @@ public class CustomerDaoMemory implements CustomerDaoInterface {
     }
 
     @Override
-    public void deleteById(int customerId) {
+    public void deleteById(long customerId) {
 
     }
 
     @Override
-    public Customer getOne(int id) {
+    public Customer getOne(long id) {
         return null;
     }
 
     @Override
-    public Customer findById(int customerId) {
+    public Customer findById(long customerId) {
         return null;
     }
 

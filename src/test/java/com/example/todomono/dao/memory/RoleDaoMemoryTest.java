@@ -53,16 +53,16 @@ class RoleDaoMemoryTest {
     void update() {
         Role role = new Role("ADMIN");
         roleDao.save(role);
-        int id = role.getId();
+        long id = role.getId();
         Role savedRole = roleDao.findById(id);
         savedRole.setRoleName("USER");
         roleDao.save(savedRole);
         assertEquals("USER", roleDao.findById(id).getRoleName());
     }
 
-    private int getLastId() {
+    private long getLastId() {
         List<Role> roleSet = roleDao.findAll();
-        int lastId = 0;
+        long lastId = 0;
         for (Role role : roleSet) {
             lastId = Math.max(lastId, role.getId());
         }

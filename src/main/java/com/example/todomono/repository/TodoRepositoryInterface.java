@@ -6,14 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TodoRepositoryInterface extends JpaRepository<Todo, Integer> {
+public interface TodoRepositoryInterface extends JpaRepository<Todo, Long> {
 
     List<Todo> findAllByTodoListOrderByNumAsc(TodoList todoList);
 
     Todo findByTodoListAndLabel(TodoList todoList, String label);
 
-    Todo findByTodoListAndNum(TodoList todoList, long num);
+    Todo findByTodoListAndNum(TodoList todoList, int num);
 
-    long countByTodoList(TodoList todoList);
+    int countByTodoList(TodoList todoList);
 
 }

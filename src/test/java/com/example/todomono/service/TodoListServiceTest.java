@@ -64,7 +64,7 @@ class TodoListServiceTest {
     @Test
     void getOneByNum() {
         // Given
-        long todoListNum = 1;
+        int todoListNum = 1;
         TodoList todoList = new TodoList(todoListTitle);
         todoList.setNum(todoListNum);
         when(todoListDaoMock.findByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
@@ -79,7 +79,7 @@ class TodoListServiceTest {
     @Test
     void updateOne() throws EntityAlreadyExistException {
         // Given
-        long todoListNum = 1;
+        int todoListNum = 1;
         TodoList todoList = new TodoList(todoListTitle);
         todoList.setNum(todoListNum);
         String newTitle = "new title";

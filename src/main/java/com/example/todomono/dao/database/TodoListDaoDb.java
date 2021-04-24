@@ -31,12 +31,12 @@ public class TodoListDaoDb extends EntityDaoDb<TodoList, TodoListRepositoryInter
     }
 
     @Override
-    public TodoList findByCustomerAndNum(Customer customer, long todoListNum) {
+    public TodoList findByCustomerAndNum(Customer customer, int todoListNum) {
         return todoListRepository.findByCustomerAndNum(customer, todoListNum);
     }
 
     @Override
-    public long countByCustomer(Customer customer) {
+    public int countByCustomer(Customer customer) {
         return todoListRepository.countByCustomer(customer);
     }
 

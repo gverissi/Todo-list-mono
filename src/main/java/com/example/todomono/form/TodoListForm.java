@@ -11,7 +11,7 @@ public class TodoListForm {
     @Size(min = 2, max = 50, message = "min")
     private String title;
 
-    private long num;
+    private int num;
 
     public TodoListForm(@NotNull @NotEmpty(message = "Field required") String title) {
         this.title = title;
@@ -25,11 +25,11 @@ public class TodoListForm {
         this.title = title;
     }
 
-    public long getNum() {
+    public int getNum() {
         return num;
     }
 
-    public void setNum(long num) {
+    public void setNum(int num) {
         this.num = num;
     }
 

@@ -58,7 +58,7 @@ class TodoServiceTest {
     @Test
     void getOneByTodoListAndNum() {
         // Given
-        long todoNum = 1;
+        int todoNum = 1;
         Todo todo = new Todo(todoLabel);
         todo.setNum(todoNum);
         when(todoDaoMock.findByTodoListAndNum(todoListMock, todoNum)).thenReturn(todo);
@@ -73,7 +73,7 @@ class TodoServiceTest {
     @Test
     void updateOneForTodoList() throws EntityAlreadyExistException {
         // Given
-        long todoNum = 1;
+        int todoNum = 1;
         Todo todo = new Todo(todoLabel);
         todo.setNum(todoNum);
         String newLabel = "new label";

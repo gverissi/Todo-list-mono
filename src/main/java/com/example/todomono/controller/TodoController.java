@@ -34,7 +34,7 @@ public class TodoController {
     }
 
     @PostMapping("/todo-lists/{todoListNum}/todos")
-    public String createATodo(@PathVariable long todoListNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
+    public String createATodo(@PathVariable int todoListNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
         try {
             if (!result.hasErrors()) {
                 TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
@@ -49,7 +49,7 @@ public class TodoController {
     }
 
     @GetMapping("/todo-lists/{todoListNum}/todos")
-    public String showAllTodosOfATodoList(@PathVariable long todoListNum, Model model) {
+    public String showAllTodosOfATodoList(@PathVariable int todoListNum, Model model) {
         TodoForm todoForm = new TodoForm(INITIAL_LABEL);
         model.addAttribute("todoForm", todoForm);
         fillUpTheModel(todoListNum, model);
@@ -57,7 +57,7 @@ public class TodoController {
     }
 
     @GetMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
-    public String showOneTodoOfATodoList(@PathVariable long todoListNum, @PathVariable long todoNum, Model model) {
+    public String showOneTodoOfATodoList(@PathVariable int todoListNum, @PathVariable int todoNum, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         TodoForm todoForm = todoService.getOneByTodoListAndNum(todoList, todoNum).convertToDto();
         model.addAttribute("todoListDto", todoList.convertToDto());
@@ -67,7 +67,7 @@ public class TodoController {
     }
 
     @PutMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
-    public String updateATodo(@PathVariable long todoListNum, @PathVariable long todoNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
+    public String updateATodo(@PathVariable int todoListNum, @PathVariable int todoNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         todoForm.setNum(todoNum);
         if (!result.hasErrors()) {
@@ -87,13 +87,13 @@ public class TodoController {
     }
 
     @DeleteMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
-    public String deleteATodo(@PathVariable long todoListNum, @PathVariable long todoNum, Model model) {
+    public String deleteATodo(@PathVariable int todoListNum, @PathVariable int todoNum, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         todoService.deleteOneForTodoList(todoList, todoNum);
         return showAllTodosOfATodoList(todoListNum, model);
     }
 
-    private void fillUpTheModel(long todoListNum, Model model) {
+    private void fillUpTheModel(int todoListNum, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         List<TodoForm> todoDtoCollection = todoService.findAllByTodoList(todoList).stream().map(Todo::convertToDto).collect(Collectors.toList());
         model.addAttribute("todoListDto", todoList.convertToDto());

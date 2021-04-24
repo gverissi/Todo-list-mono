@@ -25,11 +25,11 @@ public class AdminService extends AbstractCustomerService {
         return customerDao.findAll();
     }
 
-    public Customer findOneCustomer(int customerId) {
+    public Customer findOneCustomer(long customerId) {
         return customerDao.findById(customerId);
     }
 
-    public boolean deleteOneCustomer(int customerId, HttpSession session) {
+    public boolean deleteOneCustomer(long customerId, HttpSession session) {
         Customer loggedCustomer = getCustomer();
         if (loggedCustomer.getId() == customerId) {
             session.invalidate();

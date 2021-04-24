@@ -34,7 +34,7 @@ public class TodoService {
         return todoDao.findAllByTodoList(todoList);
     }
 
-    public Todo getOneByTodoListAndNum(TodoList todoList, long todoNum) {
+    public Todo getOneByTodoListAndNum(TodoList todoList, int todoNum) {
         Todo todo = todoDao.findByTodoListAndNum(todoList, todoNum);
         if (todo == null) throw new EntityNotFoundException("There is no todo with num = " + todoNum);
         return todo;
@@ -49,7 +49,7 @@ public class TodoService {
         return todoDao.save(todo);
     }
 
-    public void deleteOneForTodoList(TodoList todoList, long todoNum) {
+    public void deleteOneForTodoList(TodoList todoList, int todoNum) {
         Todo todo = todoDao.findByTodoListAndNum(todoList, todoNum);
         if (todo == null) throw new EntityNotFoundException("There is no todo with num = " + todoNum);
         todoDao.deleteById(todo.getId());
@@ -61,7 +61,7 @@ public class TodoService {
     }
 
     private void computeTodoNum(TodoList todoList) {
-        long num = 0L;
+        int num = 0;
         List<Todo> todos = todoDao.findAllByTodoList(todoList);
         for (Todo todo : todos) {
             todo.setNum(++num);

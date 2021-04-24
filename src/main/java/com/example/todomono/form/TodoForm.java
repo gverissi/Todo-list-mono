@@ -11,7 +11,7 @@ public class TodoForm {
     @Size(min = 2, max = 50, message = "min")
     private String label;
 
-    private long num;
+    private int num;
 
     public TodoForm(@NotNull @NotEmpty(message = "Field required") String label) {
         this.label = label;
@@ -25,11 +25,11 @@ public class TodoForm {
         this.label = label;
     }
 
-    public long getNum() {
+    public int getNum() {
         return num;
     }
 
-    public void setNum(long num) {
+    public void setNum(int num) {
         this.num = num;
     }
 

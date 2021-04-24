@@ -12,12 +12,12 @@ public class Todo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @NotNull
     private String label;
 
-    private long num;
+    private int num;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "todo_list_id", nullable = false)
@@ -31,11 +31,11 @@ public class Todo {
         this.label = title;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -47,11 +47,11 @@ public class Todo {
         this.label = label;
     }
 
-    public long getNum() {
+    public int getNum() {
         return num;
     }
 
-    public void setNum(long num) {
+    public void setNum(int num) {
         this.num = num;
     }
 
@@ -68,4 +68,5 @@ public class Todo {
         todoForm.setNum(num);
         return todoForm;
     }
+
 }

@@ -11,8 +11,8 @@ public interface TodoListDaoInterface extends EntityDaoInterface<TodoList> {
 
     TodoList findByCustomerAndTitle(Customer customer, String title);
 
-    TodoList findByCustomerAndNum(Customer customer, long todoListNum);
+    TodoList findByCustomerAndNum(Customer customer, int todoListNum);
 
-    long countByCustomer(Customer customer);
+    int countByCustomer(Customer customer);
 
 }

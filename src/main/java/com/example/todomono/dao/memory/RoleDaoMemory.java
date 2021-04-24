@@ -8,12 +8,12 @@ import java.util.*;
 
 public class RoleDaoMemory implements RoleDaoInterface {
 
-    private static int LAST_ID = 0;
-    private final Map<Integer, Role> entityMap = new HashMap<>();
+    private static long LAST_ID = 0;
+    private final Map<Long, Role> entityMap = new HashMap<>();
 
     @Override
     public Role save(Role entity) {
-        int id = entity.getId();
+        long id = entity.getId();
         if (!entityMap.containsKey(id)) {
             id = getNewId();
             entity.setId(id);
@@ -26,19 +26,19 @@ public class RoleDaoMemory implements RoleDaoInterface {
     }
 
     @Override
-    public Role findById(int id) {
+    public Role findById(long id) {
         Role entity = entityMap.get(id);
         if (entity == null) throw new EntityNotFoundException("Role entity with id = " + id + " do not exist!");
         return entity;
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
 
     }
 
     @Override
-    public Role getOne(int id) {
+    public Role getOne(long id) {
         return null;
     }
 
@@ -52,7 +52,7 @@ public class RoleDaoMemory implements RoleDaoInterface {
         return null;
     }
 
-    private int getNewId() {
+    private long getNewId() {
         return ++LAST_ID;
     }
 

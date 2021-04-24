@@ -63,7 +63,7 @@ class TodoListControllerUnitTest {
     @Test
     void showOneTodoListOfACustomer() {
         // Given
-        long todoListNum = 1;
+        int todoListNum = 1;
         TodoList todoList = new TodoList("my todo-list");
         when(todoListService.getOneByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
         // When
@@ -76,7 +76,7 @@ class TodoListControllerUnitTest {
     @Test
     void updateATodoList() throws EntityAlreadyExistException {
         // Given
-        long todoListNum = 1;
+        int todoListNum = 1;
         TodoListForm todoListForm = new TodoListForm("my todo-list");
         // When
         String viewName = todoListController.updateATodoList(todoListNum, todoListForm, result, model);
@@ -88,7 +88,7 @@ class TodoListControllerUnitTest {
     @Test
     void deleteATodoList() {
         // Given
-        long todoListNum = 1;
+        int todoListNum = 1;
         // When
         String viewName = todoListController.deleteATodoList(todoListNum, model);
         // Then

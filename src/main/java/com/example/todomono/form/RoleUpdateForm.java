@@ -2,7 +2,7 @@ package com.example.todomono.form;
 
 public class RoleUpdateForm {
 
-    private int id;
+    private long id;
 
     private String roleName;
 
@@ -11,16 +11,16 @@ public class RoleUpdateForm {
     public RoleUpdateForm() {
     }
 
-    public RoleUpdateForm(int id, String roleName) {
+    public RoleUpdateForm(long id, String roleName) {
         this.id = id;
         this.roleName = roleName;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

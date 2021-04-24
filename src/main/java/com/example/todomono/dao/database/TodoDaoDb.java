@@ -31,12 +31,12 @@ public class TodoDaoDb extends EntityDaoDb<Todo, TodoRepositoryInterface> implem
     }
 
     @Override
-    public Todo findByTodoListAndNum(TodoList todoList, long num) {
+    public Todo findByTodoListAndNum(TodoList todoList, int num) {
         return todoRepository.findByTodoListAndNum(todoList, num);
     }
 
     @Override
-    public long countByTodoList(TodoList todoList) {
+    public int countByTodoList(TodoList todoList) {
         return todoRepository.countByTodoList(todoList);
     }
 

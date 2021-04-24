@@ -4,7 +4,7 @@ import java.util.*;
 
 public class CustomerUpdateForm {
 
-    private int id;
+    private long id;
 
     private String name;
 
@@ -15,17 +15,17 @@ public class CustomerUpdateForm {
     public CustomerUpdateForm() {
     }
 
-    public CustomerUpdateForm(int id, String name, boolean enabled) {
+    public CustomerUpdateForm(long id, String name, boolean enabled) {
         this.id = id;
         this.name = name;
         this.enabled = enabled;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

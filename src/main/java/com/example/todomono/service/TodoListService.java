@@ -34,7 +34,7 @@ public class TodoListService {
         return todoListDao.findAllByCustomer(customer);
     }
 
-    public TodoList getOneByCustomerAndNum(Customer customer, long todoListNum) {
+    public TodoList getOneByCustomerAndNum(Customer customer, int todoListNum) {
         TodoList todoList = todoListDao.findByCustomerAndNum(customer, todoListNum);
         if (todoList == null) throw new EntityNotFoundException("There is no todo-list with num = " + todoListNum);
         return todoList;
@@ -42,7 +42,7 @@ public class TodoListService {
 
     public TodoList updateOneForCustomer(Customer customer, TodoListForm todoListForm) throws EntityAlreadyExistException {
         String title = todoListForm.getTitle();
-        long todoListNum = todoListForm.getNum();
+        int todoListNum = todoListForm.getNum();
         if (todoListExists(customer, title)) throw new EntityAlreadyExistException("There is already a todo-list with name: " + title + ".");
         TodoList todoList = todoListDao.findByCustomerAndNum(customer, todoListNum);
         if (todoList == null) throw new EntityNotFoundException("There is no todo-list with num = " + todoListNum);
@@ -50,7 +50,7 @@ public class TodoListService {
         return todoListDao.save(todoList);
     }
 
-    public void deleteOneForCustomer(Customer customer, long todoListNum) {
+    public void deleteOneForCustomer(Customer customer, int todoListNum) {
         TodoList todoList = todoListDao.findByCustomerAndNum(customer, todoListNum);
         if (todoList == null) throw new EntityNotFoundException("There is no todo-list with num = " + todoListNum);
         todoListDao.deleteById(todoList.getId());
@@ -62,7 +62,7 @@ public class TodoListService {
     }
 
     private void computeTodoListNum(Customer customer) {
-        long num = 0L;
+        int num = 0;
         List<TodoList> todoLists = todoListDao.findAllByCustomer(customer);
         for (TodoList todoList : todoLists) {
             todoList.setNum(++num);

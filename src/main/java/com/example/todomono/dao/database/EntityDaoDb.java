@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public abstract class EntityDaoDb<Entity, Repository extends JpaRepository<Entity, Integer>> implements EntityDaoInterface<Entity> {
+public abstract class EntityDaoDb<Entity, Repository extends JpaRepository<Entity, Long>> implements EntityDaoInterface<Entity> {
 
     private final Repository repository;
 
@@ -24,17 +24,17 @@ public abstract class EntityDaoDb<Entity, Repository extends JpaRepository<Entit
     }
 
     @Override
-    public Entity findById(int id) {
+    public Entity findById(long id) {
         return repository.findById(id).orElse(null);
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Entity getOne(int id) {
+    public Entity getOne(long id) {
         return repository.getOne(id);
     }
 

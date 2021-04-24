@@ -39,7 +39,7 @@ class TodoControllerUnitTest {
     private TodoController todoController;
     private TodoList todoList;
 
-    private final long TODO_LIST_NUM = 1L;
+    private final int TODO_LIST_NUM = 1;
 
     @BeforeEach
     void init() {
@@ -73,7 +73,7 @@ class TodoControllerUnitTest {
     @Test
     void showOneTodoOfATodoList() {
         // Given
-        long todoNum = 1;
+        int todoNum = 1;
         Todo todo = new Todo("my todo");
         when(todoService.getOneByTodoListAndNum(todoList, todoNum)).thenReturn(todo);
         // When
@@ -86,7 +86,7 @@ class TodoControllerUnitTest {
     @Test
     void updateATodo() throws EntityAlreadyExistException {
         // Given
-        long todoNum = 1;
+        int todoNum = 1;
         TodoForm todoForm = new TodoForm("my todo");
         // When
         String viewName = todoController.updateATodo(TODO_LIST_NUM, todoNum, todoForm, result, model);
@@ -98,7 +98,7 @@ class TodoControllerUnitTest {
     @Test
     void deleteATodo() {
         // Given
-        long todoNum = 1;
+        int todoNum = 1;
         // When
         String viewName = todoController.deleteATodo(TODO_LIST_NUM, todoNum, model);
         // Then

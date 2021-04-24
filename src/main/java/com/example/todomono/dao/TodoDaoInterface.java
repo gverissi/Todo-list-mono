@@ -11,8 +11,8 @@ public interface TodoDaoInterface extends EntityDaoInterface<Todo> {
 
     Todo findByTodoListAndLabel(TodoList todoList, String label);
 
-    Todo findByTodoListAndNum(TodoList todoList, long num);
+    Todo findByTodoListAndNum(TodoList todoList, int num);
 
-    long countByTodoList(TodoList todoList);
+    int countByTodoList(TodoList todoList);
 
 }

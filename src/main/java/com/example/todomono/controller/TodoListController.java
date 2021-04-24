@@ -52,7 +52,7 @@ public class TodoListController {
     }
 
     @GetMapping("/todo-lists/{todoListNum}")
-    public String showOneTodoListOfACustomer(@PathVariable long todoListNum, Model model) {
+    public String showOneTodoListOfACustomer(@PathVariable int todoListNum, Model model) {
         TodoListForm todoListForm = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum).convertToDto();
         model.addAttribute("todoListForm", todoListForm);
         model.addAttribute("title", "Todo-List");
@@ -60,7 +60,7 @@ public class TodoListController {
     }
 
     @PutMapping("/todo-lists/{todoListNum}")
-    public String updateATodoList(@PathVariable long todoListNum, @Valid TodoListForm todoListForm, BindingResult result, Model model) {
+    public String updateATodoList(@PathVariable int todoListNum, @Valid TodoListForm todoListForm, BindingResult result, Model model) {
         todoListForm.setNum(todoListNum);
         if (!result.hasErrors()) {
             try {
@@ -78,7 +78,7 @@ public class TodoListController {
     }
 
     @DeleteMapping("/todo-lists/{todoListNum}")
-    public String deleteATodoList(@PathVariable long todoListNum, Model model) {
+    public String deleteATodoList(@PathVariable int todoListNum, Model model) {
         todoListService.deleteOneForCustomer(homeService.getCustomer(), todoListNum);
         return showAllTodoListsOfACustomer(model);
     }

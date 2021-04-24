@@ -41,15 +41,15 @@ class TodoListControllerFctTest {
     void init() {
         Customer customer = customerDao.findByName("greg");
         TodoList todoList = new TodoList("My todo-list 1");
-        todoList.setNum(1L);
+        todoList.setNum(1);
         todoList.setCustomer(customer);
         todoListDao.save(todoList);
         todoList = new TodoList("My todo-list 2");
-        todoList.setNum(2L);
+        todoList.setNum(2);
         todoList.setCustomer(customer);
         todoListDao.save(todoList);
         todoList = new TodoList("My todo-list 3");
-        todoList.setNum(3L);
+        todoList.setNum(3);
         todoList.setCustomer(customer);
         todoListDao.save(todoList);
     }

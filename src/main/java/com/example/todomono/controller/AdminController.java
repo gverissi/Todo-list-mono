@@ -35,7 +35,7 @@ public class AdminController {
     }
 
     @GetMapping("/customers/{customerId}")
-    public String showOneCustomer(@PathVariable int customerId, Model model) {
+    public String showOneCustomer(@PathVariable long customerId, Model model) {
         Customer customer = adminService.findOneCustomer(customerId);
         CustomerUpdateForm customerUpdateForm = new CustomerUpdateForm(customer.getId(), customer.getName(), customer.isEnabled());
         List<Role> roles = roleService.findAll();
@@ -52,7 +52,7 @@ public class AdminController {
     }
 
     @PutMapping("/customers/{customerId}")
-    public String updateOneCustomer(@PathVariable int customerId, @Valid CustomerUpdateForm customerUpdateForm) {
+    public String updateOneCustomer(@PathVariable long customerId, @Valid CustomerUpdateForm customerUpdateForm) {
         customerUpdateForm.setId(customerId);
         List<Role> newRoles = customerUpdateForm.getRoles().stream().filter(RoleUpdateForm::isEnabled).map(roleUpdateForm -> roleService.getOne(roleUpdateForm.getId())).collect(Collectors.toList());
         adminService.updateOneCustomer(customerUpdateForm, newRoles);
@@ -60,7 +60,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/customers/{customerId}")
-    public String deleteOneCustomer(@PathVariable int customerId, HttpServletRequest request) {
+    public String deleteOneCustomer(@PathVariable long customerId, HttpServletRequest request) {
         boolean isDeletedCustomerLoggedIn = adminService.deleteOneCustomer(customerId, request.getSession());
         if (isDeletedCustomerLoggedIn) return "redirect:/home?delete";
         return "redirect:/customers";
