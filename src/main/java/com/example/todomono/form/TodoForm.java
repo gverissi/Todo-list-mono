@@ -13,6 +13,8 @@ public class TodoForm {
 
     private int num;
 
+    private boolean done;
+
     public TodoForm(@NotNull @NotEmpty(message = "Field required") String label) {
         this.label = label;
     }
@@ -31,6 +33,14 @@ public class TodoForm {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 
 }

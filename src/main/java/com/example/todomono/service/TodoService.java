@@ -22,9 +22,8 @@ public class TodoService {
     }
 
     public Todo createOne(TodoList todoList, TodoForm todoForm) throws EntityAlreadyExistException {
-        String label = todoForm.getLabel();
-        if (todoExists(todoList, label)) throw new EntityAlreadyExistException("There is already a todo with label: " + label + ".");
-        Todo todo = new Todo(label);
+        if (todoExists(todoList, todoForm)) throw new EntityAlreadyExistException("There is already a todo with label: " + todoForm.getLabel() + ".");
+        Todo todo = new Todo(todoForm.getLabel());
         todo.setTodoList(todoList);
         todo.setNum(todoDao.countByTodoList(todoList) + 1);
         return todoDao.save(todo);
@@ -42,10 +41,11 @@ public class TodoService {
 
     public Todo updateOneForTodoList(TodoList todoList, TodoForm todoForm) throws EntityAlreadyExistException {
         String label = todoForm.getLabel();
-        if (todoExists(todoList, label)) throw new EntityAlreadyExistException("There is already a todo with label: " + label + ".");
+        if (todoExists(todoList, todoForm)) throw new EntityAlreadyExistException("There is already a todo with label: " + label + ".");
         Todo todo = todoDao.findByTodoListAndNum(todoList, todoForm.getNum());
         if (todo == null) throw new EntityNotFoundException("There is no todo with num = " + todoForm.getNum());
         todo.setLabel(label);
+        todo.setDone(todoForm.isDone());
         return todoDao.save(todo);
     }
 
@@ -56,8 +56,10 @@ public class TodoService {
         computeTodoNum(todoList);
     }
 
-    private boolean todoExists(TodoList todoList, String label) {
-        return todoDao.findByTodoListAndLabel(todoList, label) != null;
+    private boolean todoExists(TodoList todoList, TodoForm todoForm) {
+        Todo todo = todoDao.findByTodoListAndLabel(todoList, todoForm.getLabel());
+        if (todo == null) return false;
+        return (todo.getNum() != todoForm.getNum());
     }
 
     private void computeTodoNum(TodoList todoList) {

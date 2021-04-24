@@ -19,6 +19,8 @@ public class Todo {
 
     private int num;
 
+    private boolean done;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "todo_list_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -55,6 +57,14 @@ public class Todo {
         this.num = num;
     }
 
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
     public TodoList getTodoList() {
         return todoList;
     }
@@ -66,6 +76,7 @@ public class Todo {
     public TodoForm convertToDto() {
         TodoForm todoForm = new TodoForm(label);
         todoForm.setNum(num);
+        todoForm.setDone(done);
         return todoForm;
     }
 
