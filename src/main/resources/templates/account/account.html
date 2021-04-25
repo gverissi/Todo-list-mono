@@ -19,10 +19,35 @@
     <div th:replace="fragments/alert :: alert">alert</div>
 
     <div class="container">
-        <h2 class="text-center my-5">Name: <span sec:authentication="name"></span></h2>
+
+        <table class="table table-hover table-bordered">
+
+            <thead class="thead-dark">
+            <tr>
+                <th class="text-center">Name</th>
+                <th class="text-center">Total todo-lists</th>
+                <th class="text-center">Finished todo-lists</th>
+                <th class="text-center">Total todos</th>
+                <th class="text-center">Done todos</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td class="text-center"><span sec:authentication="name"></span></td>
+                <td class="text-center" th:text="${totalTodoLists}"></td>
+                <td class="text-center" th:text="${finishedTodoLists}"></td>
+                <td class="text-center" th:text="${totalTodos}"></td>
+                <td class="text-center" th:text="${doneTodos}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+
         <a th:href="@{/change-name}" class="button">Change name</a>
         <a th:href="@{/change-password}" class="button my-3">Change password</a>
         <a th:href="@{/delete-account}" class="button">Delete Account</a>
+
     </div>
 
 </main>
