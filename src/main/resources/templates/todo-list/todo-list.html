@@ -25,15 +25,34 @@
         </div>
     </div>
 
-    <h2 class="text-center my-5"><span th:text="${todoListForm.title}"></span></h2>
-
     <div class="container">
-        <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListForm.num})}" th:object="${todoListForm}" th:method="PUT">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input id="title" class="form-control" th:type="text" th:field="*{title}"/>
-                <small class="form-text text-muted" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">errors</small>
-            </div>
+
+        <table class="table table-hover table-bordered">
+
+            <thead class="thead-dark">
+            <tr>
+                <th class="text-right">#</th>
+                <th>Title</th>
+                <th class="text-center">Finished</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:object="${todoListForm}">
+                <td class="text-right" th:text="*{num}"></td>
+                <td class="align-middle">
+                    <input form="update" class="input-table" th:type="text" th:field="*{title}" title="label"/>
+                    <small class="form-text text-muted" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">errors</small>
+                </td>
+                <td class="align-middle">
+                    <input form="update" class="input-table" type="checkbox" th:field="*{finished}" title="finished" onclick="return false;"/>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+
+        <form id="update" th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListForm.num})}" th:method="PUT">
             <button type="submit" class="button">Update</button>
         </form>
 
@@ -42,6 +61,7 @@
         </form>
 
         <a th:href="@{/todo-lists/{todoListNum}/todos(todoListNum=${todoListForm.num})}" class="button">Show todos</a>
+
     </div>
 
 </main>

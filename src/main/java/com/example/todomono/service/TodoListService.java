@@ -23,7 +23,7 @@ public class TodoListService {
 
     public TodoList createOneForCustomer(Customer customer, TodoListForm todoListForm) throws EntityAlreadyExistException {
         String title = todoListForm.getTitle();
-        if (todoListExists(customer, title)) throw new EntityAlreadyExistException("There is already a todo-list with name: " + title + ".");
+        if (todoListExists(customer, todoListForm)) throw new EntityAlreadyExistException("There is already a todo-list with name: " + title + ".");
         TodoList todoList = new TodoList(title);
         todoList.setCustomer(customer);
         todoList.setNum(todoListDao.countByCustomer(customer) + 1);
@@ -43,10 +43,11 @@ public class TodoListService {
     public TodoList updateOneForCustomer(Customer customer, TodoListForm todoListForm) throws EntityAlreadyExistException {
         String title = todoListForm.getTitle();
         int todoListNum = todoListForm.getNum();
-        if (todoListExists(customer, title)) throw new EntityAlreadyExistException("There is already a todo-list with name: " + title + ".");
+        if (todoListExists(customer, todoListForm)) throw new EntityAlreadyExistException("There is already a todo-list with name: " + title + ".");
         TodoList todoList = todoListDao.findByCustomerAndNum(customer, todoListNum);
         if (todoList == null) throw new EntityNotFoundException("There is no todo-list with num = " + todoListNum);
         todoList.setTitle(title);
+        todoList.setFinished(todoListForm.isFinished());
         return todoListDao.save(todoList);
     }
 
@@ -57,8 +58,10 @@ public class TodoListService {
         computeTodoListNum(customer);
     }
 
-    private boolean todoListExists(Customer customer, String title) {
-        return todoListDao.findByCustomerAndTitle(customer, title) != null;
+    private boolean todoListExists(Customer customer, TodoListForm todoListForm) {
+        TodoList todoList = todoListDao.findByCustomerAndTitle(customer, todoListForm.getTitle());
+        if (todoList == null) return false;
+        return (todoList.getNum() != todoListForm.getNum());
     }
 
     private void computeTodoListNum(Customer customer) {

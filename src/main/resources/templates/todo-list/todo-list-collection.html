@@ -31,12 +31,14 @@
 
             <thead class="thead-dark">
             <tr>
-                <th>#</th>
+                <th class="text-right">#</th>
                 <th>Name</th>
+                <th class="text-center">Finished</th>
                 <th class="th-btn">C</th>
                 <th class="th-btn">R</th>
                 <th class="th-btn">U</th>
                 <th class="th-btn">D</th>
+                <th class="th-btn">Todos</th>
             </tr>
             </thead>
 
@@ -48,6 +50,7 @@
                     <input form="create-form" class="input-table" th:type="text" th:field="*{title}" title="title">
                     <small class="form-text text-muted" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">errors</small>
                 </td>
+                <td class="align-middle"></td>
                 <td class="align-middle">
                     <form id="create-form" th:action="@{/todo-lists}" method="POST">
                         <button type="submit" class="align-middle button">Create</button>
@@ -56,27 +59,33 @@
                 <td class="align-middle"></td>
                 <td class="align-middle"></td>
                 <td class="align-middle"></td>
+                <td class="align-middle"></td>
             </tr>
 
-            <tr th:each="todoListDto, stat : ${todoListDtoCollection}">
-                <td class="align-middle" th:text="${todoListDto.num}"></td>
+            <tr th:each="todoListDto, stat : ${todoListDtoCollection}" th:object="${todoListForm}">
+                <td class="align-middle text-right" th:text="${todoListDto.num}"></td>
                 <td class="align-middle">
-                    <form th:id="${stat.index}" th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListDto.num})}" th:object="${todoListForm}" th:method="PUT">
-                        <input type="hidden" name="num" th:value="${todoListDto.num}">
-                        <input class="input-table" type="text" name="title" th:value="${todoListDto.title}" title="title">
-                    </form>
+                    <input th:form="${stat.index}" class="input-table" type="text" name="title" th:value="${todoListDto.title}" title="title">
+                </td>
+                <td class="align-middle">
+                    <input th:form="${stat.index}" class="input-table" th:type="checkbox" th:name="finished" th:checked="${todoListDto.finished}" title="finished" onclick="return false;">
                 </td>
                 <td class="align-middle"></td>
                 <td class="align-middle">
-                    <a th:href="@{/todo-lists/{todoListId}(todoListId=${todoListDto.num})}" class="button">Read</a>
+                    <a th:href="@{/todo-lists/{todoListNum}(todoListNum=${todoListDto.num})}" class="button">Read</a>
                 </td>
                 <td class="align-middle">
-                    <button th:form="${stat.index}" type="submit" class="button">Update</button>
+                    <form th:id="${stat.index}" th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListDto.num})}" th:method="PUT">
+                        <button type="submit" class="button">Update</button>
+                    </form>
                 </td>
                 <td class="align-middle">
-                    <form th:action="@{/todo-lists/{todoListId}(todoListId=${todoListDto.num})}" th:method="DELETE">
+                    <form th:action="@{/todo-lists/{todoListNum}(todoListNum=${todoListDto.num})}" th:method="DELETE">
                         <button type="submit" class="button">Delete</button>
                     </form>
+                </td>
+                <td class="align-middle">
+                    <a th:href="@{/todo-lists/{todoListNum}/todos(todoListNum=${todoListDto.num})}" class="button">Todos</a>
                 </td>
             </tr>
 

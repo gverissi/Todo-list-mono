@@ -13,6 +13,8 @@ public class TodoListForm {
 
     private int num;
 
+    private boolean finished;
+
     public TodoListForm(@NotNull @NotEmpty(message = "Field required") String title) {
         this.title = title;
     }
@@ -31,6 +33,14 @@ public class TodoListForm {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
 }

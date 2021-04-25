@@ -4,6 +4,7 @@ import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoForm;
+import com.example.todomono.form.TodoListForm;
 import com.example.todomono.service.customer.HomeService;
 import com.example.todomono.service.TodoListService;
 import com.example.todomono.service.TodoService;
@@ -73,6 +74,10 @@ public class TodoController {
         if (!result.hasErrors()) {
             try {
                 todoService.updateOneForTodoList(todoList, todoForm);
+                long nbTodosNotDone = todoService.findAllByTodoList(todoList).stream().filter(todo -> !todo.isDone()).count();
+                TodoListForm todoListForm = todoList.convertToDto();
+                todoListForm.setFinished(nbTodosNotDone == 0);
+                todoListService.updateOneForCustomer(homeService.getCustomer(), todoListForm);
                 return showAllTodosOfATodoList(todoListNum, model);
             } catch (EntityAlreadyExistException e) {
                 model.addAttribute("errorMessage", e.getMessage());

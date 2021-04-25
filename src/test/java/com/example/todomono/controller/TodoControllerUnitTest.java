@@ -5,6 +5,7 @@ import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.TodoForm;
+import com.example.todomono.form.TodoListForm;
 import com.example.todomono.service.customer.HomeService;
 import com.example.todomono.service.TodoListService;
 import com.example.todomono.service.TodoService;
@@ -49,6 +50,8 @@ class TodoControllerUnitTest {
         when(homeService.getCustomer()).thenReturn(customer);
         todoList = mock(TodoList.class);
         when(todoListService.getOneByCustomerAndNum(customer, TODO_LIST_NUM)).thenReturn(todoList);
+        TodoListForm todoListForm = mock(TodoListForm.class);
+        when(todoList.convertToDto()).thenReturn(todoListForm);
     }
 
     @Test
