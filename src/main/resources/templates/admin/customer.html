@@ -13,7 +13,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
-            <li class="breadcrumb-item"><a th:href="@{/customers}">Customers</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/admin/customers}">Customers</a></li>
             <li class="breadcrumb-item active" aria-current="page" th:text="${customerUpdateForm.name}">Customer</li>
         </ol>
     </nav>
@@ -28,7 +28,7 @@
     <h2 class="text-center my-5"><span th:text="${customerUpdateForm.name}"></span></h2>
 
     <div class="container">
-        <form th:action="@{/customers/{customerId}(customerId=${customerUpdateForm.id})}" th:object="${customerUpdateForm}" th:method="PUT">
+        <form th:action="@{/admin/customers/{customerId}(customerId=${customerUpdateForm.id})}" th:object="${customerUpdateForm}" th:method="PUT">
             <div class="row">
                 <div class="col-1"><label for="enabled">Enabled: </label></div>
                 <div class="col-11"><input type="checkbox" th:field="*{enabled}" id="enabled"/></div>
@@ -38,7 +38,7 @@
                 <div class="col-1">Roles:</div>
                 <div class="col-11">
                     <div th:each="role, stat : *{roles}">
-                        <input type="checkbox" th:field="*{roles[__${stat.index}__].enabled}" th:id="${stat.index}"/>
+                        <input type="checkbox" th:field="*{roles[__${stat.index}__].enabled}" th:id="${stat.index}" title="role"/>
                         <label th:text="${role.roleName}" th:for="${stat.index}">roleName</label>
                         <input type="hidden" th:field="*{roles[__${stat.index}__].id}">
                         <input type="hidden" th:field="*{roles[__${stat.index}__].roleName}">
@@ -48,7 +48,7 @@
             <button type="submit" class="button">Update</button>
         </form>
 
-        <form th:action="@{/customers/{customerId}(customerId=${customerUpdateForm.id})}" th:method="DELETE">
+        <form th:action="@{/admin/customers/{customerId}(customerId=${customerUpdateForm.id})}" th:method="DELETE">
             <button type="submit" class="button my-3">Delete</button>
         </form>
     </div>

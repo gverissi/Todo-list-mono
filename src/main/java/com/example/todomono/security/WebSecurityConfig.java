@@ -19,15 +19,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private final MyUserDetailsService myUserDetailsService;
-
-    @Autowired
     private final CustomerDaoInterface customerDao;
-
-    @Autowired
     private final RoleDaoInterface roleDao;
 
+    @Autowired
     public WebSecurityConfig(MyUserDetailsService myUserDetailsService, CustomerDaoInterface customerDao, RoleDaoInterface roleDao) {
         this.myUserDetailsService = myUserDetailsService;
         this.customerDao = customerDao;
@@ -37,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         String userPassword = passwordEncoder().encode("gg");
-        String adminPassword = passwordEncoder().encode("admin");
+        String adminPassword = passwordEncoder().encode("gg");
 
         Role roleUser = new Role("USER");
         roleDao.save(roleUser);
@@ -60,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/css/**", "/js/**");
     }
 
@@ -69,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/log-in", "/sign-up").permitAll()
-                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().hasRole("USER")
                 .and()
                 .formLogin()

@@ -20,9 +20,8 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a id="home" class="nav-item nav-link navbar_item active" href="/home">Home</a>
                 <div sec:authorize="hasRole('ADMIN')">
-                    <a id="admin" class="nav-item nav-link navbar_item active" href="/customers">Admin</a>
+                    <a id="admin" class="nav-item nav-link navbar_item active" href="/admin/customers">Admin</a>
                 </div>
                 <div sec:authorize="isAuthenticated()" class="dropdown show">
                     <a class="nav-item nav-link navbar_item active dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -36,12 +35,6 @@
                         </form>
                     </div>
                 </div>
-                <!--                {% if "bridge" in roles %}-->
-                <!--                <a id="bank" class="nav-item nav-link navbar_item {{ bankActive }}" href="/banks">Mes Banques</a>-->
-                <!--                {% endif %}-->
-                <!--                {% if "admin" in roles %}-->
-                <!--                <a id="admin" class="nav-item nav-link navbar_item {{ adminActive }}" href="/admin">Admin</a>-->
-                <!--                {% endif %}-->
             </div>
         </div>
     </nav>

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
 
     private final AdminService adminService;
@@ -56,14 +57,14 @@ public class AdminController {
         customerUpdateForm.setId(customerId);
         List<Role> newRoles = customerUpdateForm.getRoles().stream().filter(RoleUpdateForm::isEnabled).map(roleUpdateForm -> roleService.getOne(roleUpdateForm.getId())).collect(Collectors.toList());
         adminService.updateOneCustomer(customerUpdateForm, newRoles);
-        return "redirect:/customers";
+        return "redirect:/admin/customers";
     }
 
     @DeleteMapping("/customers/{customerId}")
     public String deleteOneCustomer(@PathVariable long customerId, HttpServletRequest request) {
         boolean isDeletedCustomerLoggedIn = adminService.deleteOneCustomer(customerId, request.getSession());
         if (isDeletedCustomerLoggedIn) return "redirect:/home?delete";
-        return "redirect:/customers";
+        return "redirect:/admin/customers";
     }
 
     private void fillUpTheModel(Model model) {

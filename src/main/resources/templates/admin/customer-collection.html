@@ -48,10 +48,10 @@
                 <td class="align-middle" th:text="${customer.enabled}"></td>
                 <td class="align-middle" th:text="${customer.roleSet}"></td>
                 <td class="align-middle">
-                    <a th:href="@{/customers/{customerId}(customerId=${customer.id})}" class="button">Read</a>
+                    <a th:href="@{/admin/customers/{customerId}(customerId=${customer.id})}" class="button">Read</a>
                 </td>
                 <td class="align-middle">
-                    <form th:action="@{/customers/{customerId}(customerId=${customer.id})}" th:method="DELETE">
+                    <form th:action="@{/admin/customers/{customerId}(customerId=${customer.id})}" th:method="DELETE">
                         <button type="submit" class="button">Delete</button>
                     </form>
                 </td>
