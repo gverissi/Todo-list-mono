@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
+@RequestMapping("/home")
 public class HomeController {
 
     private final HomeService homeService;
@@ -26,7 +27,7 @@ public class HomeController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/home")
+    @GetMapping()
     public String showHomePage(Model model) {
         model.addAttribute("title", "Home");
         return "home/home";
@@ -51,7 +52,7 @@ public class HomeController {
         try {
             if (!result.hasErrors()) {
                 homeService.createCustomer(customerCreateForm, roleService.findByRoleName("USER"));
-                return "redirect:log-in?registered";
+                return "redirect:/home/log-in?registered";
             } else {
                 return "home/sign-up";
             }

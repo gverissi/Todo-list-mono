@@ -38,14 +38,14 @@ class HomeControllerFctTest {
         String password = "1234";
 
         mockMvc.perform(
-                post("/sign-up")
+                post("/home/sign-up")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .content(encode("name", "UTF-8") + "=" + encode(name, "UTF-8")
                                 + "&" + encode("password", "UTF-8") + "=" + encode(password, "UTF-8")
                                 + "&" + encode("matchingPassword", "UTF-8") + "=" + encode(password, "UTF-8"))
                         .with(csrf()))
                 .andExpect(status().isFound())
-                .andExpect(view().name("redirect:log-in?registered"));
+                .andExpect(view().name("redirect:/home/log-in?registered"));
 
         Customer customer = customerDao.findByName(name);
         assertEquals(name, customer.getName());

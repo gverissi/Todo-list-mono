@@ -64,12 +64,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/log-in", "/sign-up").permitAll()
+                .antMatchers("/", "/home/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().hasRole("USER")
                 .and()
                 .formLogin()
-                .loginPage("/log-in")
+                .loginPage("/home/log-in")
                 .permitAll()
                 .defaultSuccessUrl("/home?login", true)
                 .and()

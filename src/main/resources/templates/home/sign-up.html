@@ -12,7 +12,7 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:href="@{/templates/home}">Home</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Sign-Up</li>
         </ol>
     </nav>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="container">
-        <form th:action="@{/sign-up}" th:object="${customerCreateForm}" method="POST">
+        <form th:action="@{/home/sign-up}" th:object="${customerCreateForm}" method="POST">
             <div class="form-group">
                 <label for="user-name">Username</label>
                 <input id="user-name" class="form-control" th:type="text" th:field="*{name}"/>

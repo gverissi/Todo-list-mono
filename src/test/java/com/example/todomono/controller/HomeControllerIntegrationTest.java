@@ -41,7 +41,7 @@ class HomeControllerIntegrationTest {
 
     @Test
     void showLogInPage() throws Exception {
-        mockMvc.perform(get("/log-in"))
+        mockMvc.perform(get("/home/log-in"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("home/log-in"))
                 .andExpect(model().attribute("title", "Log-In"))
@@ -50,7 +50,7 @@ class HomeControllerIntegrationTest {
 
     @Test
     void showRegistrationForm() throws Exception {
-        mockMvc.perform(get("/sign-up"))
+        mockMvc.perform(get("/home/sign-up"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("home/sign-up"))
                 .andExpect(model().attribute("title", "Sign-Up"))
@@ -77,14 +77,14 @@ class HomeControllerIntegrationTest {
         when(homeService.createCustomer(customerCreateForm, roleMock)).thenReturn(mock(Customer.class));
 
         mockMvc.perform(
-                post("/sign-up")
+                post("/home/sign-up")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .content(encode("name", "UTF-8") + "=" + encode(customerName, "UTF-8")
                                 + "&" + encode("password", "UTF-8") + "=" + encode(customerPassword, "UTF-8")
                                 + "&" + encode("matchingPassword", "UTF-8") + "=" + encode(customerPassword, "UTF-8"))
                         .with(csrf()))
                 .andExpect(status().isFound())
-                .andExpect(view().name("redirect:log-in?registered"));
+                .andExpect(view().name("redirect:/home/log-in?registered"));
     }
 
 }

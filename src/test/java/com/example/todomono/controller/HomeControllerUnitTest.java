@@ -71,7 +71,7 @@ class HomeControllerUnitTest {
         String viewName = homeController.registerNewCustomer(customerCreateForm, result, model);
         // Then
         verify(homeService).createCustomer(customerCreateForm, roleMock);
-        assertEquals("redirect:log-in?registered", viewName);
+        assertEquals("redirect:/home/log-in?registered", viewName);
     }
 
 }
