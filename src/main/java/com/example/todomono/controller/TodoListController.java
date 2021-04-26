@@ -66,7 +66,7 @@ public class TodoListController {
         if (!result.hasErrors()) {
             try {
                 todoListService.updateOneForCustomer(homeService.getCustomer(), todoListForm);
-                return showAllTodoListsOfACustomer(model);
+                return "redirect:/todo-lists";
             } catch (EntityAlreadyExistException e) {
                 model.addAttribute("errorMessage", e.getMessage());
             }
@@ -79,9 +79,9 @@ public class TodoListController {
     }
 
     @DeleteMapping("/{todoListNum}")
-    public String deleteATodoList(@PathVariable int todoListNum, Model model) {
+    public String deleteATodoList(@PathVariable int todoListNum) {
         todoListService.deleteOneForCustomer(homeService.getCustomer(), todoListNum);
-        return showAllTodoListsOfACustomer(model);
+        return "redirect:/todo-lists";
     }
 
     private void fillUpTheModel(Model model) {

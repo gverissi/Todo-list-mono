@@ -95,7 +95,7 @@ class TodoControllerUnitTest {
         String viewName = todoController.updateATodo(TODO_LIST_NUM, todoNum, todoForm, result, model);
         // Then
         verify(todoService).updateOneForTodoList(todoList, todoForm);
-        assertEquals("todo/todo-collection", viewName);
+        assertEquals("redirect:/todo-lists/{todoListNum}/todos", viewName);
     }
 
     @Test
@@ -103,10 +103,10 @@ class TodoControllerUnitTest {
         // Given
         int todoNum = 1;
         // When
-        String viewName = todoController.deleteATodo(TODO_LIST_NUM, todoNum, model);
+        String viewName = todoController.deleteATodo(TODO_LIST_NUM, todoNum);
         // Then
         verify(todoService).deleteOneForTodoList(todoList, todoNum);
-        assertEquals("todo/todo-collection", viewName);
+        assertEquals("redirect:/todo-lists/{todoListNum}/todos", viewName);
     }
 
 }

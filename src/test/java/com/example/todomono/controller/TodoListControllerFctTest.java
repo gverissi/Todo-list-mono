@@ -82,8 +82,8 @@ class TodoListControllerFctTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .content(encode("title", "UTF-8") + "=" + encode(newTitle, "UTF-8"))
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("todo-list/todo-list-collection"));
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/todo-lists"));
 
         TodoList updatedTodoList = todoListDao.findByCustomerAndTitle(customer, newTitle);
         assertEquals(newTitle, updatedTodoList.getTitle());
@@ -99,8 +99,8 @@ class TodoListControllerFctTest {
                 delete("/todo-lists/" + todoListNum)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("todo-list/todo-list-collection"));
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/todo-lists"));
 
         TodoList deletedTodoList = todoListDao.findByCustomerAndTitle(customer, "My todo-list 2");
         assertNull(deletedTodoList);
