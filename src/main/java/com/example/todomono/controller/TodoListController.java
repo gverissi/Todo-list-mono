@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/todo-lists")
 public class TodoListController {
 
     private static final String INITIAL_TITLE = "New todo-list";
@@ -29,7 +30,7 @@ public class TodoListController {
         this.todoListService = todoListService;
     }
 
-    @PostMapping("/todo-lists")
+    @PostMapping()
     public String createATodoList(@Valid TodoListForm todoListForm, BindingResult result, Model model) {
         try {
             if (!result.hasErrors()) {
@@ -43,7 +44,7 @@ public class TodoListController {
         return "todo-list/todo-list-collection";
     }
 
-    @GetMapping("/todo-lists")
+    @GetMapping()
     public String showAllTodoListsOfACustomer(Model model) {
         TodoListForm todoListForm = new TodoListForm(INITIAL_TITLE);
         model.addAttribute("todoListForm", todoListForm);
@@ -51,7 +52,7 @@ public class TodoListController {
         return "todo-list/todo-list-collection";
     }
 
-    @GetMapping("/todo-lists/{todoListNum}")
+    @GetMapping("/{todoListNum}")
     public String showOneTodoListOfACustomer(@PathVariable int todoListNum, Model model) {
         TodoListForm todoListForm = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum).convertToDto();
         model.addAttribute("todoListForm", todoListForm);
@@ -59,7 +60,7 @@ public class TodoListController {
         return "todo-list/todo-list";
     }
 
-    @PutMapping("/todo-lists/{todoListNum}")
+    @PutMapping("/{todoListNum}")
     public String updateATodoList(@PathVariable int todoListNum, @Valid TodoListForm todoListForm, BindingResult result, Model model) {
         todoListForm.setNum(todoListNum);
         if (!result.hasErrors()) {
@@ -77,7 +78,7 @@ public class TodoListController {
         return "todo-list/todo-list";
     }
 
-    @DeleteMapping("/todo-lists/{todoListNum}")
+    @DeleteMapping("/{todoListNum}")
     public String deleteATodoList(@PathVariable int todoListNum, Model model) {
         todoListService.deleteOneForCustomer(homeService.getCustomer(), todoListNum);
         return showAllTodoListsOfACustomer(model);
