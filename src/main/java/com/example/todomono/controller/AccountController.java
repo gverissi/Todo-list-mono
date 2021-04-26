@@ -18,12 +18,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequestMapping("/account")
 public class AccountController {
 
     private final HomeService homeService;
@@ -39,7 +41,7 @@ public class AccountController {
         this.todoService = todoService;
     }
 
-    @GetMapping("/account")
+    @GetMapping()
     public String showAccountPage(Model model) {
         model.addAttribute("title", "Account");
         List<TodoList> todoLists = todoListService.findAllByCustomer(homeService.getCustomer());
@@ -67,7 +69,7 @@ public class AccountController {
         try {
             if (!result.hasErrors()) {
                 accountService.updateNameOfACustomer(homeService.getCustomer(), customerChangeNameForm);
-                return "redirect:account";
+                return "redirect:/account";
             } else {
                 return "account/change-name";
             }
@@ -90,7 +92,7 @@ public class AccountController {
         try {
             if (!result.hasErrors()) {
                 accountService.updatePasswordOfACustomer(homeService.getCustomer(), customerChangePasswordForm);
-                return "redirect:account";
+                return "redirect:/account";
             } else {
                 return "account/change-password";
             }
@@ -113,7 +115,7 @@ public class AccountController {
         try {
             if (!result.hasErrors()) {
                 accountService.deleteAccount(homeService.getCustomer(), customerDeleteAccountForm, request.getSession());
-                return "redirect:home?delete";
+                return "redirect:/home?delete";
             } else {
                 return "account/delete-account";
             }
