@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/todo-lists")
 public class TodoController {
 
     private static final String INITIAL_LABEL = "New todo";
@@ -34,7 +35,7 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @PostMapping("/todo-lists/{todoListNum}/todos")
+    @PostMapping("/{todoListNum}/todos")
     public String createATodo(@PathVariable int todoListNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
         try {
             if (!result.hasErrors()) {
@@ -49,7 +50,7 @@ public class TodoController {
         return "todo/todo-collection";
     }
 
-    @GetMapping("/todo-lists/{todoListNum}/todos")
+    @GetMapping("/{todoListNum}/todos")
     public String showAllTodosOfATodoList(@PathVariable int todoListNum, Model model) {
         TodoForm todoForm = new TodoForm(INITIAL_LABEL);
         model.addAttribute("todoForm", todoForm);
@@ -57,7 +58,7 @@ public class TodoController {
         return "todo/todo-collection";
     }
 
-    @GetMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
+    @GetMapping("/{todoListNum}/todos/{todoNum}")
     public String showOneTodoOfATodoList(@PathVariable int todoListNum, @PathVariable int todoNum, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         TodoForm todoForm = todoService.getOneByTodoListAndNum(todoList, todoNum).convertToDto();
@@ -67,7 +68,7 @@ public class TodoController {
         return "todo/todo";
     }
 
-    @PutMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
+    @PutMapping("/{todoListNum}/todos/{todoNum}")
     public String updateATodo(@PathVariable int todoListNum, @PathVariable int todoNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         todoForm.setNum(todoNum);
@@ -91,7 +92,7 @@ public class TodoController {
         return "todo/todo";
     }
 
-    @DeleteMapping("/todo-lists/{todoListNum}/todos/{todoNum}")
+    @DeleteMapping("/{todoListNum}/todos/{todoNum}")
     public String deleteATodo(@PathVariable int todoListNum, @PathVariable int todoNum, Model model) {
         TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         todoService.deleteOneForTodoList(todoList, todoNum);
