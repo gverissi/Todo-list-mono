@@ -25,7 +25,7 @@
     </div>
 
     <div class="container">
-        <form th:action="@{/account/change-name}" th:object="${customerChangeNameForm}" method="POST">
+        <form th:action="@{/account/change-name}" th:object="${customerChangeNameForm}" th:method="PUT">
             <div class="form-group">
                 <label for="name">New name</label>
                 <input class="form-control" th:type="text" th:field="*{name}" id="name"/>

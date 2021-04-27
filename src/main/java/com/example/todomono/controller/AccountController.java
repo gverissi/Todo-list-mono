@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -63,7 +60,7 @@ public class AccountController {
         return "account/change-name";
     }
 
-    @PostMapping("/change-name")
+    @PutMapping("/change-name")
     public String updateName(@Valid CustomerChangeNameForm customerChangeNameForm, BindingResult result, Model model) {
         model.addAttribute("title", "Change Name");
         try {
@@ -86,7 +83,7 @@ public class AccountController {
         return "account/change-password";
     }
 
-    @PostMapping("/change-password")
+    @PutMapping("/change-password")
     public String updatePassword(@Valid CustomerChangePasswordForm customerChangePasswordForm, BindingResult result, Model model) {
         model.addAttribute("title", "Change Password");
         try {

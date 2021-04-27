@@ -72,9 +72,7 @@ class AdminControllerIntegrationTest {
     void deleteOneCustomer() throws Exception {
         when(adminService.deleteOneCustomer(1L, request.getSession())).thenReturn(false);
         mockMvc.perform(
-                delete("/admin/customers/1")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .with(csrf()))
+                delete("/admin/customers/1").with(csrf()))
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/admin/customers"));
     }
