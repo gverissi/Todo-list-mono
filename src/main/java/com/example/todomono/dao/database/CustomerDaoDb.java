@@ -2,6 +2,7 @@ package com.example.todomono.dao.database;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
+import com.example.todomono.exception.DaoEntityNotFoundException;
 import com.example.todomono.repository.CustomerRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,8 +19,10 @@ public class CustomerDaoDb extends EntityDaoDb<Customer, CustomerRepositoryInter
     }
 
     @Override
-    public Customer findByName(String name) {
-        return customerRepository.findByName(name);
+    public Customer findByName(String name) throws DaoEntityNotFoundException {
+        Customer customer = customerRepository.findByName(name);
+        if (customer == null) throw new DaoEntityNotFoundException();
+        return customer;
     }
 
 }

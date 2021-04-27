@@ -20,7 +20,7 @@ public class CustomerDaoMemory implements CustomerDaoInterface {
     }
 
     @Override
-    public Customer findByName(String name) {
+    public Customer findByName(String name) throws DaoEntityNotFoundException {
         Customer customer = customerMap.get(name);
         if (customer == null) throw new DaoEntityNotFoundException();
         return customer;
