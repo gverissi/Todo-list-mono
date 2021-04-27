@@ -3,6 +3,7 @@ package com.example.todomono.dao.database;
 import com.example.todomono.dao.TodoListDaoInterface;
 import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.TodoList;
+import com.example.todomono.exception.DaoEntityNotFoundException;
 import com.example.todomono.repository.TodoListRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,8 +32,10 @@ public class TodoListDaoDb extends EntityDaoDb<TodoList, TodoListRepositoryInter
     }
 
     @Override
-    public TodoList findByCustomerAndNum(Customer customer, int todoListNum) {
-        return todoListRepository.findByCustomerAndNum(customer, todoListNum);
+    public TodoList findByCustomerAndNum(Customer customer, int todoListNum) throws DaoEntityNotFoundException {
+        TodoList todoList = todoListRepository.findByCustomerAndNum(customer, todoListNum);
+        if (todoList == null) throw new DaoEntityNotFoundException();
+        return todoList;
     }
 
     @Override
@@ -41,3 +44,4 @@ public class TodoListDaoDb extends EntityDaoDb<TodoList, TodoListRepositoryInter
     }
 
 }
+

@@ -2,6 +2,7 @@ package com.example.todomono.dao.memory;
 
 import com.example.todomono.dao.RoleDaoInterface;
 import com.example.todomono.entity.Role;
+import com.example.todomono.exception.DaoConstraintViolationException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -45,8 +46,7 @@ class RoleDaoMemoryTest {
         roleDao.save(new Role("ADMIN"));
         assertThat(roleDao.findAll(), hasSize(2));
         assertThatThrownBy(() -> roleDao.save(new Role("ADMIN")))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("Unique constrain violation: a Role entity with roleName = ADMIN already exist!");
+                .isInstanceOf(DaoConstraintViolationException.class);
     }
 
     @Test

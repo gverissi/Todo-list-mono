@@ -65,11 +65,11 @@ class TodoListControllerUnitTest {
         // Given
         int todoListNum = 1;
         TodoList todoList = new TodoList("my todo-list");
-        when(todoListService.getOneByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
+        when(todoListService.findOneByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
         // When
         String viewName = todoListController.showOneTodoListOfACustomer(todoListNum, model);
         // Then
-        verify(todoListService).getOneByCustomerAndNum(customer, todoListNum);
+        verify(todoListService).findOneByCustomerAndNum(customer, todoListNum);
         assertEquals("todo-list/todo-list", viewName);
     }
 

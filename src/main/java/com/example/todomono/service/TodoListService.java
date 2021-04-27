@@ -3,8 +3,8 @@ package com.example.todomono.service;
 import com.example.todomono.dao.TodoListDaoInterface;
 import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.TodoList;
+import com.example.todomono.exception.DaoConstraintViolationException;
 import com.example.todomono.exception.EntityAlreadyExistException;
-import com.example.todomono.exception.EntityNotFoundException;
 import com.example.todomono.form.TodoListForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,45 +23,41 @@ public class TodoListService {
 
     public TodoList createOneForCustomer(Customer customer, TodoListForm todoListForm) throws EntityAlreadyExistException {
         String title = todoListForm.getTitle();
-        if (todoListExists(customer, todoListForm)) throw new EntityAlreadyExistException("There is already a todo-list with name: " + title + ".");
         TodoList todoList = new TodoList(title);
         todoList.setCustomer(customer);
         todoList.setNum(todoListDao.countByCustomer(customer) + 1);
-        return todoListDao.save(todoList);
+        try {
+            return todoListDao.save(todoList);
+        } catch (DaoConstraintViolationException e) {
+            throw new EntityAlreadyExistException("There is already a todo-list with name: " + title);
+        }
     }
 
     public List<TodoList> findAllByCustomer(Customer customer) {
         return todoListDao.findAllByCustomer(customer);
     }
 
-    public TodoList getOneByCustomerAndNum(Customer customer, int todoListNum) {
-        TodoList todoList = todoListDao.findByCustomerAndNum(customer, todoListNum);
-        if (todoList == null) throw new EntityNotFoundException("There is no todo-list with num = " + todoListNum);
-        return todoList;
+    public TodoList findOneByCustomerAndNum(Customer customer, int todoListNum) {
+        return todoListDao.findByCustomerAndNum(customer, todoListNum);
     }
 
     public TodoList updateOneForCustomer(Customer customer, TodoListForm todoListForm) throws EntityAlreadyExistException {
         String title = todoListForm.getTitle();
         int todoListNum = todoListForm.getNum();
-        if (todoListExists(customer, todoListForm)) throw new EntityAlreadyExistException("There is already a todo-list with name: " + title + ".");
         TodoList todoList = todoListDao.findByCustomerAndNum(customer, todoListNum);
-        if (todoList == null) throw new EntityNotFoundException("There is no todo-list with num = " + todoListNum);
         todoList.setTitle(title);
         todoList.setFinished(todoListForm.isFinished());
-        return todoListDao.save(todoList);
+        try {
+            return todoListDao.save(todoList);
+        } catch (DaoConstraintViolationException e) {
+            throw new EntityAlreadyExistException("There is already a todo-list with name: " + title);
+        }
     }
 
     public void deleteOneForCustomer(Customer customer, int todoListNum) {
         TodoList todoList = todoListDao.findByCustomerAndNum(customer, todoListNum);
-        if (todoList == null) throw new EntityNotFoundException("There is no todo-list with num = " + todoListNum);
         todoListDao.deleteById(todoList.getId());
         computeTodoListNum(customer);
-    }
-
-    private boolean todoListExists(Customer customer, TodoListForm todoListForm) {
-        TodoList todoList = todoListDao.findByCustomerAndTitle(customer, todoListForm.getTitle());
-        if (todoList == null) return false;
-        return (todoList.getNum() != todoListForm.getNum());
     }
 
     private void computeTodoListNum(Customer customer) {

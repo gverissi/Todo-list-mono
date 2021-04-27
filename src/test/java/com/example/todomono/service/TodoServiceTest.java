@@ -44,7 +44,6 @@ class TodoServiceTest {
         assertEquals(1, createdTodo.getNum());
         verify(todoDaoMock).save(createdTodo);
         verify(todoDaoMock).countByTodoList(todoListMock);
-        verify(todoDaoMock).findByTodoListAndLabel(todoListMock, todoLabel);
     }
 
     @Test
@@ -86,7 +85,6 @@ class TodoServiceTest {
         // Then
         assertEquals(newLabel, updatedTodo.getLabel());
         assertEquals(todoNum, updatedTodo.getNum());
-        verify(todoDaoMock).findByTodoListAndLabel(todoListMock, newLabel);
         verify(todoDaoMock).findByTodoListAndNum(todoListMock, todoNum);
     }
 

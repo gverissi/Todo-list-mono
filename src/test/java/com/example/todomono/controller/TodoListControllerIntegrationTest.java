@@ -60,7 +60,7 @@ class TodoListControllerIntegrationTest {
     void showOneTodoListOfACustomer() throws Exception {
         TodoList todoList = new TodoList("my todo-list");
         int todoListNum = 1;
-        when(todoListService.getOneByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
+        when(todoListService.findOneByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
         mockMvc.perform(
                 get("/todo-lists/" + todoListNum))
                 .andExpect(status().isOk())

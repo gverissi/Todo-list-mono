@@ -3,6 +3,7 @@ package com.example.todomono.dao.database;
 import com.example.todomono.dao.TodoDaoInterface;
 import com.example.todomono.entity.Todo;
 import com.example.todomono.entity.TodoList;
+import com.example.todomono.exception.DaoEntityNotFoundException;
 import com.example.todomono.repository.TodoRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,8 +32,10 @@ public class TodoDaoDb extends EntityDaoDb<Todo, TodoRepositoryInterface> implem
     }
 
     @Override
-    public Todo findByTodoListAndNum(TodoList todoList, int num) {
-        return todoRepository.findByTodoListAndNum(todoList, num);
+    public Todo findByTodoListAndNum(TodoList todoList, int num) throws DaoEntityNotFoundException {
+        Todo todo = todoRepository.findByTodoListAndNum(todoList, num);
+        if (todo == null) throw new DaoEntityNotFoundException();
+        return todo;
     }
 
     @Override

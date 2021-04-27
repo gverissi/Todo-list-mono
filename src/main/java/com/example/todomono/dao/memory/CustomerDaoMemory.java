@@ -2,6 +2,8 @@ package com.example.todomono.dao.memory;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
+import com.example.todomono.exception.DaoConstraintViolationException;
+import com.example.todomono.exception.DaoEntityNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +14,7 @@ public class CustomerDaoMemory implements CustomerDaoInterface {
     private final Map<String, Customer> customerMap = new HashMap<>();
 
     @Override
-    public Customer save(Customer customer) {
+    public Customer save(Customer customer) throws DaoConstraintViolationException {
         customerMap.put(customer.getName(), customer);
         return customer;
     }
@@ -20,7 +22,7 @@ public class CustomerDaoMemory implements CustomerDaoInterface {
     @Override
     public Customer findByName(String name) {
         Customer customer = customerMap.get(name);
-        if (customer == null) throw new RuntimeException(name);
+        if (customer == null) throw new DaoEntityNotFoundException();
         return customer;
     }
 
@@ -35,12 +37,12 @@ public class CustomerDaoMemory implements CustomerDaoInterface {
     }
 
     @Override
-    public Customer getOne(long id) {
+    public Customer getOne(long id) throws DaoEntityNotFoundException {
         return null;
     }
 
     @Override
-    public Customer findById(long customerId) {
+    public Customer findById(long customerId) throws DaoEntityNotFoundException {
         return null;
     }
 

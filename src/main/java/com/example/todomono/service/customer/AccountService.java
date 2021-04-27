@@ -2,6 +2,7 @@ package com.example.todomono.service.customer;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
+import com.example.todomono.exception.DaoConstraintViolationException;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.exception.WrongPasswordException;
 import com.example.todomono.form.CustomerChangeNameForm;
@@ -27,12 +28,15 @@ public class AccountService extends AbstractCustomerService {
 
     public void updateNameOfACustomer(Customer customer, CustomerChangeNameForm customerChangeNameForm) throws WrongPasswordException, EntityAlreadyExistException {
         if (!passwordEncoder.matches(customerChangeNameForm.getPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
-        if (nameExists(customerChangeNameForm.getName())) throw new EntityAlreadyExistException("There is already an account with name: " + customerChangeNameForm.getName() + ".");
         customer.setName(customerChangeNameForm.getName());
         Authentication authentication = authenticationFacade.getAuthentication();
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
         userDetails.setUsername(customer.getName());
-        customerDao.save(customer);
+        try {
+            customerDao.save(customer);
+        } catch (DaoConstraintViolationException e) {
+            throw new EntityAlreadyExistException("There is already an account with name: " + customerChangeNameForm.getName());
+        }
     }
 
     public void updatePasswordOfACustomer(Customer customer, CustomerChangePasswordForm customerChangePasswordForm) throws WrongPasswordException {

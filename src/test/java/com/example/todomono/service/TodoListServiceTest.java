@@ -58,7 +58,6 @@ class TodoListServiceTest {
         assertEquals(1, todoList.getNum());
         verify(todoListDaoMock).save(todoList);
         verify(todoListDaoMock).countByCustomer(customer);
-        verify(todoListDaoMock).findByCustomerAndTitle(customer, todoListTitle);
     }
 
     @Test
@@ -69,7 +68,7 @@ class TodoListServiceTest {
         todoList.setNum(todoListNum);
         when(todoListDaoMock.findByCustomerAndNum(customer, todoListNum)).thenReturn(todoList);
         // When
-        TodoList foundTodoList = todoListService.getOneByCustomerAndNum(customer, todoListNum);
+        TodoList foundTodoList = todoListService.findOneByCustomerAndNum(customer, todoListNum);
         // Then
         assertEquals(foundTodoList.getTitle(), todoList.getTitle());
         assertEquals(foundTodoList.getNum(), todoList.getNum());
@@ -92,7 +91,6 @@ class TodoListServiceTest {
         // Then
         assertEquals(newTitle, updatedTodoList.getTitle());
         assertEquals(todoListNum, updatedTodoList.getNum());
-        verify(todoListDaoMock).findByCustomerAndTitle (customer, newTitle);
         verify(todoListDaoMock).findByCustomerAndNum (customer, todoListNum);
     }
 

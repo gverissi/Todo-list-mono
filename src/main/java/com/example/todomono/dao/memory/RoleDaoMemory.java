@@ -2,7 +2,8 @@ package com.example.todomono.dao.memory;
 
 import com.example.todomono.dao.RoleDaoInterface;
 import com.example.todomono.entity.Role;
-import com.example.todomono.exception.EntityNotFoundException;
+import com.example.todomono.exception.DaoConstraintViolationException;
+import com.example.todomono.exception.DaoEntityNotFoundException;
 
 import java.util.*;
 
@@ -12,13 +13,13 @@ public class RoleDaoMemory implements RoleDaoInterface {
     private final Map<Long, Role> entityMap = new HashMap<>();
 
     @Override
-    public Role save(Role entity) {
+    public Role save(Role entity) throws DaoConstraintViolationException {
         long id = entity.getId();
         if (!entityMap.containsKey(id)) {
             id = getNewId();
             entity.setId(id);
             if (entityMap.values().stream().anyMatch(role -> role.getRoleName().equals(entity.getRoleName()))) {
-                throw new RuntimeException("Unique constrain violation: a Role entity with roleName = " + entity.getRoleName() + " already exist!");
+                throw new DaoConstraintViolationException();
             }
         }
         entityMap.put(id, entity);
@@ -26,9 +27,9 @@ public class RoleDaoMemory implements RoleDaoInterface {
     }
 
     @Override
-    public Role findById(long id) {
+    public Role findById(long id) throws DaoEntityNotFoundException {
         Role entity = entityMap.get(id);
-        if (entity == null) throw new EntityNotFoundException("Role entity with id = " + id + " do not exist!");
+        if (entity == null) throw new DaoEntityNotFoundException();
         return entity;
     }
 
@@ -38,7 +39,7 @@ public class RoleDaoMemory implements RoleDaoInterface {
     }
 
     @Override
-    public Role getOne(long id) {
+    public Role getOne(long id) throws DaoEntityNotFoundException {
         return null;
     }
 

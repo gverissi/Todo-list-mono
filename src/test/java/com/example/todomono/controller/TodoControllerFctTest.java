@@ -101,7 +101,6 @@ class TodoControllerFctTest {
 
         Todo updatedTodo = todoDao.findByTodoListAndLabel(todoList, newLabel);
         assertEquals(newLabel, updatedTodo.getLabel());
-        List<Todo> todos = todoDao.findAllByTodoList(todoList);
     }
 
     @Test

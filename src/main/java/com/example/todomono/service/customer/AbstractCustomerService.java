@@ -24,8 +24,4 @@ public abstract class AbstractCustomerService {
         return customerDao.findByName(customerName);
     }
 
-    protected boolean nameExists(String name) {
-        return customerDao.findByName(name) != null;
-    }
-
 }

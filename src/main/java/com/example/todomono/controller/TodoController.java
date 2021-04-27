@@ -39,7 +39,7 @@ public class TodoController {
     public String createATodo(@PathVariable int todoListNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
         try {
             if (!result.hasErrors()) {
-                TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
+                TodoList todoList = todoListService.findOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
                 todoService.createOne(todoList, todoForm);
                 todoForm.setLabel(INITIAL_LABEL);
             }
@@ -60,7 +60,7 @@ public class TodoController {
 
     @GetMapping("/{todoListNum}/todos/{todoNum}")
     public String showOneTodoOfATodoList(@PathVariable int todoListNum, @PathVariable int todoNum, Model model) {
-        TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
+        TodoList todoList = todoListService.findOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         TodoForm todoForm = todoService.getOneByTodoListAndNum(todoList, todoNum).convertToDto();
         model.addAttribute("todoListDto", todoList.convertToDto());
         model.addAttribute("todoForm", todoForm);
@@ -70,7 +70,7 @@ public class TodoController {
 
     @PutMapping("/{todoListNum}/todos/{todoNum}")
     public String updateATodo(@PathVariable int todoListNum, @PathVariable int todoNum, @Valid TodoForm todoForm, BindingResult result, Model model) {
-        TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
+        TodoList todoList = todoListService.findOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         todoForm.setNum(todoNum);
         if (!result.hasErrors()) {
             try {
@@ -94,13 +94,13 @@ public class TodoController {
 
     @DeleteMapping("/{todoListNum}/todos/{todoNum}")
     public String deleteATodo(@PathVariable int todoListNum, @PathVariable int todoNum) {
-        TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
+        TodoList todoList = todoListService.findOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         todoService.deleteOneForTodoList(todoList, todoNum);
         return "redirect:/todo-lists/{todoListNum}/todos";
     }
 
     private void fillUpTheModel(int todoListNum, Model model) {
-        TodoList todoList = todoListService.getOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
+        TodoList todoList = todoListService.findOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
         List<TodoForm> todoDtoCollection = todoService.findAllByTodoList(todoList).stream().map(Todo::convertToDto).collect(Collectors.toList());
         model.addAttribute("todoListDto", todoList.convertToDto());
         model.addAttribute("todoDtoCollection", todoDtoCollection);

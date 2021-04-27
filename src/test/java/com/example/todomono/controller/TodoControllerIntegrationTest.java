@@ -50,7 +50,7 @@ class TodoControllerIntegrationTest {
         Customer customer = mock(Customer.class);
         when(homeService.getCustomer()).thenReturn(customer);
         todoList = mock(TodoList.class);
-        when(todoListService.getOneByCustomerAndNum(customer, TODO_LIST_NUM)).thenReturn(todoList);
+        when(todoListService.findOneByCustomerAndNum(customer, TODO_LIST_NUM)).thenReturn(todoList);
         when(todoList.convertToDto()).thenReturn(mock(TodoListForm.class));
     }
 
