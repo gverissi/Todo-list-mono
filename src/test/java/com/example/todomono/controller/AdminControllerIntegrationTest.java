@@ -61,10 +61,7 @@ class AdminControllerIntegrationTest {
         mockMvc.perform(
                 put("/admin/customers/1")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .content(
-                                encode("name", "UTF-8") + "=" + encode("john", "UTF-8") + "&" +
-                                        encode("enabled", "UTF-8") + "=" + encode("false", "UTF-8")
-                        )
+                        .content(encode("enabled", "UTF-8") + "=" + encode("false", "UTF-8"))
                         .with(csrf()))
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/admin/customers"));

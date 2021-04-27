@@ -2,6 +2,7 @@ package com.example.todomono.controller;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
+import com.example.todomono.entity.Role;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,8 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,6 +52,8 @@ class HomeControllerFctTest {
         Customer customer = customerDao.findByName(name);
         assertEquals(name, customer.getName());
         assertTrue(passwordEncoder.matches(password, customer.getEncodedPassword()));
+        assertTrue(customer.getRoleSet().stream().map(Role::getRoleName).collect(Collectors.toList()).contains("USER"));
+        assertFalse(customer.getRoleSet().stream().map(Role::getRoleName).collect(Collectors.toList()).contains("ADMIN"));
     }
 
 }
