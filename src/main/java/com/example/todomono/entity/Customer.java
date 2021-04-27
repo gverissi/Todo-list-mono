@@ -1,5 +1,7 @@
 package com.example.todomono.entity;
 
+import com.example.todomono.form.CustomerUpdateForm;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -92,6 +94,10 @@ public class Customer {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, encodedPassword);
+    }
+
+    public CustomerUpdateForm convertToCustomerUpdateForm() {
+        return new CustomerUpdateForm(id, name, enabled);
     }
 
 }

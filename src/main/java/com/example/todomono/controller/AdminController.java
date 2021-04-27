@@ -38,7 +38,7 @@ public class AdminController {
     @GetMapping("/customers/{customerId}")
     public String showOneCustomer(@PathVariable long customerId, Model model) {
         Customer customer = adminService.findOneCustomer(customerId);
-        CustomerUpdateForm customerUpdateForm = new CustomerUpdateForm(customer.getId(), customer.getName(), customer.isEnabled());
+        CustomerUpdateForm customerUpdateForm = customer.convertToCustomerUpdateForm();
         List<Role> roles = roleService.findAll();
         List<String> customerRoleNames = customer.getRoleSet().stream().map(Role::getRoleName).collect(Collectors.toList());
         customerUpdateForm.setRoles(roles.stream().map(Role::convertToRoleUpdateForm).collect(Collectors.toList()));
