@@ -1,4 +1,4 @@
-package com.example.todomono.service;
+package com.example.todomono.service.customer;
 
 import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
@@ -6,7 +6,6 @@ import com.example.todomono.entity.Role;
 import com.example.todomono.exception.EntityAlreadyExistException;
 import com.example.todomono.form.CustomerCreateForm;
 import com.example.todomono.security.AuthenticationFacadeInterface;
-import com.example.todomono.service.customer.HomeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
