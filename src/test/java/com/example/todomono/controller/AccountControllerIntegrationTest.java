@@ -34,7 +34,7 @@ class AccountControllerIntegrationTest {
     private AccountService accountService;
 
     @Test
-    @WithMockUser(roles = "USER")
+    @WithMockUser(roles = "USER", username = "greg")
     void showAccountPage() throws Exception {
         mockMvc.perform(get("/account"))
                 .andExpect(status().isOk())
@@ -52,7 +52,7 @@ class AccountControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
+    @WithMockUser(roles = "USER", username = "greg")
     void updateName() throws Exception {
         doNothing().when(accountService).updateNameOfACustomer(isA(Customer.class), isA(CustomerChangeNameForm.class));
         mockMvc.perform(
@@ -75,7 +75,7 @@ class AccountControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
+    @WithMockUser(roles = "USER", username = "greg")
     void updatePassword() throws Exception {
         doNothing().when(accountService).updatePasswordOfACustomer(isA(Customer.class), isA(CustomerChangePasswordForm.class));
         mockMvc.perform(
@@ -99,7 +99,7 @@ class AccountControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
+    @WithMockUser(roles = "USER", username = "greg")
     void deleteAccount() throws Exception {
         doNothing().when(accountService).deleteAccount(isA(Customer.class), isA(CustomerDeleteAccountForm.class), isA(HttpSession.class));
         mockMvc.perform(
