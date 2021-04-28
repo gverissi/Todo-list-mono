@@ -12,7 +12,7 @@ public interface TodoListDaoInterface extends EntityDaoInterface<TodoList> {
 
     TodoList findByCustomerAndTitle(Customer customer, String title);
 
-    TodoList findByCustomerAndNum(Customer customer, int todoListNum) throws DaoEntityNotFoundException;
+    TodoList findByCustomerAndNum(Customer customer, int num) throws DaoEntityNotFoundException;
 
     int countByCustomer(Customer customer);
 

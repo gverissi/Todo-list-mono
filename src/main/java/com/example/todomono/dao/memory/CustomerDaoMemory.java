@@ -5,45 +5,45 @@ import com.example.todomono.entity.Customer;
 import com.example.todomono.exception.DaoConstraintViolationException;
 import com.example.todomono.exception.DaoEntityNotFoundException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class CustomerDaoMemory implements CustomerDaoInterface {
+public class CustomerDaoMemory extends EntityDaoMemory<Customer> implements CustomerDaoInterface {
 
-    private final Map<String, Customer> customerMap = new HashMap<>();
+    private static long lastId = 0;
+
+    public CustomerDaoMemory() {
+        super();
+    }
 
     @Override
-    public Customer save(Customer customer) throws DaoConstraintViolationException {
-        customerMap.put(customer.getName(), customer);
-        return customer;
+    public Customer save(Customer entity) throws DaoConstraintViolationException {
+        long entityId = entity.getId();
+        String uniqueColumn = entity.getName();
+        List<Customer> entities = findAll();
+        boolean newEntity = false;
+        if (!entityMap.containsKey(entityId)) {
+            entityId = getNextId();
+            newEntity = true;
+        } else {
+            entities.remove(entity);
+        }
+        boolean constraintViolation = entities.stream().anyMatch(todoList -> todoList.getName().equals(uniqueColumn));
+        if (constraintViolation) {
+            if (newEntity) lastId--;
+            throw new DaoConstraintViolationException();
+        }
+        entity.setId(entityId);
+        entityMap.put(entityId, entity);
+        return entity;
     }
 
     @Override
     public Customer findByName(String name) throws DaoEntityNotFoundException {
-        Customer customer = customerMap.get(name);
-        if (customer == null) throw new DaoEntityNotFoundException();
-        return customer;
+        return entityMap.values().stream().filter(customer -> customer.getName().equals(name)).findFirst().orElse(null);
     }
 
-    @Override
-    public List<Customer> findAll() {
-        return null;
-    }
-
-    @Override
-    public void deleteById(long customerId) {
-
-    }
-
-    @Override
-    public Customer getOne(long id) throws DaoEntityNotFoundException {
-        return null;
-    }
-
-    @Override
-    public Customer findById(long customerId) throws DaoEntityNotFoundException {
-        return null;
+    private long getNextId() {
+        return ++lastId;
     }
 
 }
