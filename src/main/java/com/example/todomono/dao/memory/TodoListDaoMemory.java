@@ -5,10 +5,14 @@ import com.example.todomono.entity.Customer;
 import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.DaoConstraintViolationException;
 import com.example.todomono.exception.DaoEntityNotFoundException;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
+@Profile("memory")
 public class TodoListDaoMemory extends EntityDaoMemory<TodoList> implements TodoListDaoInterface {
 
     private static long lastId = 0L;

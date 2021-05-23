@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +20,7 @@ import static org.springframework.web.util.UriUtils.encode;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext
 class AdminControllerFctTest {
 
     @Autowired
@@ -32,9 +34,10 @@ class AdminControllerFctTest {
     void updateOneCustomer() throws Exception {
         // Given
         String userName = "greg";
+        long customerId = customerDao.findByName(userName).getId();
         // When
         mockMvc.perform(
-                put("/admin/customers/1")
+                put("/admin/customers/" + customerId)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .content(encode("enabled", "UTF-8") + "=" + encode("false", "UTF-8"))
                         .with(csrf()))

@@ -5,9 +5,11 @@ import com.example.todomono.entity.Customer;
 import com.example.todomono.exception.DaoEntityNotFoundException;
 import com.example.todomono.repository.CustomerRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Profile({"prod", "dev"})
 public class CustomerDaoDb extends EntityDaoDb<Customer, CustomerRepositoryInterface> implements CustomerDaoInterface {
 
     private final CustomerRepositoryInterface customerRepository;

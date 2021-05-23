@@ -4,9 +4,13 @@ import com.example.todomono.dao.CustomerDaoInterface;
 import com.example.todomono.entity.Customer;
 import com.example.todomono.exception.DaoConstraintViolationException;
 import com.example.todomono.exception.DaoEntityNotFoundException;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
+@Profile("memory")
 public class CustomerDaoMemory extends EntityDaoMemory<Customer> implements CustomerDaoInterface {
 
     private static long lastId = 0;
@@ -39,7 +43,9 @@ public class CustomerDaoMemory extends EntityDaoMemory<Customer> implements Cust
 
     @Override
     public Customer findByName(String name) throws DaoEntityNotFoundException {
-        return entityMap.values().stream().filter(customer -> customer.getName().equals(name)).findFirst().orElse(null);
+        Customer foundCustomer = entityMap.values().stream().filter(customer -> customer.getName().equals(name)).findFirst().orElse(null);
+        if (foundCustomer == null) throw new DaoEntityNotFoundException();
+        return foundCustomer;
     }
 
     private long getNextId() {

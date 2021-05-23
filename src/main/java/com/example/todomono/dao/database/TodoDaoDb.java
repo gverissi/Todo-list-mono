@@ -6,11 +6,13 @@ import com.example.todomono.entity.TodoList;
 import com.example.todomono.exception.DaoEntityNotFoundException;
 import com.example.todomono.repository.TodoRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Profile({"prod", "dev"})
 public class TodoDaoDb extends EntityDaoDb<Todo, TodoRepositoryInterface> implements TodoDaoInterface {
 
     private final TodoRepositoryInterface todoRepository;

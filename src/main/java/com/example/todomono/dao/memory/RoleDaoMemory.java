@@ -3,9 +3,13 @@ package com.example.todomono.dao.memory;
 import com.example.todomono.dao.RoleDaoInterface;
 import com.example.todomono.entity.Role;
 import com.example.todomono.exception.DaoConstraintViolationException;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
+@Profile("memory")
 public class RoleDaoMemory extends EntityDaoMemory<Role> implements RoleDaoInterface {
 
     private static long lastId = 0;

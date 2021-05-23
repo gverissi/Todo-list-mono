@@ -1,0 +1,13 @@
+
+# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+spring.datasource.url=your_local_postgresql_url
+spring.datasource.username=your_local_postgresql_username
+spring.datasource.password=your_local_postgresql_password
+
+# Hibernate ddl auto (create, create-drop, validate, update)
+spring.jpa.hibernate.ddl-auto = create
+
+# For debug
+spring.jpa.show-sql=true
+#logging.level.org.hibernate.SQL=DEBUG
+#logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE

@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.mock;
@@ -23,6 +24,7 @@ import static org.springframework.web.util.UriUtils.encode;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext
 class HomeControllerIntegrationTest {
 
     @Autowired
