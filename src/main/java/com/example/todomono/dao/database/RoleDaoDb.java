@@ -11,17 +11,14 @@ import org.springframework.stereotype.Repository;
 @Profile({"prod", "dev"})
 public class RoleDaoDb extends EntityDaoDb<Role, RoleRepositoryInterface> implements RoleDaoInterface {
 
-    private final RoleRepositoryInterface roleRepository;
-
     @Autowired
     public RoleDaoDb(RoleRepositoryInterface roleRepository) {
         super(roleRepository);
-        this.roleRepository = roleRepository;
     }
 
     @Override
     public Role findByRoleName(String roleName) {
-        return roleRepository.findByRoleName(roleName);
+        return repository.findByRoleName(roleName);
     }
 
 }

@@ -15,34 +15,31 @@ import java.util.List;
 @Profile({"prod", "dev"})
 public class TodoListDaoDb extends EntityDaoDb<TodoList, TodoListRepositoryInterface> implements TodoListDaoInterface {
 
-    private final TodoListRepositoryInterface todoListRepository;
-
     @Autowired
     public TodoListDaoDb(TodoListRepositoryInterface todoListRepository) {
         super(todoListRepository);
-        this.todoListRepository = todoListRepository;
     }
 
     @Override
     public List<TodoList> findAllByCustomer(Customer customer) {
-        return todoListRepository.findAllByCustomerOrderByNumAsc(customer);
+        return repository.findAllByCustomerOrderByNumAsc(customer);
     }
 
     @Override
     public TodoList findByCustomerAndTitle(Customer customer, String title) {
-        return todoListRepository.findByCustomerAndTitle(customer, title);
+        return repository.findByCustomerAndTitle(customer, title);
     }
 
     @Override
     public TodoList findByCustomerAndNum(Customer customer, int todoListNum) throws DaoEntityNotFoundException {
-        TodoList todoList = todoListRepository.findByCustomerAndNum(customer, todoListNum);
+        TodoList todoList = repository.findByCustomerAndNum(customer, todoListNum);
         if (todoList == null) throw new DaoEntityNotFoundException();
         return todoList;
     }
 
     @Override
     public int countByCustomer(Customer customer) {
-        return todoListRepository.countByCustomer(customer);
+        return repository.countByCustomer(customer);
     }
 
 }

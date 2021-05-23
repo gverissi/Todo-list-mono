@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class EntityDaoDb<Entity, Repository extends JpaRepository<Entity, Long>> implements EntityDaoInterface<Entity> {
 
-    private final Repository repository;
+    protected final Repository repository;
 
     public EntityDaoDb(Repository repository) {
         this.repository = repository;

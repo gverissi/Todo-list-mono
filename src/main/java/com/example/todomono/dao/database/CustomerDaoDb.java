@@ -12,17 +12,14 @@ import org.springframework.stereotype.Repository;
 @Profile({"prod", "dev"})
 public class CustomerDaoDb extends EntityDaoDb<Customer, CustomerRepositoryInterface> implements CustomerDaoInterface {
 
-    private final CustomerRepositoryInterface customerRepository;
-
     @Autowired
     public CustomerDaoDb(CustomerRepositoryInterface customerRepository) {
         super(customerRepository);
-        this.customerRepository = customerRepository;
     }
 
     @Override
     public Customer findByName(String name) throws DaoEntityNotFoundException {
-        Customer customer = customerRepository.findByName(name);
+        Customer customer = repository.findByName(name);
         if (customer == null) throw new DaoEntityNotFoundException();
         return customer;
     }
