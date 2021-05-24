@@ -21,14 +21,31 @@ public class AdminService extends AbstractCustomerService {
         super(customerDao, passwordEncoder, authenticationFacade);
     }
 
+    /**
+     * Find all Customer.
+     * @return List of Customers.
+     */
     public List<Customer> findAll() {
         return customerDao.findAll();
     }
 
+    /**
+     * Find one Customer according to his id.
+     * If the Customer doesn't exist throw a DaoEntityNotFoundException and the 404 error page is displayed.
+     * @param customerId Customer's id.
+     * @return The Customer entity.
+     */
     public Customer findOneCustomer(long customerId) {
         return customerDao.findById(customerId);
     }
 
+    /**
+     * Delete a Customer account by an Admin. The Admin cant delete his won account. In this case,
+     * the session is cleared to be sure the Admin is not considered has logged in anymore.
+     * @param customerId Customer's id.
+     * @param session Admin's session.
+     * @return true if the Admin has deleted his won account. False otherwise.
+     */
     public boolean deleteOneCustomer(long customerId, HttpSession session) {
         Customer loggedCustomer = getCustomer();
         if (loggedCustomer.getId() == customerId) {
@@ -42,6 +59,11 @@ public class AdminService extends AbstractCustomerService {
         }
     }
 
+    /**
+     * An Admin can update the Roles of a Customer an if he's enabled to log in.
+     * @param customerUpdateForm Dto containing the modifications.
+     * @param newRoles List of Roles to be associated with the Customer.
+     */
     public void updateOneCustomer(CustomerUpdateForm customerUpdateForm, List<Role> newRoles) {
         Customer customer = customerDao.getOne(customerUpdateForm.getId());
         customer.clearRoles();

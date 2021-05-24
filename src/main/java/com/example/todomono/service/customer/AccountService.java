@@ -26,6 +26,13 @@ public class AccountService extends AbstractCustomerService {
         super(customerDao, passwordEncoder, authenticationFacade);
     }
 
+    /**
+     * Update the name of a Customer. Of curse the Customer must be lodged in and confirm his password.
+     * @param customer Logged in Customer.
+     * @param customerChangeNameForm Dto containing the new name and the password.
+     * @throws WrongPasswordException If the password is wrong.
+     * @throws EntityAlreadyExistException If the new name already exists.
+     */
     public void updateNameOfACustomer(Customer customer, CustomerChangeNameForm customerChangeNameForm) throws WrongPasswordException, EntityAlreadyExistException {
         if (!passwordEncoder.matches(customerChangeNameForm.getPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
         customer.setName(customerChangeNameForm.getName());
@@ -39,6 +46,12 @@ public class AccountService extends AbstractCustomerService {
         }
     }
 
+    /**
+     * Update the password of a Customer. Of curse the Customer must be lodged in and confirm his password.
+     * @param customer Logged in Customer.
+     * @param customerChangePasswordForm Dto containing the new password and the old password.
+     * @throws WrongPasswordException If the old password is wrong.
+     */
     public void updatePasswordOfACustomer(Customer customer, CustomerChangePasswordForm customerChangePasswordForm) throws WrongPasswordException {
         if (!passwordEncoder.matches(customerChangePasswordForm.getOldPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
         String encodedPassword = passwordEncoder.encode(customerChangePasswordForm.getPassword());
@@ -49,6 +62,14 @@ public class AccountService extends AbstractCustomerService {
         customerDao.save(customer);
     }
 
+    /**
+     * Delete a Customer's account. Of curse the Customer must be lodged in and confirm his password.
+     * After the account is deleted, the session is cleared to be sure the Customer is not considered has logged in anymore.
+     * @param customer Logged in Customer.
+     * @param customerDeleteAccountForm Dto containing the password.
+     * @param session Customer's session.
+     * @throws WrongPasswordException If the password is wrong.
+     */
     public void deleteAccount(Customer customer, CustomerDeleteAccountForm customerDeleteAccountForm, HttpSession session) throws WrongPasswordException {
         if (!passwordEncoder.matches(customerDeleteAccountForm.getPassword(), customer.getEncodedPassword())) throw new WrongPasswordException("Wrong password.");
         session.invalidate();

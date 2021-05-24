@@ -19,6 +19,13 @@ public class HomeService extends AbstractCustomerService {
         super(customerDao, passwordEncoder, authenticationFacade);
     }
 
+    /**
+     * Register a new Customer. The Customer name must be unique otherwise an EntityAlreadyExistException is thrown.
+     * @param customerCreateForm Dto containing Customer credentials.
+     * @param role Associated role for the customer.
+     * @return The created Customer entity.
+     * @throws EntityAlreadyExistException If the Customer name already exist.
+     */
     public Customer createCustomer(CustomerCreateForm customerCreateForm, Role role) throws EntityAlreadyExistException {
         String name = customerCreateForm.getName();
         String encodedPassword = passwordEncoder.encode(customerCreateForm.getPassword());

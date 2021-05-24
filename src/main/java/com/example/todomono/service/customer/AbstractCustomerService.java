@@ -19,6 +19,10 @@ public abstract class AbstractCustomerService {
         this.authenticationFacade = authenticationFacade;
     }
 
+    /**
+     * Get the authenticated Customer.
+     * @return Customer entity.
+     */
     public Customer getCustomer() {
         String customerName = authenticationFacade.getAuthentication().getName();
         return customerDao.findByName(customerName);
