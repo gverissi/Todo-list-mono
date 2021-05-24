@@ -73,7 +73,7 @@ class TodoControllerIntegrationTest {
     void showOneTodoOfATodoList() throws Exception {
         Todo todo = new Todo("My todo");
         todo.setNum(1);
-        when(todoService.getOneByTodoListAndNum(todoList, todo.getNum())).thenReturn(todo);
+        when(todoService.findOneByTodoListAndNum(todoList, todo.getNum())).thenReturn(todo);
         mockMvc.perform(
                 get("/todo-lists/" + TODO_LIST_NUM + "/todos/" + todo.getNum()))
                 .andExpect(status().isOk())

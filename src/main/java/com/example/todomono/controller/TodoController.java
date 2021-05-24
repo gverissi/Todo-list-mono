@@ -61,7 +61,7 @@ public class TodoController {
     @GetMapping("/{todoListNum}/todos/{todoNum}")
     public String showOneTodoOfATodoList(@PathVariable int todoListNum, @PathVariable int todoNum, Model model) {
         TodoList todoList = todoListService.findOneByCustomerAndNum(homeService.getCustomer(), todoListNum);
-        TodoForm todoForm = todoService.getOneByTodoListAndNum(todoList, todoNum).convertToDto();
+        TodoForm todoForm = todoService.findOneByTodoListAndNum(todoList, todoNum).convertToDto();
         model.addAttribute("todoListDto", todoList.convertToDto());
         model.addAttribute("todoForm", todoForm);
         model.addAttribute("title", "Todo");

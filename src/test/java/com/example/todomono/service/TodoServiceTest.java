@@ -62,7 +62,7 @@ class TodoServiceTest {
         todo.setNum(todoNum);
         when(todoDaoMock.findByTodoListAndNum(todoListMock, todoNum)).thenReturn(todo);
         // When
-        Todo foundTodo = todoService.getOneByTodoListAndNum(todoListMock, todoNum);
+        Todo foundTodo = todoService.findOneByTodoListAndNum(todoListMock, todoNum);
         // Then
         assertEquals(todo.getLabel(), foundTodo.getLabel());
         assertEquals(todo.getNum(), foundTodo.getNum());

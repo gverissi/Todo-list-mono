@@ -80,11 +80,11 @@ class TodoControllerUnitTest {
         // Given
         int todoNum = 1;
         Todo todo = new Todo("my todo");
-        when(todoService.getOneByTodoListAndNum(todoList, todoNum)).thenReturn(todo);
+        when(todoService.findOneByTodoListAndNum(todoList, todoNum)).thenReturn(todo);
         // When
         String viewName = todoController.showOneTodoOfATodoList(TODO_LIST_NUM, todoNum, model);
         // Then
-        verify(todoService).getOneByTodoListAndNum(todoList, todoNum);
+        verify(todoService).findOneByTodoListAndNum(todoList, todoNum);
         assertEquals("todo/todo", viewName);
     }
 
