@@ -25,7 +25,7 @@ This monolithic application was developed using MVC design pattern:
 Let's clarify the previous schema by adding some infos:  
 ![mvc_clarified](./images/mvc_clarified.png)  
 
-Also this web app was deleped usind a three layered architecture:  
+Also, this web app was developed using a three layered architecture:  
 ![3_layered_app](./images/3_layered_app.png)  
 
 Now let's represent the packages in each layer:  
